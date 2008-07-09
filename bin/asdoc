@@ -1,0 +1,38 @@
+#!/bin/sh
+
+output='./docs/'
+
+while getopts "o:h" opt
+do
+  case $opt in
+    o ) output=$OPTARG;;
+    h ) echo '使用方法: asdoc [<オプション>]
+バージョン 1.0.0
+    	
+利用可能なオプション:
+    -o 出力先（デフォルトは"./docs/"です。）
+    	
+Genius FrameworkはFlex用のフレームワークです。
+さらに詳しい情報は、http://seagirl.jp/genius/をご覧ください。';
+    exit;;
+    ? ) ;;
+  esac
+done
+
+# アウトプットディレクトリ
+output=${output%*/}/;
+
+# ソースディレクトリ
+a=${0%/*};
+b=${a%/*};
+
+if [ $a != $b ]
+then
+	source=$b/src;
+else
+	source='../src';
+fi
+
+aasdoc -source-path $source -doc-sources $source/jp/seagirl -output $output;
+
+exit;

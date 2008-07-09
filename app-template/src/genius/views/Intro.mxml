@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<IntroBase
+	xmlns="[% application %].views.*"
+	xmlns:mx="http://www.adobe.com/2006/mxml">
+	<mx:Text text="Hello, Genius Framework!" x="20" y="20"/>
+</IntroBase>

@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<componentPackage>
+	<component id="AdvancedCanvas" class="jp.seagirl.containers.AdvancedCanvas"/>
+	<component id="AdvancedRadioButton" class="jp.seagirl.controls.AdvancedRadioButton"/>
+	<component id="Link" class="jp.seagirl.controls.Link"/>
+	<component id="SimpleButton" class="jp.seagirl.controls.SimpleButton"/>
+	<component id="Application" class="jp.seagirl.genius.core.Application"/>
+	<component id="WindowedApplication" class="jp.seagirl.genius.core.WindowedApplication"/>
+	<component id="ViewBase" class="jp.seagirl.genius.views.ViewBase"/>
+</componentPackage>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TestBase
+	xmlns="jp.seagirl.hello.views.*"
+	xmlns:mx="http://www.adobe.com/2006/mxml">
+	<mx:Text text="This is test page" x="20" y="20"/>
+	<mx:Button id="button" label="Go to Intro" x="20" y="60"/>
+</TestBase>

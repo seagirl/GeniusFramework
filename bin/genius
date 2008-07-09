@@ -1,0 +1,78 @@
+#!/bin/sh
+
+project='application';
+namespace='application'
+output='./'
+
+while getopts "p:n:o:h" opt
+do
+  case $opt in
+    p ) project=$OPTARG;;
+    n ) namespace=$OPTARG;;
+    o ) output=$OPTARG;;
+    h ) echo '使用方法: genius [<オプション>]
+バージョン 1.0.0
+    	
+利用可能なオプション:
+    -p プロジェクトの名前（デフォルトは"application"です。）
+    -n プロジェクトのネームスペース（デフォルトは"genius"です。）
+    -o 出力先（デフォルトは"./"です。）
+    	
+Genius FrameworkはFlex用のフレームワークです。
+さらに詳しい情報は、http://seagirl.jp/genius/をご覧ください。';
+    exit;;
+    ? ) ;;
+  esac
+done
+
+# アウトプットディレクトリ
+output=${output%*/}/;
+
+# テンプレートディレクトリ
+a=${0%/*};
+b=${a%/*};
+
+if [ $a != $b ]
+then
+	template=$b/app-template;
+else
+	template='../app-template';
+fi
+
+cp -r $template $output$project;
+cd $output$project;
+find . -name '.svn' -type d -exec rm -rf {} \; 2>/dev/null;
+
+sed -e "s/\[% application %]/$namespace/g" ./src/main.mxml > tmp;
+mv tmp ./src/main.mxml;
+
+sed -e "s/\[% application %\]/$namespace/g" ./src/genius/core/Application.as > tmp;
+mv tmp ./src/genius/core/Application.as;
+
+sed -e "s/\[% application %\]/$namespace/g" ./src/genius/threads/ChangeStateThread.as > tmp;
+mv tmp ./src/genius/threads/ChangeStateThread.as;
+
+sed -e "s/\[% application %\]/$namespace/g" ./src/genius/views/MainBase.as > tmp;
+mv tmp ./src/genius/views/MainBase.as;
+
+sed -e "s/\[% application %\]/$namespace/g" ./src/genius/views/Main.mxml > tmp;
+mv tmp ./src/genius/views/Main.mxml;
+
+sed -e "s/\[% application %\]/$namespace/g" ./src/genius/views/IntroBase.as > tmp;
+mv tmp ./src/genius/views/IntroBase.as;
+
+sed -e "s/\[% application %\]/$namespace/g" ./src/genius/views/Intro.mxml > tmp;
+mv tmp ./src/genius/views/Intro.mxml;
+
+if [ $namespace != 'genius' ]
+then
+	namespace=${namespace//./\/};
+	cd src;
+	mkdir -p $namespace;
+	mv genius/* $namespace;
+	rm -rf genius;
+fi;
+
+echo Created.;
+
+exit;
