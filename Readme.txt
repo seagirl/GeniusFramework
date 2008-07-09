@@ -1,4 +1,4 @@
-Genius Framework 1.1.0 for Flex
+Genius Framework 1.2.0 for Flex
 ----------------------------------------
 
 * Genius Frameworkとは
@@ -6,7 +6,7 @@ Genius Framework 1.1.0 for Flex
 - Flex用のフレームワーク
 - ビュー層には The Flex Code-Behind Pattern(*1) を採用 (MXML と AS を分離する)
 - コントローラ層には Thread ライブラリ(*2)を採用
-- スケルトン作成をシェルコマンドが付属
+- プロジェクトのスケルトンを作成するシェルコマンドが付属
 - BrowserManager と ViewStack を使った状態管理の仕組み（デフォルトはページ単位）
 - Macの変速ホイールスクロールをサポート
 - 独自ビューコンポーネント (Link, SimpleButton, AdvancedCanvas, AdvancedRadioButton など)

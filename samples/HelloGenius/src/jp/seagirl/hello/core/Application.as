@@ -24,7 +24,7 @@ package jp.seagirl.hello.core
 			applicationManager = ApplicationManager.instance;
 			applicationManager.name = APPLICATION_NAME;
 			applicationManager.version = APPLICATION_VERSION;
-			applicationManager.defaultPage = DEFAULT_PAGE;
+			applicationManager.defaultState.page = DEFAULT_PAGE;
 			applicationManager.traceApplicationInformation();
 			
 			Thread.initialize(new EnterFrameThreadExecutor());

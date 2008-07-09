@@ -5,8 +5,6 @@ package jp.seagirl.sample.threads.amazon
 	import jp.seagirl.sample.models.AmazonModel;
 	
 	import org.libspark.thread.threads.net.URLLoaderThread;
-	
-	use namespace amazon;
 
 	public class LoadAmazonThread extends GeniusThread
 	{		
@@ -44,9 +42,10 @@ package jp.seagirl.sample.threads.amazon
 		private function complete():void
 		{
 			try
-			{				
+			{
+				use namespace amazon;	
 				var result:XML = XML(loaderThread.loader.data);
-				model.merge(result.Items.Item);
+				model.merge(result.Items.Item, 'ASIN', amazon);
 				model.data = new XMLList(model.rawdata);
 			}
 			catch (e:Error)

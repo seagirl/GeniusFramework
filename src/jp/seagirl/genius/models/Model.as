@@ -25,7 +25,6 @@
 
 package jp.seagirl.genius.models
 {
-	import mx.collections.XMLListCollection;
 	import mx.utils.ObjectUtil;
 	
 	/**
@@ -69,181 +68,69 @@ package jp.seagirl.genius.models
 		//  loaded
 		//----------------------------------
 		
-		/**
-		 * @private 
-		 */	
-		private var _loaded:Boolean = false;
-		
 		[Bindable]
 		/**
 		 * データを読み込み終わったかどうかを表します。
-		 */		
-		public function get loaded():Boolean
-		{
-			return _loaded;
-		}
-		
-		/**
-		 * @private 
 		 */	
-		public function set loaded(value:Boolean):void
-		{
-			_loaded = value;
-		}
+		public var loaded:Boolean = false;
 		
 		//----------------------------------
 		//  isLoading
 		//----------------------------------
 		
 		/**
-		 * @private 
-		 */	
-		private var _isLoading:Boolean = false;
-		
-		/**
 		 * データの読み込み処理をしているかどうかを表します。
-		 */
-		public function get isLoading():Boolean
-		{
-			return _isLoading;
-		}
-		
-		/**
-		 * @private 
 		 */	
-		public function set isLoading(value:Boolean):void
-		{
-			_isLoading = value;
-		}
+		public var isLoading:Boolean = false;
 		
 		//----------------------------------
 		//  lastModified
 		//----------------------------------
 		
 		/**
-		 * @private 
-		 */	
-		private var _lastModified:String;
-		
-		/**
 		 * 最後にデータを読み込んだ時間、または最後に同期した時間です。
-		 */
-		public function get lastModified():String
-		{
-			return _lastModified;
-		}
-		
-		/**
-		 * @private 
 		 */	
-		public function set lastModified(value:String):void
-		{
-			_lastModified = value;
-		}
+		public var lastModified:String;
 		
 		//----------------------------------
 		//  lastResult
 		//----------------------------------
 		
-		/**
-		 * @private 
-		 */	
-		private var _lastResult:XML;
-		
 		[Bindable]
 		/**
 		 * サービスとの通信結果です。
 		 */		
-		public function get lastResult():XML
-		{
-			return _lastResult;
-		}
-		
-		/**
-		 * @private 
-		 */	
-		public function set lastResult(value:XML):void
-		{
-			_lastResult = value;
-		}
+		public var lastResult:XML;
 		
 		//----------------------------------
 		//  currentId
 		//----------------------------------
 		
-		/**
-		 * @private 
-		 */	
-		private var _currentId:XML;
-		
 		[Bindable]
 		/**
 		 * 選択されているidです。
 		 */
-		public function get currentId():XML
-		{
-			return _currentId;
-		}
-		
-		/**
-		 * @private 
-		 */	
-		public function set currentId(value:XML):void
-		{
-			_currentId = value;
-		}
+		public var currentId:XML;
 		
 		//----------------------------------
 		//  currentItem
 		//----------------------------------
 		
-		/**
-		 * @private 
-		 */	
-		private var _currentItem:XML;
-		
 		[Bindable]
 		/**
 		 * 選択されているアイテムです。
 		 */
-		public function get currentItem():XML
-		{
-			return _currentItem;
-		}
-		
-		/**
-		 * @private 
-		 */	
-		public function set currentItem(value:XML):void
-		{
-			_currentItem = value;
-		}
+		public var currentItem:XML;
 		
 		//----------------------------------
 		//  rawdata
 		//----------------------------------
 		
-		/**
-		 * @private 
-		 */	
-		private var _rawdata:XMLList;
-		
 		[Bindable]
 		/**
 		 * 読み込まれたデータです。
 		 */
-		public function get rawdata():XMLList
-		{
-			return _rawdata;
-		}
-		
-		/**
-		 * @private 
-		 */	
-		public function set rawdata(value:XMLList):void
-		{
-			_rawdata = value;
-		}
+		public var rawdata:XMLList;
 		
 		//----------------------------------
 		//  data
@@ -260,7 +147,7 @@ package jp.seagirl.genius.models
 		 */
 		public function get data():XMLList
 		{
-			if (_loaded == false && _isLoading == false)
+			if (loaded == false && isLoading == false)
 				initializeData();
 			return _data;
 		}
@@ -349,31 +236,43 @@ package jp.seagirl.genius.models
 		}
 		
 		/**
-		 * idを使ってデータからアイテムを取り出します。
-		 * 
-		 * @param value
+		 * データからアイテムを取り出します。
+		 * @param value 値
+		 * @param key キー
+		 * @param ns XML名前空間
 		 * @return 
 		 */		
-		public function getItemById(value:int):XML
+		public function getItem(value:String, key:String = 'id', ns:Namespace = null):XML
 		{
-			var length:int = rawdata.(id == value).length();
+			if (rawdata == null)
+				throw new Error("no data.");
 			
-			if (length == 0)
+			if (ns == null)
+				ns = new Namespace();
+			
+			var ret:XML = null;	
+			
+			var length:int = rawdata.length();
+			for (var i:int; i < length; i++)
+			{
+				if (rawdata[i].ns::[key].toString() == value)
+					ret = currentItem = rawdata[i];
+			}
+			
+			if (ret == null)
 				throw new Error("Can't find a data.");
-			else if (length == 1)
-				currentItem = XML(rawdata.(id == value)).copy();
-			else
-				throw new Error("Invalid data.");
-			
-			return _currentItem;
+				
+			return ret;
 		}
 		
 		/**
 		 * 既存のデータを新しいデータで上書きする形でマージします。
 		 * 
-		 * @param value 
-		 */		
-		public function merge(value:XMLList, key:String = 'id'):void
+		 * @param value 新しいデータ
+		 * @param key マージに使われるキー
+		 * @param ns XML名前空間
+		 */			
+		public function merge(value:XMLList, key:String = 'id', ns:Namespace = null):void
 		{
 			if (rawdata == null)
 			{
@@ -381,22 +280,36 @@ package jp.seagirl.genius.models
 				return;
 			}
 			
-			var data1Collection:XMLListCollection = new XMLListCollection(rawdata);
-			var data2Collection:XMLListCollection = new XMLListCollection(value);
+			if (ns == null)
+				ns = new Namespace();
+
+			var data1Length:int = rawdata.length();
+			var data2Length:int = value.length();
 			
-			var data2Array:Array = data2Collection.toArray();
-			var data2ArrayLength:int = data2Array.length;
-			
-			for (var i:int; i < data2ArrayLength; i++)
+			var data1Index:int = data1Length;
+				
+			for (var i:int = 0; i < data2Length; i++)
 			{
-				var length:int = rawdata.(['key'] == data2Array[i]['key']).length();
+				if (value[i].ns::[key] == undefined)
+				{
+					throw new Error('新しいデータのノードに子ノード「' + key + '」が見つかりません。');
+				}
+				
+				var changedIndex:int = -1;
+				
+				for (var j:int = 0; j < data1Length; j++) 
+				{
+					if (rawdata[j].ns::[key] == undefined)
+						throw new Error('既存のデータのノードに子ノード「' + key + '」が見つかりません。');
 					
-				if (length == 0)
-					data1Collection.addItem(data2Array[i]);
-				else if (length == 1)
-					rawdata.([key] == data2Array[i][key]).setChildren(data2Array[i].children());
+					if (rawdata[j].ns::[key] == value[i].ns::[key])
+						changedIndex = j;
+				}
+				
+				if (changedIndex > -1)
+					rawdata[changedIndex] = value[i];
 				else
-					throw new Error('Invalid data.');
+					rawdata[data1Index++] = value[i];
 			}
 		}
 		

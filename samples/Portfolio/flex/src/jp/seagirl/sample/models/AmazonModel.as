@@ -1,7 +1,7 @@
 package jp.seagirl.sample.models
 {
 	import jp.seagirl.genius.models.Model;
-
+	
 	public class AmazonModel extends Model
 	{			
 		private static var _instance:AmazonModel;

@@ -35,10 +35,7 @@ package jp.seagirl.sample.threads.threePane
 			{
 				var result:XML = XML(loaderThread.loader.data);
 				model.lastModified = result.modified;
-				if (model.rawdata == null)
-					model.rawdata = result.post;
-				else
-					model.merge(result.post);
+				model.merge(result.post);
 				model.data = new XMLList(model.rawdata);
 			}
 			catch (e:Error)

@@ -42,7 +42,7 @@ package jp.seagirl.sample.views
 			viewStack.getChildren().forEach(
 				function (element:UIComponent, index:int, array:Array):void
 				{
-					if (element.className == ApplicationManager.instance.currentPage)
+					if (element.className == ApplicationManager.instance.state.page)
 						child = element;
 				}
 			);

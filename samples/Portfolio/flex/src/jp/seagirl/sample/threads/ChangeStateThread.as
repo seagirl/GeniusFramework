@@ -8,7 +8,7 @@ package jp.seagirl.sample.threads
 		override protected function run():void
 		{
 			if (data == null)
-				data = { page: ApplicationManager.instance.defaultPage };
+				data = ApplicationManager.instance.defaultState;
 			
 			ApplicationManager.instance.state = data;
 		}
