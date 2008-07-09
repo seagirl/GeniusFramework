@@ -28,11 +28,11 @@ b=${a%/*};
 
 if [ $a != $b ]
 then
-	source=$b/src;
+	root=$b;
 else
-	source='../src';
+	root='..';
 fi
 
-aasdoc -source-path $source -doc-sources $source/jp/seagirl -output $output;
+aasdoc -source-path $root/src -doc-sources $root/src/jp/seagirl -output $output -library-path $root/app-template/libs;
 
 exit;
