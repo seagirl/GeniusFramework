@@ -1,4 +1,4 @@
-Genius Framework 1.2.0 for Flex
+Genius Framework 1.2.1 for Flex
 ----------------------------------------
 
 * Genius Frameworkとは
@@ -36,13 +36,9 @@ ex) ./genius -p Sample -n jp.seagirl.sample -o ~/Desktop
 /src           ... ソースファイル
 
 
-* Mac の変則ホイールスクロール機能を使うために
+* セキュリティサンドボックスに関する注意
 
-Mac の変則ホイールスクロールを使うには、プロジェクトディレクトリの直下に
-「html-template」を追加する必要があります。
-（Flex Builder が作る html-template を上書きする。）
-
-また、変則ホイールスクロールは ExternalInterface を使っているため、
+Mac におけるホイールイベントをサポートするのに ExternalInterface を使っているため、
 ローカルでプレビューする際には「Local Trusted」サンドボックスで実行する必要があります。
 今、どのサンドボックスで実行されているかどうかは、Genius Framework では
 コンソールで確認出来るようになっています。

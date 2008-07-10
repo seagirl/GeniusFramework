@@ -12,7 +12,7 @@ package jp.seagirl.sample.core
 	public class Application extends jp.seagirl.genius.core.Application
 	{		
 		public static const APPLICATION_NAME:String = 'Portfolio';
-		public static const APPLICATION_VERSION:String = '1.1.0';
+		public static const APPLICATION_VERSION:String = '1.2.1';
 		public static const DEFAULT_PAGE:String = 'Intro';
 		
 		private var applicationManager:ApplicationManager;
