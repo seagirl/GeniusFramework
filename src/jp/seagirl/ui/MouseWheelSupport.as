@@ -32,7 +32,6 @@ package jp.seagirl.ui {
 	import flash.external.ExternalInterface;
 	import flash.geom.Point;
 	import flash.system.Capabilities;
-	import flash.utils.getTimer;
 	
 	import mx.containers.Canvas;
 	import mx.controls.TextArea;
@@ -41,12 +40,89 @@ package jp.seagirl.ui {
 	
 	/**
 	 * Macでもホイールスクロールが動作するようにするためのクラスです。
-	 * MouseWheelSupport.jsを使います。
 	 * 
 	 * @author yoshizu 
 	 */	
 	public final class MouseWheelSupport
 	{
+		//--------------------------------------------------------------------------
+		//
+		//  Class variables
+		//
+		//--------------------------------------------------------------------------
+		
+		public static const js:String = "" + 
+			"function (objectID)" + 
+			"{" + 
+			"	function MouseWheelSupport(swf)" + 
+			"	{" + 
+			"		this.swf = swf;" + 
+			"		this.init();" + 
+			"	}" + 
+			"" + 
+			"	MouseWheelSupport.prototype =" + 
+			"	{" + 
+			"		init: function ()" + 
+			"		{" + 
+			"			MouseWheelSupport.instance = this;" + 
+			"" + 
+			"			if (window.addEventListener)" + 
+			"			{" + 
+			"				window.addEventListener('DOMMouseScroll', MouseWheelSupport.instance.wheel, false);" + 
+			"			}" + 
+			"			window.onmousewheel = document.onmousewheel = MouseWheelSupport.instance.wheel;" + 
+			"		}," + 
+			"" + 
+			"		handle: function (delta, mouseX, mouseY)" + 
+			"		{" + 
+			"			this.swf.dispatchMouseWheelEvent(delta, mouseX, mouseY);" + 
+			"		}," + 
+			"" + 
+			"		wheel: function (event)" + 
+			"		{" + 
+			"			var delta = 0;" + 
+			"			var mouseX;" + 
+			"			var mouseY;" + 
+			"" + 
+			"			if (event.wheelDelta)" + 
+			"			{" + 
+			"				delta = Math.round(event.wheelDelta / 80);" + 
+			"				if (window.opera)" + 
+			"					delta = -delta;" + 
+			"			}" + 
+			"			else if (event.detail)" + 
+			"			{" + 
+			"				delta = -event.detail / 3;" + 
+			"			}" + 
+			"" + 
+			"			if (/AppleWebKit/.test(navigator.userAgent))" + 
+			"				delta /= 3;" + 
+			"" + 
+			"			if ((navigator.userAgent.indexOf('Firefox') > -1) ||" + 
+			"				(navigator.userAgent.indexOf('Camino') > -1))" + 
+			"			{" + 
+			"				mouseX = event.layerX;" + 
+			"				mouseY = event.layerY;" + 
+			"			}" + 
+			"			else" + 
+			"			{" + 
+			"				mouseX = event.offsetX;" + 
+			"				mouseY = event.offsetY;" + 
+			"			}" + 
+			"" + 
+			"			if (delta)" + 
+			"				MouseWheelSupport.instance.handle(delta, mouseX, mouseY);" + 
+			"" + 
+			"			if (event.preventDefault)" + 
+			"				event.preventDefault();" + 
+			"" + 
+			"			event.returnValue = false;" + 
+			"		}" + 
+			"	};" + 
+			"" + 
+			"	new MouseWheelSupport(document[objectID]);" + 
+			"}";
+		
 		//--------------------------------------------------------------------------
 		//
 		//  Class properties
@@ -86,27 +162,6 @@ package jp.seagirl.ui {
 		
 		//--------------------------------------------------------------------------
 		//
-		//  Variables
-		//
-		//--------------------------------------------------------------------------
-		
-		/**
-		 * @private 
-		 */	
-		private var lastTime:int;
-		
-		/**
-		 * @private 
-		 */	
-		private var lastDelta:int;
-		
-		/**
-		 * @private 
-		 */	
-		private var irregularCount:int;
-		
-		//--------------------------------------------------------------------------
-		//
 		//  Methods
 		//
 		//--------------------------------------------------------------------------
@@ -121,36 +176,23 @@ package jp.seagirl.ui {
 				if (ExternalInterface.available)
 				{
 					ExternalInterface.addCallback("dispatchMouseWheelEvent", mouseWheelHandler);
-					ExternalInterface.call("initializeMouseWheel");
+					ExternalInterface.call(js, ExternalInterface.objectID);
 				}
 			}
 		}
 		
-		/**
-		 * @private 
-		 */	
-		private function validateDelta(delta:int):int
+		private function calcurateDelta(value:Number):Number
 		{
-			var currentTime:int = getTimer();
-			var interval:int = currentTime - lastTime;
-			lastTime = currentTime;
+			var delta:Number;
 			
-			if (delta != lastDelta)
-			{
-				if (irregularCount > 2 || interval > 200) {
-					lastDelta = delta;
-					irregularCount = 0;	
-				}
-				else
-				{
-					delta = lastDelta;
-					irregularCount++;
-				}
-			}
-			
-			var speed:int = (interval < 1000) ? 1000 / interval : 1;
-			var validatedDelta:int = (speed > 1200 ? 120 : speed) * delta * 0.1;
-			return validatedDelta === 0 ? delta : validatedDelta;
+			if (value < 1 && value > 0)
+				delta = 1;
+			else if (value > -1 && value < 0)
+				delta = -1;
+			else
+				delta = value;
+				
+			return delta;
 		}
 		
 		//--------------------------------------------------------------------------
@@ -162,10 +204,11 @@ package jp.seagirl.ui {
 		/**
 		 * @private 
 		 */	
-		private function mouseWheelHandler(delta:int, mouseX:Number, mouseY:Number):void
+		private function mouseWheelHandler(delta:Number, mouseX:Number, mouseY:Number):void
 		{
-			var validatedDelta:int = validateDelta(delta);
-			var stage:Stage = Application.application.stage;
+			delta = calcurateDelta(delta);
+			
+			var stage:Stage = Application.application.systemManager.stage;
 			var items:Array = stage.getObjectsUnderPoint(new Point(mouseX, mouseY));
 			for each (var item:DisplayObject in items)
 			{
@@ -174,23 +217,12 @@ package jp.seagirl.ui {
 				{
 					if (item is TextArea) {
 						var textArea:TextArea = item as TextArea;
-						textArea.verticalScrollPosition -= validatedDelta / 6;
+						textArea.verticalScrollPosition -= delta;
 					}
 					else if (item is Canvas || item is ListBase)
 					{
-						var wheelEvent:MouseEvent = new MouseEvent(
-							MouseEvent.MOUSE_WHEEL,
-							true,
-							false,
-							NaN,
-							NaN,
-							null,
-							false,
-							false,
-							false,
-							false,
-							validatedDelta
-						);
+						var wheelEvent:MouseEvent = new MouseEvent(MouseEvent.MOUSE_WHEEL);
+						wheelEvent.delta = delta;
 						item.dispatchEvent(wheelEvent);
 					}
 				}
