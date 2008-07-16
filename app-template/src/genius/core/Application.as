@@ -1,4 +1,4 @@
-package [% application %].core
+package [% package %].core
 {
 	import jp.seagirl.genius.core.Application;
 	import jp.seagirl.genius.managers.ApplicationManager;
@@ -8,11 +8,11 @@ package [% application %].core
 	import org.libspark.thread.EnterFrameThreadExecutor;
 	import org.libspark.thread.Thread;
 	
-	import [% application %].views.Main;
+	import [% package %].views.Main;
 
 	public class Application extends jp.seagirl.genius.core.Application
 	{
-		public static const APPLICATION_NAME:String = '[% application %]';
+		public static const APPLICATION_NAME:String = '[% name %]';
 		public static const APPLICATION_VERSION:String = '';	
 		public static const DEFAULT_PAGE:String = 'Intro';
 		

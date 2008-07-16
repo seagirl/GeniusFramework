@@ -1,4 +1,4 @@
-Genius Framework 1.2.1 for Flex
+Genius Framework 1.3.0 for Flex
 ----------------------------------------
 
 * Genius Frameworkとは
@@ -6,9 +6,10 @@ Genius Framework 1.2.1 for Flex
 - Flex用のフレームワーク
 - ビュー層には The Flex Code-Behind Pattern(*1) を採用 (MXML と AS を分離する)
 - コントローラ層には Thread ライブラリ(*2)を採用
-- プロジェクトのスケルトンを作成するシェルコマンドが付属
+- プロジェクトのスケルトンを作成するコマンド（シェルスクリプト）が付属
+- モデル、ビュー、スレッドのスケルトンを生成するコマンド（シェルスクリプト）が付属
 - BrowserManager と ViewStack を使った状態管理の仕組み（デフォルトはページ単位）
-- Macの変速ホイールスクロールをサポート
+- Macの変速ホイールスクロールをサポート（JS はファイル不要）
 - 独自ビューコンポーネント (Link, SimpleButton, AdvancedCanvas, AdvancedRadioButton など)
 - 自由な拡張が可能
 
@@ -21,11 +22,13 @@ Genius Framework 1.2.1 for Flex
 
 * 使い方
 
-コマンドを使うと簡単にプロジェクトのスケルトンを作ることが出来ます。
+genius コマンドを使うと簡単にプロジェクトのスケルトンを作ることが出来ます。
 
-./genius -p プロジェクト名 -n パッケージ -o 出力先
+./genius -n プロジェクト名 -p パッケージ -o 出力先
 
-ex) ./genius -p Sample -n jp.seagirl.sample -o ~/Desktop
+ex) ./genius -n Sample -p jp.seagirl.sample -o ~/Desktop
+
+注) Windows では Cygwin などを利用して genius コマンドを実行する必要があります。
 
 
 * ディレクトリ構成

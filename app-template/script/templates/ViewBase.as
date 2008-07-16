@@ -2,8 +2,8 @@ package [% package %].views
 {
 	import jp.seagirl.genius.views.ViewBase;
 
-	public class IntroBase extends ViewBase
-	{
+	public class [% name %]Base extends ViewBase
+	{		
 		override protected function initializeView():void
 		{
 			// ここに初期化処理を記述します。

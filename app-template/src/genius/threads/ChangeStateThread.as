@@ -1,4 +1,4 @@
-package [% application %].threads
+package [% package %].threads
 {
 	import jp.seagirl.genius.managers.ApplicationManager;
 	import jp.seagirl.genius.threads.GeniusThread;

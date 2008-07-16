@@ -1,4 +1,4 @@
-package [% application %].views
+package [% package %].views
 {
 	import flash.display.DisplayObject;
 	
@@ -9,7 +9,7 @@ package [% application %].views
 	import mx.containers.ViewStack;
 	import mx.core.UIComponent;
 	
-	import [% application %].threads.ChangeStateThread;
+	import [% package %].threads.ChangeStateThread;
 
 	public class MainBase extends ViewBase
 	{	

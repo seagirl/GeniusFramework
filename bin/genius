@@ -1,17 +1,21 @@
 #!/bin/sh
 
-project='application';
-namespace='application'
+name='application';
+package='application'
 output='./'
 
-while getopts "p:n:o:h" opt
+# オプションをハンドリング
+while getopts n:p:o:h opt
 do
-  case $opt in
-    p ) project=$OPTARG;;
-    n ) namespace=$OPTARG;;
-    o ) output=$OPTARG;;
-    h ) echo '使用方法: genius [<オプション>]
-バージョン 1.0.0
+	case $opt in
+	n )    name=$OPTARG
+	       ;;
+	p )    package=$OPTARG
+	       ;;
+	o )    output=$OPTARG
+	       ;;
+	h )    echo '使用方法: genius [<オプション>]
+バージョン 1.0.1
     	
 利用可能なオプション:
     -p プロジェクトの名前（デフォルトは"application"です。）
@@ -19,60 +23,77 @@ do
     -o 出力先（デフォルトは"./"です。）
     	
 Genius FrameworkはFlex用のフレームワークです。
-さらに詳しい情報は、http://seagirl.jp/genius/をご覧ください。';
-    exit;;
-    ? ) ;;
-  esac
+さらに詳しい情報は、http://seagirl.jp/genius/をご覧ください。'
+		   exit
+		   ;;
+    ? )    echo 'Usage -h'
+		   exit
+		   ;;
+	esac
 done
 
 # アウトプットディレクトリ
-output=${output%*/}/;
+output=${output%*/}/
 
 # テンプレートディレクトリ
-a=${0%/*};
-b=${a%/*};
+a=${0%/*}
+b=${a%/*}
 
 if [ $a != $b ]
 then
-	template=$b/app-template;
+	template=$b/app-template
 else
-	template='../app-template';
+	template='../app-template'
 fi
 
-cp -r $template $output$project;
-cd $output$project;
-find . -name '.svn' -type d -exec rm -rf {} \; 2>/dev/null;
+# 出力先の調整
+package_path=${package//./\/}
 
-sed -e "s/\[% application %]/$namespace/g" ./src/main.mxml > tmp;
-mv tmp ./src/main.mxml;
+# -------------------------------------------------------------------
 
-sed -e "s/\[% application %\]/$namespace/g" ./src/genius/core/Application.as > tmp;
-mv tmp ./src/genius/core/Application.as;
+cp -r $template $output$name
+cd $output$name
+find . -name '.svn' -type d -exec rm -rf {} \; 2>/dev/null
+mkdir -p src/${package_path}
+mv src/genius/* src/${package_path}
+rm -rf src/genius
 
-sed -e "s/\[% application %\]/$namespace/g" ./src/genius/threads/ChangeStateThread.as > tmp;
-mv tmp ./src/genius/threads/ChangeStateThread.as;
+sed -e "s/\[% name %]/$name/g" src/main.mxml |
+sed -e "s/\[% package %]/$package/g" > genius-tmp
+mv genius-tmp src/main.mxml
+echo created src/main.mxml
 
-sed -e "s/\[% application %\]/$namespace/g" ./src/genius/views/MainBase.as > tmp;
-mv tmp ./src/genius/views/MainBase.as;
+sed -e "s/\[% name %\]/$name/g" src/${package_path}/core/Application.as |
+sed -e "s/\[% package %\]/$package/g" > genius-tmp
+mv genius-tmp src/${package_path}/core/Application.as
+echo created src/${package_path}/core/Application.as
 
-sed -e "s/\[% application %\]/$namespace/g" ./src/genius/views/Main.mxml > tmp;
-mv tmp ./src/genius/views/Main.mxml;
+sed -e "s/\[% name %\]/$name/g" src/${package_path}/threads/ChangeStateThread.as |
+sed -e "s/\[% package %\]/$package/g" > genius-tmp
+mv genius-tmp src/${package_path}/threads/ChangeStateThread.as
+echo created src/${package_path}/threads/ChangeStateThread.as
 
-sed -e "s/\[% application %\]/$namespace/g" ./src/genius/views/IntroBase.as > tmp;
-mv tmp ./src/genius/views/IntroBase.as;
+sed -e "s/\[% name %\]/$name/g" src/${package_path}/views/MainBase.as |
+sed -e "s/\[% package %\]/$package/g" > genius-tmp
+mv genius-tmp src/${package_path}/views/MainBase.as
+echo created src/${package_path}/views/MainBase.as
 
-sed -e "s/\[% application %\]/$namespace/g" ./src/genius/views/Intro.mxml > tmp;
-mv tmp ./src/genius/views/Intro.mxml;
+sed -e "s/\[% name %\]/$name/g" src/${package_path}/views/Main.mxml |
+sed -e "s/\[% package %\]/$package/g" > genius-tmp
+mv genius-tmp src/${package_path}/views/Main.mxml
+echo created src/${package_path}/views/Main.mxml
 
-if [ $namespace != 'genius' ]
-then
-	namespace=${namespace//./\/};
-	cd src;
-	mkdir -p $namespace;
-	mv genius/* $namespace;
-	rm -rf genius;
-fi;
+sed -e "s/\[% name %\]/$name/g" src/${package_path}/views/IntroBase.as |
+sed -e "s/\[% package %\]/$package/g" > genius-tmp
+mv genius-tmp src/${package_path}/views/IntroBase.as
+echo created src/${package_path}/views/IntroBase.as
 
-echo Created.;
+sed -e "s/\[% name %\]/$name/g" src/${package_path}/views/Intro.mxml |
+sed -e "s/\[% package %\]/$package/g" > genius-tmp
+mv genius-tmp src/${package_path}/views/Intro.mxml
+echo created src/${package_path}/views/Intro.mxml
 
-exit;
+
+echo done.
+
+exit
