@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <AmazonRendererBase
-	xmlns="jp.seagirl.sample.views.amazon.*"
+	xmlns="jp.seagirl.sample.views.amazonClasses.*"
 	xmlns:mx="http://www.adobe.com/2006/mxml">
 	<mx:Image id="image" width="160" height="160"/>
 </AmazonRendererBase>

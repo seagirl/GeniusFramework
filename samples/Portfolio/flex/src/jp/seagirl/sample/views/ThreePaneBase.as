@@ -1,4 +1,4 @@
-package jp.seagirl.sample.views.threePane
+package jp.seagirl.sample.views
 {
 	import flash.events.Event;
 	

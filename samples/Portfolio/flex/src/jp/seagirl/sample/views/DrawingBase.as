@@ -1,4 +1,4 @@
-package jp.seagirl.sample.views.drawing
+package jp.seagirl.sample.views
 {
 	import flash.events.MouseEvent;
 	import flash.media.Video;

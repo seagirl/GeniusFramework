@@ -1,4 +1,4 @@
-package jp.seagirl.sample.views.amazon
+package jp.seagirl.sample.views.amazonClasses
 {
 	import flash.events.MouseEvent;
 	import flash.net.URLRequest;

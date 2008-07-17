@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <IntroBase
-	xmlns="jp.seagirl.sample.views.intro.*"
+	xmlns="jp.seagirl.sample.views.*"
 	xmlns:mx="http://www.adobe.com/2006/mxml">
 	<mx:VBox x="20" y="20">
 		<mx:Text text="This is a sample with Genius Framework."/>

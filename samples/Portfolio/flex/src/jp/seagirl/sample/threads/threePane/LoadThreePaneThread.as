@@ -3,6 +3,7 @@ package jp.seagirl.sample.threads.threePane
 	import flash.net.URLRequestMethod;
 	
 	import jp.seagirl.genius.threads.GeniusThread;
+	import jp.seagirl.sample.core.Config;
 	import jp.seagirl.sample.models.ThreePaneModel;
 	
 	import org.libspark.thread.threads.net.URLLoaderThread;
@@ -15,11 +16,10 @@ package jp.seagirl.sample.threads.threePane
 		{	
 			model.isLoading = true;
 			
-			variables.controller = 'ThreePane';
-			variables.action = model.rawdata == null ? 'load' : 'sync';
 			variables.modified = model.lastModified;
 			
-			request.url = 'http://seagirl.jp/genius/sample/api/index.cgi';
+			request.url = Config.API_URL + '/ThreePane'
+			request.url += model.rawdata == null ? '/load' : '/sync';
 			request.method = URLRequestMethod.POST;
 			request.data = variables;
 			

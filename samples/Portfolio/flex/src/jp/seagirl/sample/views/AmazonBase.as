@@ -1,4 +1,4 @@
-package jp.seagirl.sample.views.amazon
+package jp.seagirl.sample.views
 {
 	import jp.seagirl.genius.views.ViewBase;
 	import jp.seagirl.sample.models.AmazonModel;

@@ -1,4 +1,4 @@
-package jp.seagirl.sample.views.intro
+package jp.seagirl.sample.views
 {
 	import jp.seagirl.genius.views.ViewBase;
 

@@ -1,4 +1,4 @@
-package jp.seagirl.sample.views.hair
+package jp.seagirl.sample.views
 {
 	import flash.events.Event;
 	import flash.events.MouseEvent;

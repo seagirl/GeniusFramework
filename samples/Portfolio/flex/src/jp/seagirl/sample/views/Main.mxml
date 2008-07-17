@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <MainBase
 	xmlns="jp.seagirl.sample.views.*"
-	xmlns:amazon="jp.seagirl.sample.views.amazon.*"
-	xmlns:drawing="jp.seagirl.sample.views.drawing.*"
-	xmlns:hair="jp.seagirl.sample.views.hair.*"
-	xmlns:intro="jp.seagirl.sample.views.intro.*"
-	xmlns:threePane="jp.seagirl.sample.views.threePane.*"
 	xmlns:genius="http://seagirl.jp/genius"
 	xmlns:mx="http://www.adobe.com/2006/mxml">
 	<mx:VBox width="100%" height="100%" verticalGap="0">
@@ -24,11 +19,11 @@
 			</mx:VBox>
 			<mx:ViewStack id="viewStack" width="100%" height="100%"
 				borderSides="left" borderStyle="solid">
-				<intro:Intro width="100%" height="100%"/>
-				<drawing:Drawing width="100%" height="100%"/>
-				<hair:Hair width="100%" height="100%"/>
-				<threePane:ThreePane width="100%" height="100%"/>
-				<amazon:Amazon width="100%" height="100%"/>
+				<Intro width="100%" height="100%"/>
+				<Drawing width="100%" height="100%"/>
+				<Hair width="100%" height="100%"/>
+				<ThreePane width="100%" height="100%"/>
+				<Amazon width="100%" height="100%"/>
 			</mx:ViewStack>
 		</mx:HDividedBox>
 	</mx:VBox>

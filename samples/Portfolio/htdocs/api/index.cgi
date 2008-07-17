@@ -1,17 +1,20 @@
 #!/usr/bin/perl
 
-use warnings;
 use strict;
+use warnings;
 use lib qw(lib);
-use FrontController;
+use Web::Application;
 
-my $controller = new FrontController();
-my $output = $controller->output;
+my $application = Web::Application->new;
 
-print $controller->query->header(
-    -type   => 'application/xml',
-    -Content_length => length($output),
+my $response = $application->dispatch;
+
+print $application->request->header(
+    -type => $response->content_type,
+    -charset => 'utf-8',
+    -Content_length => length($response->content),
 );
-print $output;
 
-exit(0);
+print $response->content;
+
+exit 0;
