@@ -1,0 +1,156 @@
+#!/bin/sh
+
+name=
+package=application
+type=
+output=
+
+
+# オプションをハンドリング
+while getopts n:p:t:o:h opt
+do
+	case $opt in
+	n )    name=$OPTARG
+	       ;;
+	p )    package=$OPTARG
+	       ;;
+	t )    type=$OPTARG
+	       ;;
+	o )    output=$OPTARG
+	       ;;
+	h )    echo '使用方法: generate [<オプション>] [名前]
+バージョン 1.0.0
+    	
+利用可能なオプション:
+    -n クラスの名前
+    -p クラスのパッケージ（デフォルトは"application"です。）
+    -t クラスのタイプ（"View", "Model", "Thread", "ServiceThread" を指定することが出来ます。デフォルトは "View"）
+    -o 出力先（指定しない場合は、パッケージとタイプから出力先を決めます）
+    	
+Genius Framework は Flex 用のフレームワークです。
+さらに詳しい情報は、http://seagirl.jp/genius/ をご覧ください。'
+		   exit
+		   ;;
+    ? )    echo 'Usage -h'
+		   exit
+		   ;;
+	esac
+done
+
+
+# オプションを全て削除し、引数だけを残す
+shift $((OPTIND - 1))
+
+# スクリプトのあるディレクトリ
+path=${0%/*}
+
+# テンプレートファイルのあるディレクトリ
+template=${path}/templates;
+
+
+# 名前のチェックと調整
+if [ ${name:-0} = 0 ]
+then
+	name=$1
+fi
+
+if [ ${name:-0} = 0 ]
+then
+	echo 'Error: name must be specified.'
+	exit
+fi
+
+
+# タイプのチェックと調整
+if [ ${type:-0} = 0 ]
+then
+	if [ ${name%*Model} != $name ]
+	then
+		type=Model
+	elif [ ${name%*Thread} != $name ]
+	then
+		type=Thread
+	else
+		type=View
+	fi
+else
+	if [ $type != Model ]
+	then
+		if [ $type != View ]
+		then
+			if [ $type != Thread ]
+			then
+				if [ $type != ServiceThread ]
+				then
+					echo 'Error: type must be "Model" or "View" or "Thread" or "ServiceThread"'
+					exit 
+				fi
+			fi
+		fi
+	fi
+fi
+
+# 出力先の調整
+package_path=${package//./\/}
+
+if [ ${output:-0} = 0 ]
+then
+	output=${path}/../src/${package_path}
+	
+	if [ $type = View ]
+	then
+		output=$output/views
+	elif [ $type = Model ]
+	then
+		output=$output/models
+	elif [ $type = Thread ]
+	then
+		output=$output/threads
+	elif [ $type = ServiceThread ]
+	then
+		output=$output/threads
+	fi
+fi
+
+mkdir -p ${output}
+
+# -------------------------------------------------------------------
+
+if [ $type = View ]
+then
+	sed -e "s/\[% name %]/$name/g" ${template}/View.mxml |
+	sed -e "s/\[% package %]/$package/g" > genius-tmp
+	mv genius-tmp ${output}/${name}.mxml
+	echo created ${output}/${name}.mxml
+	
+	sed -e "s/\[% name %]/$name/g" ${template}/ViewBase.as |
+	sed -e "s/\[% package %]/$package/g" > genius-tmp
+	mv genius-tmp ${output}/${name}Base.as
+	echo created ${output}/${name}Base.as
+	
+elif [ $type = Model ]
+then
+	sed -e "s/\[% name %]/$name/g" ${template}/Model.as |
+	sed -e "s/\[% package %]/$package/g" > genius-tmp
+	mv genius-tmp ${output}/${name}.as
+	
+	echo created ${output}/${name}.as
+elif [ $type = Thread ]
+then
+	sed -e "s/\[% name %]/$name/g" ${template}/Thread.as |
+	sed -e "s/\[% package %]/$package/g" > genius-tmp
+	mv genius-tmp ${output}/${name}.as
+	echo created ${output}/${name}.as
+	
+elif [ $type = ServiceThread ]
+then
+	sed -e "s/\[% name %]/$name/g" ${template}/ServiceThread.as |
+	sed -e "s/\[% package %]/$package/g" > genius-tmp
+	mv genius-tmp ${output}/${name}.as
+	echo created ${output}/${name}.as
+fi
+
+
+echo done.
+
+exit
