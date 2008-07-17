@@ -17,7 +17,10 @@ sub handle_request {
         $self->response->content = $self->view->render;
     }
     
+    $self->response->content_length = length($self->response->content);
+    
     $self->response->content_type ||= 'text/html';
+    
     return $self->response;
 }
 

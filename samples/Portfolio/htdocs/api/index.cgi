@@ -12,7 +12,7 @@ my $response = $application->dispatch;
 print $application->request->header(
     -type => $response->content_type,
     -charset => 'utf-8',
-    -Content_length => length($response->content),
+    -Content_length => $response->content_length
 );
 
 print $response->content;
