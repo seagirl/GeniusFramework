@@ -42,15 +42,7 @@ done
 shift $((OPTIND - 1))
 
 # スクリプトのあるディレクトリ
-a=${0%/*}
-b=${a%/*}
-
-if [ $a != $b ]
-then
-	path=$b/script
-else
-	path='../script'
-fi
+path=${0%/*}
 
 # テンプレートファイルのあるディレクトリ
 template=${path}/templates;
