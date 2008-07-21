@@ -23,9 +23,10 @@ package jp.seagirl.sample.threads.threePane
 			request.method = URLRequestMethod.POST;
 			request.data = variables;
 			
-			loaderThread = new URLLoaderThread(request);
-			loaderThread.start();
-			loaderThread.join();
+			urlLoaderThread = new URLLoaderThread(request);
+			urlLoaderThread.start();
+			urlLoaderThread.join();
+			
 			next(complete);
 		}
 		
@@ -33,7 +34,7 @@ package jp.seagirl.sample.threads.threePane
 		{
 			try
 			{
-				var result:XML = XML(loaderThread.loader.data);
+				var result:XML = XML(urlLoaderThread.loader.data);
 				model.lastModified = result.modified;
 				model.merge(result.post);
 				model.data = new XMLList(model.rawdata);
@@ -45,9 +46,11 @@ package jp.seagirl.sample.threads.threePane
 					<status>-1</status>
 				</result>;
 			}
-
-			model.loaded = true;
-			model.isLoading = false;
+			finally
+			{
+				model.loaded = true;
+				model.isLoading = false;	
+			}
 		}
 		
 	}

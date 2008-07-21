@@ -25,6 +25,8 @@
 
 package jp.seagirl.genius.models
 {
+	import jp.seagirl.genius.managers.CursorManager;
+	
 	import mx.utils.ObjectUtil;
 	
 	/**
@@ -79,9 +81,39 @@ package jp.seagirl.genius.models
 		//----------------------------------
 		
 		/**
-		 * データの読み込み処理をしているかどうかを表します。
+		 * @private
 		 */	
-		public var isLoading:Boolean = false;
+		private var cursorID:String;
+		
+		/**
+		 * @private
+		 */	
+		 private var _isLoading:Boolean = false;
+		
+		/**
+		 * データの読み込み処理をしているかどうかを表します.
+		 * true の場合、マウスカーソルがビジーに変わります.
+		 */	
+		public function get isLoading():Boolean
+		{
+			return _isLoading;
+		}
+		
+		/**
+		 * @private
+		 */		
+		public function set isLoading(value:Boolean):void
+		{	
+			if (_isLoading != value)
+			{
+				_isLoading = value;
+				
+				if (value)
+					cursorID = CursorManager.setBusyCursor();
+				else
+					CursorManager.removeBusyCursor(cursorID);
+			}
+		}
 		
 		//----------------------------------
 		//  lastModified

@@ -2,6 +2,7 @@ package jp.seagirl.sample.views
 {
 	import flash.events.Event;
 	
+	import jp.seagirl.collections.LabelFunction;
 	import jp.seagirl.collections.SortCompareFunction;
 	import jp.seagirl.genius.views.ViewBase;
 	import jp.seagirl.sample.models.ThreePaneModel;
@@ -36,8 +37,8 @@ package jp.seagirl.sample.views
 			createdDataGridColumn.sortCompareFunction = SortCompareFunction.byString('created');
 			modifiedDataGridColumn.sortCompareFunction = SortCompareFunction.byString('modified');
 			
-			createdDataGridColumn.labelFunction = dataGridColumnLabelFunction;
-			modifiedDataGridColumn.labelFunction = dataGridColumnLabelFunction;
+			createdDataGridColumn.labelFunction = LabelFunction.displayDate('YYYY年M月D日 J時N分');
+			modifiedDataGridColumn.labelFunction = LabelFunction.displayDate('YYYY年M月D日 J時N分');
 			
 			ChangeWatcher.watch(ThreePaneModel.instance, 'data', threePaneDataPropertyChangeHandler);
 			ChangeWatcher.watch(ThreePaneModel.instance, 'lastResult', threePaneLastResultPropertyChangeHandler);
@@ -46,28 +47,14 @@ package jp.seagirl.sample.views
 		}
 		
 		override protected function updateView():void
-		{
-			CursorManager.setBusyCursor();
+		{			
 			new LoadThreePaneThread().start();
-		}
-		
-		private function dateToString(date:String):String
-		{
-			var splittedByDotStrings:Array = date.split('.');
-			var dateFormattedString:String = String(splittedByDotStrings[0]).replace(/-/g, '/');
-			var dateFormatter:DateFormatter = new DateFormatter();
-			dateFormatter.formatString = 'YYYY年M月D日 J時N分';
-			return dateFormatter.format(dateFormattedString);
-		}
-		
-		private function dataGridColumnLabelFunction(data:Object, self:DataGridColumn):String
-		{
-			return dateToString(data[self.dataField]);
 		}
 		
 		private function threePaneDataPropertyChangeHandler(event:PropertyChangeEvent):void
 		{
-			if (!active) return;
+			if (!active)
+				return;
 			
 			var data:XMLList = XMLList(event.newValue);
 			var collection:XMLListCollection = new XMLListCollection(data);
@@ -82,13 +69,12 @@ package jp.seagirl.sample.views
 			collection.refresh();
 			
 			dataGrid.dataProvider = collection;
-			
-			CursorManager.removeAllCursors();	
 		}
 		
 		private function threePaneLastResultPropertyChangeHandler(event:PropertyChangeEvent):void
 		{
-			if (!active) return;
+			if (!active)
+				return;
 
 			var data:XML = XML(event.newValue)
 			if (data.status.toString() == -1)

@@ -49,7 +49,8 @@ package jp.seagirl.sample.views
 		
 		private function enterFrameHandler(event:Event):void
 		{
-			if (!active) return;
+			if (!active)
+				return;
 			
 			numPoints++;
 			graphics.clear();

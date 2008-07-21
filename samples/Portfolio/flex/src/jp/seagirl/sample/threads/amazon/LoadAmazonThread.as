@@ -14,13 +14,15 @@ package jp.seagirl.sample.threads.amazon
 		override protected function run():void
 		{				
 			if (model.rawdata == null)
+			{
+				model.isLoading = true;
+			
 				next(load);
+			}
 		}
 		
 		private function load():void
 		{
-			model.isLoading = true;
-			
 			variables.Service = 'AWSECommerceService';
 			variables.AWSAccessKeyId = '1XKY6JB5V4QYKXJ6KZR2';
 			variables.Operation = 'ItemSearch';
@@ -33,9 +35,10 @@ package jp.seagirl.sample.threads.amazon
 			request.url = 'http://webservices.amazon.co.jp/onca/xml';
 			request.data = variables;
 			
-			loaderThread = new URLLoaderThread(request);
-			loaderThread.start();
-			loaderThread.join();
+			urlLoaderThread = new URLLoaderThread(request);
+			urlLoaderThread.start();
+			urlLoaderThread.join();
+			
 			next(complete);
 		}
 		
@@ -44,7 +47,7 @@ package jp.seagirl.sample.threads.amazon
 			try
 			{
 				use namespace amazon;	
-				var result:XML = XML(loaderThread.loader.data);
+				var result:XML = XML(urlLoaderThread.loader.data);
 				model.merge(result.Items.Item, 'ASIN', amazon);
 				model.data = new XMLList(model.rawdata);
 			}
@@ -55,17 +58,20 @@ package jp.seagirl.sample.threads.amazon
 					<status>-1</status>
 				</result>;
 			}
-			
-			if (c < 30)
+			finally
 			{
-				c++;
-				next(load);
+				if (c < 30)
+				{
+					c++;
+					next(load);
+				}
+				else
+				{
+					model.loaded = true;
+					model.isLoading = false;	
+				}
 			}
-			else
-			{
-				model.loaded = true;
-				model.isLoading = false;	
-			}
+	
 		}
 		
 	}

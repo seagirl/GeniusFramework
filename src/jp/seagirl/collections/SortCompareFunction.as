@@ -41,54 +41,67 @@ package jp.seagirl.collections
 		//--------------------------------------------------------------------------
 		
 		/**
-		 * idを使ったソートです。
+		 * プライマリキーを使ったソートです。デフォルトのプライマリキーの名前は 'id' です。
 		 * 
 		 * @param obj1
 		 * @param obj2
 		 * @return 
-		 */		
-		public static function byId(obj1:Object, obj2:Object):int
+		 */	
+		public static function by(primaryKey:String = 'id'):Function
 		{
-			var a:int = int(obj1.id);
-			var b:int = int(obj2.id);
-			return (a < b) ? -1 : (a == b) ? 0 : 1;
+			return function (obj1:Object, obj2:Object):int
+			{
+				var a:int = int(obj1[primaryKey]);
+				var b:int = int(obj2[primaryKey]);
+				return (a < b) ? -1 : (a == b) ? 0 : 1;
+			}
 		}
 		
 		/**
-		 * 整数値とidを使ったソートです。
+		 * 整数値とプライマリキーを使ったソートです。
 		 * 
 		 * @param name
 		 * @return 
 		 */		
-		public static function byInt(name:String):Function
+		public static function byInt(key:String, primaryKey:String = 'id'):Function
 		{
 			return function (obj1:Object, obj2:Object):int
 			{
-				var a:int = int(obj1[name]);
-				var b:int = int(obj2[name]);				
+				var a:int = int(obj1[key]);
+				var b:int = int(obj2[key]);				
 				
 				if (a == b)
-					return byId(obj1, obj2);
+				{
+					a = int(obj1[primaryKey]);
+					b = int(obj2[primaryKey]);
+					
+					return (a < b) ? -1 : (a == b) ? 0 : 1;
+				}
 			
 				return (a < b) ? -1 : 1;
 			}
 		}
 		
 		/**
-		 * 文字列とidを使ったソートです。
+		 * 文字列とプライマリキーを使ったソートです。
 		 * 
 		 * @param name
 		 * @return 
 		 */		
-		public static function byString(name:String):Function
+		public static function byString(key:String, primaryKey:String = 'id'):Function
 		{
 			return function (obj1:Object, obj2:Object):int
 			{
-				var a:String = String(obj1[name]);
-				var b:String = String(obj2[name]);
+				var a:String = String(obj1[key]);
+				var b:String = String(obj2[key]);
 				
 				if (a == b)
-					return byId(obj1, obj2);
+				{
+					a = int(obj1[primaryKey]);
+					b = int(obj2[primaryKey]);
+					
+					return (a < b) ? -1 : (a == b) ? 0 : 1;
+				}
 				
 				return (a < b) ? -1 : 1;
 			}
