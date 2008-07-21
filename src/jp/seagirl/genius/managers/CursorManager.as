@@ -30,6 +30,7 @@
 	
 	/**
 	 * これは Genius Framework 内部でのみ使用するクラスです。
+	 * mx.managers.CursorManager を管理します。
 	 * 
 	 * @author yoshizu 
 	 */	
