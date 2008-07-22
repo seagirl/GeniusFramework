@@ -29,6 +29,7 @@ package jp.seagirl.genius.commands
 	
 	/**
 	 * ICommandはコマンドクラスを定義するインターフェースです。
+	 * （互換性のために残してある古いインターフェースです。）
 	 * 
 	 * @author yoshizu
 	 */

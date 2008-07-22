@@ -31,6 +31,7 @@ package jp.seagirl.genius.commands
 	
 	/**
 	 * ISequenceCommandシーケンスで使われるコマンドを定義するインターフェースです。
+	 * （互換性のために残してある古いインターフェースです。）
 	 * 
 	 * @author yoshizu 
 	 */	

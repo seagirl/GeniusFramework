@@ -2,18 +2,20 @@ package [% package %].threads.event
 {
 	import flash.errors.IOError;
 	
+	import jp.seagirl.genius.threads.URLLoaderServiceThread;
 	import jp.seagirl.genius.models.Model;
-	import jp.seagirl.genius.threads.GeniusThread;
 	
 	import org.libspark.thread.threads.net.URLLoaderThread;
 
-	public class [% name %] extends GeniusThread
+	public class [% name %] extends URLLoaderServiceThread
 	{
 		private var model:Model;
 
 		override protected function run():void
 		{			
 			model.isLoading = true;
+			
+			variables.modified = model.lastModified;
 									
 			for (var key:String in data)
 			{
@@ -24,9 +26,9 @@ package [% package %].threads.event
 			request.url = '';
 			request.data = variables;
 			
-			loaderThread = new URLLoaderThread(request);
-			loaderThread.start();
-			loaderThread.join();
+			urlLoaderThread = new URLLoaderThread(request);
+			urlLoaderThread.start();
+			urlLoaderThread.join();
 			
 			error(IOError, handleError);
 			error(SecurityError, handleError);
@@ -36,7 +38,7 @@ package [% package %].threads.event
 		
 		private function complete():void
 		{
-			var result:XML = XML(loaderThread.loader.data);
+			var result:XML = XML(urlLoaderThread.loader.data);
 			
 			if (model.lastModified != result.modified)
 			{

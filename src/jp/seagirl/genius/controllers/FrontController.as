@@ -33,6 +33,7 @@ package jp.seagirl.genius.controllers
 
 	/**
 	 * FrontControllerは、イベントに紐付けたコマンドを扱うクラスです。
+	 * （互換性のために残してある古いクラスです。）
 	 * 
 	 * @author yoshizu
 	 */

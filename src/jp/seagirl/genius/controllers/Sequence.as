@@ -29,6 +29,7 @@ package jp.seagirl.genius.controllers
 
 	/**
 	 * Sequenceはイベントのシーケンスを作成するクラスです。
+	 * （互換性のために残してある古いクラスです。）
 	 * 
 	 * @author yoshizu
 	 */

@@ -29,6 +29,7 @@ package jp.seagirl.genius.controllers
 
 	/**
 	 * GeniusEventはGeniusで使用するイベントクラスです。
+	 * （互換性のために残してある古いクラスです。）
 	 * 
 	 * @author yoshizu
 	 */

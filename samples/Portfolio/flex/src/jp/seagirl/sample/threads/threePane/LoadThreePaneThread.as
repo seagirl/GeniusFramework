@@ -2,13 +2,13 @@ package jp.seagirl.sample.threads.threePane
 {
 	import flash.net.URLRequestMethod;
 	
-	import jp.seagirl.genius.threads.GeniusThread;
+	import jp.seagirl.genius.threads.URLLoaderServiceThread;
 	import jp.seagirl.sample.core.Config;
 	import jp.seagirl.sample.models.ThreePaneModel;
 	
 	import org.libspark.thread.threads.net.URLLoaderThread;
 
-	public class LoadThreePaneThread extends GeniusThread
+	public class LoadThreePaneThread extends URLLoaderServiceThread
 	{
 		private var model:ThreePaneModel = ThreePaneModel.instance;
 		

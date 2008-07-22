@@ -44,6 +44,7 @@ package jp.seagirl.genius.commands
 	
 	/**
 	 * SequenceCommandはシーケンスで使われるコマンドの実装クラスです。
+	 * （互換性のために残してある古いクラスです。）
 	 * 
 	 * @author yoshizu 
 	 */	

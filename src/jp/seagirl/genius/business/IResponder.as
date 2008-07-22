@@ -32,6 +32,7 @@ package jp.seagirl.genius.business
 
 	/**
 	 * サービスの呼び出しに応答するクラスを定義するインターフェースです。
+	 * （互換性のために残してある古いインターフェースです。）
 	 * 
 	 * @author yoshizu
 	 */     

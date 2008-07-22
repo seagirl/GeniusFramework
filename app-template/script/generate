@@ -24,7 +24,7 @@ do
 利用可能なオプション:
     -n クラスの名前
     -p クラスのパッケージ（デフォルトは"application"です。）
-    -t クラスのタイプ（"View", "Model", "Thread", "ServiceThread" を指定することが出来ます。デフォルトは "View"）
+    -t クラスのタイプ（"View", "Model", "Thread" を指定することが出来ます。デフォルトは "View"）
     -o 出力先（指定しない場合は、パッケージとタイプから出力先を決めます）
     	
 Genius Framework は Flex 用のフレームワークです。
@@ -80,9 +80,9 @@ else
 		then
 			if [ $type != Thread ]
 			then
-				if [ $type != ServiceThread ]
+				if [ $type != URLLoaderServiceThread ]
 				then
-					echo 'Error: type must be "Model" or "View" or "Thread" or "ServiceThread"'
+					echo 'Error: type must be "Model" or "View" or "Thread"'
 					exit 
 				fi
 			fi
@@ -106,7 +106,7 @@ then
 	elif [ $type = Thread ]
 	then
 		output=$output/threads
-	elif [ $type = ServiceThread ]
+	elif [ $type = URLLoaderServiceThread ]
 	then
 		output=$output/threads
 	fi
@@ -142,9 +142,9 @@ then
 	mv genius-tmp ${output}/${name}.as
 	echo created ${output}/${name}.as
 	
-elif [ $type = ServiceThread ]
+elif [ $type = URLLoaderServiceThread ]
 then
-	sed -e "s/\[% name %]/$name/g" ${template}/ServiceThread.as |
+	sed -e "s/\[% name %]/$name/g" ${template}/URLLoaderServiceThread.as |
 	sed -e "s/\[% package %]/$package/g" > genius-tmp
 	mv genius-tmp ${output}/${name}.as
 	echo created ${output}/${name}.as

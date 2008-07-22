@@ -37,6 +37,7 @@ package jp.seagirl.genius.business
 
 	/**
 	 * FileReferenceを使ったサービスクラスです。
+	 * （互換性のために残してある古いクラスです。）
 	 * 
 	 * @author yoshizu
 	 */

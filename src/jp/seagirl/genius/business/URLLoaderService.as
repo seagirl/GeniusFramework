@@ -36,6 +36,7 @@ package jp.seagirl.genius.business
 
 	/**
 	 * URLLoaderを使ったサービスクラスです。
+	 * （互換性のために残してある古いクラスです。）
 	 * 
 	 * @author yoshizu
 	 */

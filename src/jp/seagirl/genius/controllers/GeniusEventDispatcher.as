@@ -30,6 +30,7 @@ package jp.seagirl.genius.controllers
 	
 	/**
 	 * GeniusEventDispatcherはGeniusで扱うイベントを送出するクラスです。
+	 * （互換性のために残してある古いクラスです。）
 	 * 
 	 * @author yoshizu
 	 */

@@ -1,12 +1,12 @@
 package jp.seagirl.sample.threads.amazon
 {
-	import jp.seagirl.genius.threads.GeniusThread;
+	import jp.seagirl.genius.threads.URLLoaderServiceThread;
 	import jp.seagirl.sample.amazon;
 	import jp.seagirl.sample.models.AmazonModel;
 	
 	import org.libspark.thread.threads.net.URLLoaderThread;
 
-	public class LoadAmazonThread extends GeniusThread
+	public class LoadAmazonThread extends URLLoaderServiceThread
 	{		
 		private var model:AmazonModel = AmazonModel.instance;
 		private var c:int = 1;

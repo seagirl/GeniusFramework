@@ -28,6 +28,7 @@ package jp.seagirl.genius.business
 		
 	/** 
 	 * サービスクラスを定義するインターフェイスです。
+	 * （互換性のために残してある古いインターフェースです。）
 	 * 
 	 * @author yoshizu
 	 */	

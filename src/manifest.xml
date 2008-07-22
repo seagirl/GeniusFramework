@@ -7,4 +7,5 @@
 	<component id="Application" class="jp.seagirl.genius.core.Application"/>
 	<component id="WindowedApplication" class="jp.seagirl.genius.core.WindowedApplication"/>
 	<component id="ViewBase" class="jp.seagirl.genius.views.ViewBase"/>
+	<component id="ItemRenderer" class="jp.seagirl.genius.views.ItemRenderer"/>
 </componentPackage>

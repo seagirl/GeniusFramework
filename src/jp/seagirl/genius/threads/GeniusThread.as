@@ -25,12 +25,7 @@
 
 package jp.seagirl.genius.threads
 {
-	import flash.net.URLRequest;
-	import flash.net.URLVariables;
-	
 	import org.libspark.thread.Thread;
-	import org.libspark.thread.threads.net.FileUploadThread;
-	import org.libspark.thread.threads.net.URLLoaderThread;
 
 	/**
 	 * Genius Framework のための Thread クラスの拡張です。 
@@ -48,26 +43,6 @@ package jp.seagirl.genius.threads
 		 * 汎用的なデータオブジェクトです.
 		 */		
 		protected var data:Object;
-		
-		/**
-		 * URLLoaderThread のインスタンスを保持するための変数です.
-		 */		
-		protected var urlLoaderThread:URLLoaderThread;
-		
-		/**
-		 * FileUploadThread のインスタンスを保持するための変数です.
-		 */		
-		protected var fileUploadThrad:FileUploadThread;
-		
-		/**
-		 * URLRequest のインスタンスです.
-		 */		
-		protected var request:URLRequest = new URLRequest();
-		
-		/**
-		 * URLVariables のインスタンスです.
-		 */		
-		protected var variables:URLVariables = new URLVariables();
 		
 		//--------------------------------------------------------------------------
 		//

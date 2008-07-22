@@ -29,6 +29,7 @@ package jp.seagirl.genius.business
 	
 	/**
 	 * サービスクラスを使った処理を委譲されるクラスです。
+	 * （互換性のために残してある古いクラスです。）
 	 * 
 	 * @author yoshizu 
 	 */	

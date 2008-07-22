@@ -23,60 +23,39 @@
  * 
  */
 
-package jp.seagirl.genius.commands
+package jp.seagirl.genius.threads
 {
-	import flash.events.Event;
-	import flash.events.IOErrorEvent;
-	import flash.events.ProgressEvent;
-	import flash.events.SecurityErrorEvent;
+	import flash.net.URLRequest;
+	import flash.net.URLVariables;
 	
-	import jp.seagirl.genius.business.IResponder;
+	import org.libspark.thread.threads.net.URLLoaderThread;
 
 	/**
-	 * AsyncCommandは非同期通信に使われるコマンドの実装クラスです。
-	 * IResponderを実装します。
-	 * （互換性のために残してある古いクラスです。）
-	 * 
+	 * URLLoaderThread を使ったサービスクラスです。 
 	 * @author yoshizu 
-	 * @see jp.s2factory.genius.business.IResponder
 	 */	
-	public class AsyncCommand extends SequenceCommand implements IResponder
-	{		
+	public class URLLoaderServiceThread extends GeniusThread
+	{
 		//--------------------------------------------------------------------------
 		//
-		//  Event handlers
+		//  Variables
 		//
 		//--------------------------------------------------------------------------
 		
 		/**
-		 * @inheritDoc
+		 * URLLoaderThread のインスタンスを保持するための変数です.
 		 */		
-		public function complete(event:Event):void
-		{
-		}
+		protected var urlLoaderThread:URLLoaderThread;
 		
 		/**
-		 * @inheritDoc
+		 * URLRequest のインスタンスです.
 		 */		
-		public function ioError(event:IOErrorEvent):void
-		{
-			throw new Error(event);
-		}
+		protected var request:URLRequest = new URLRequest();
 		
 		/**
-		 * @inheritDoc
+		 * URLVariables のインスタンスです.
 		 */		
-		public function progress(event:ProgressEvent):void
-		{
-		}
-		
-		/**
-		 * @inheritDoc
-		 */		
-		public function securityError(event:SecurityErrorEvent):void
-		{
-			throw new Error(event);
-		}
+		protected var variables:URLVariables = new URLVariables();
 		
 	}
 }
