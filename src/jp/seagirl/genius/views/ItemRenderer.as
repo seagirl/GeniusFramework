@@ -37,6 +37,21 @@ package jp.seagirl.genius.views
 	{	
 		//--------------------------------------------------------------------------
 		//
+		//  Constructor
+		//
+		//--------------------------------------------------------------------------
+		
+		/**
+		 * コンストラクタ
+		 */
+		public function ItemRenderer()
+		{
+			super();
+			addEventListener(FlexEvent.DATA_CHANGE, dataChangeHandler);
+		}
+		
+		//--------------------------------------------------------------------------
+		//
 		//  Event handlers
 		//
 		//--------------------------------------------------------------------------
@@ -49,19 +64,10 @@ package jp.seagirl.genius.views
 		override protected function initializeHandler(event:FlexEvent):void
 		{
 			removeEventListener(FlexEvent.INITIALIZE, initializeHandler);
-			addEventListener(FlexEvent.DATA_CHANGE, dataChangeHandler);
 			initializeView();
-		}
-		
-		/**
-		 * FlexEvent.CREATION_COMPLETEで呼ばれるハンドラ
-		 * 
-		 * @param event 
-		 */		
-		override protected function creationCompleteHandler(event:FlexEvent):void
-		{
-			super.creationCompleteHandler(event);
-			updateView();
+			
+			if (data != null)
+				updateView();
 		}
 		
 		/**
@@ -71,7 +77,8 @@ package jp.seagirl.genius.views
 		 */
 		protected function dataChangeHandler(event:FlexEvent):void
 		{
-			updateView();
+			if (initialized)
+				updateView();
 		}
 	}
 }
