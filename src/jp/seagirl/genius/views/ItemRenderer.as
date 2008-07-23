@@ -65,9 +65,6 @@ package jp.seagirl.genius.views
 		{
 			removeEventListener(FlexEvent.INITIALIZE, initializeHandler);
 			initializeView();
-			
-			if (data != null)
-				updateView();
 		}
 		
 		/**
