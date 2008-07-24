@@ -34,22 +34,7 @@ package jp.seagirl.genius.views
 	 * @author yoshizu
 	 */
 	public class ItemRenderer extends ViewBase
-	{	
-		//--------------------------------------------------------------------------
-		//
-		//  Constructor
-		//
-		//--------------------------------------------------------------------------
-		
-		/**
-		 * コンストラクタ
-		 */
-		public function ItemRenderer()
-		{
-			super();
-			addEventListener(FlexEvent.DATA_CHANGE, dataChangeHandler);
-		}
-		
+	{			
 		//--------------------------------------------------------------------------
 		//
 		//  Event handlers
@@ -65,6 +50,7 @@ package jp.seagirl.genius.views
 		{
 			removeEventListener(FlexEvent.INITIALIZE, initializeHandler);
 			initializeView();
+			addEventListener(FlexEvent.DATA_CHANGE, dataChangeHandler);
 		}
 		
 		/**
@@ -74,8 +60,7 @@ package jp.seagirl.genius.views
 		 */
 		protected function dataChangeHandler(event:FlexEvent):void
 		{
-			if (initialized)
-				updateView();
+			updateView();
 		}
 	}
 }
