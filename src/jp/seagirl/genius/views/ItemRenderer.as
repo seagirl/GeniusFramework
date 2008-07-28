@@ -49,7 +49,14 @@ package jp.seagirl.genius.views
 		override protected function initializeHandler(event:FlexEvent):void
 		{
 			removeEventListener(FlexEvent.INITIALIZE, initializeHandler);
+			
+			// 初期化処理を呼ぶ
 			initializeView();
+			
+			// すでに data プロパティに値がある場合は、レンダリング処理を呼ぶ
+			if (data != null)
+				updateView();
+				
 			addEventListener(FlexEvent.DATA_CHANGE, dataChangeHandler);
 		}
 		

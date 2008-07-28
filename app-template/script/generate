@@ -19,7 +19,7 @@ do
 	o )    output=$OPTARG
 	       ;;
 	h )    echo '使用方法: generate [<オプション>] [名前]
-バージョン 1.0.0
+バージョン 1.0.1
     	
 利用可能なオプション:
     -n クラスの名前
@@ -70,6 +70,9 @@ then
 	elif [ ${name%*Thread} != $name ]
 	then
 		type=Thread
+	elif [ ${name%*Renderer} != $name ]
+	then
+		type=Renderer
 	else
 		type=View
 	fi
@@ -78,12 +81,15 @@ else
 	then
 		if [ $type != View ]
 		then
-			if [ $type != Thread ]
+			if [ $type != Renderer ]
 			then
-				if [ $type != URLLoaderServiceThread ]
+				if [ $type != Thread ]
 				then
-					echo 'Error: type must be "Model" or "View" or "Thread"'
-					exit 
+					if [ $type != URLLoaderServiceThread ]
+					then
+						echo 'Error: type must be "Model" or "View" or "Thread"'
+						exit
+					fi 
 				fi
 			fi
 		fi
@@ -98,6 +104,9 @@ then
 	output=${path}/../src/${package_path}
 	
 	if [ $type = View ]
+	then
+		output=$output/views
+	elif [ $type = Renderer ]
 	then
 		output=$output/views
 	elif [ $type = Model ]
@@ -127,6 +136,18 @@ then
 	sed -e "s/\[% package %]/$package/g" > genius-tmp
 	mv genius-tmp ${output}/${name}Base.as
 	echo created ${output}/${name}Base.as
+
+elif [ $type = Renderer ]
+then
+	sed -e "s/\[% name %]/$name/g" ${template}/Renderer.mxml |
+	sed -e "s/\[% package %]/$package/g" > genius-tmp
+	mv genius-tmp ${output}/${name}.mxml
+	echo created ${output}/${name}.mxml
+
+	sed -e "s/\[% name %]/$name/g" ${template}/RendererBase.as |
+	sed -e "s/\[% package %]/$package/g" > genius-tmp
+	mv genius-tmp ${output}/${name}Base.as
+	echo created ${output}/${name}Base.as
 	
 elif [ $type = Model ]
 then
@@ -135,6 +156,7 @@ then
 	mv genius-tmp ${output}/${name}.as
 	
 	echo created ${output}/${name}.as
+	
 elif [ $type = Thread ]
 then
 	sed -e "s/\[% name %]/$name/g" ${template}/Thread.as |
