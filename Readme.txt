@@ -1,4 +1,4 @@
-Genius Framework 1.5.2 for Flex
+Genius Framework 1.5.3 for Flex
 ----------------------------------------
 
 * Genius Frameworkとは

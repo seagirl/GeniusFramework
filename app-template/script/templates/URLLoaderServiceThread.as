@@ -15,14 +15,6 @@ package [% package %]
 		{			
 			model.isLoading = true;
 			
-			variables.modified = model.lastModified;
-									
-			for (var key:String in data)
-			{
-				if (data[key] != null)
-					variables[key] = data[key];
-			}
-			
 			request.url = '';
 			request.data = variables;
 			
@@ -40,13 +32,6 @@ package [% package %]
 		{
 			var result:XML = XML(urlLoaderThread.loader.data);
 			
-			if (model.lastModified != result.modified)
-			{
-				model.lastModified = result.modified;
-				
-			}
-			
-			model.loaded = true;
 			model.isLoading = false;
 		}
 		
