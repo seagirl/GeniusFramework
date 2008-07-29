@@ -57,5 +57,24 @@ package jp.seagirl.genius.threads
 		 */		
 		protected var variables:URLVariables = new URLVariables();
 		
+		//--------------------------------------------------------------------------
+		//
+		//  Overridden methods
+		//
+		//--------------------------------------------------------------------------
+		
+		override public function startWithData(data:Object):void
+		{
+			this.data = data;
+			
+			for (var key:String in data)
+			{
+				if (data[key] != null)
+					variables[key] = data[key];
+			}
+			
+			start();
+		}
+		
 	}
 }
