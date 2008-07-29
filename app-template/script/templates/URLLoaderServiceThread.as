@@ -1,4 +1,4 @@
-package [% package %].threads.event
+package [% package %]
 {
 	import flash.errors.IOError;
 	

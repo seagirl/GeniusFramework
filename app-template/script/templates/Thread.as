@@ -1,4 +1,4 @@
-package [% package %].threads
+package [% package %]
 {
 	import jp.seagirl.genius.threads.GeniusThread;
 	

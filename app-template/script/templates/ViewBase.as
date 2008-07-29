@@ -1,4 +1,4 @@
-package [% package %].views
+package [% package %]
 {
 	import jp.seagirl.genius.views.ViewBase;
 

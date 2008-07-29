@@ -1,4 +1,4 @@
-package [% package %].models
+package [% package %]
 {
 	import jp.seagirl.genius.models.Model;
 
