@@ -63,6 +63,19 @@ package jp.seagirl.genius.threads
 		//
 		//--------------------------------------------------------------------------
 		
+		override public function addData(data:Object):GeniusThread
+		{
+			this.data = data;
+			
+			for (var key:String in data)
+			{
+				if (data[key] != null)
+					variables[key] = data[key];
+			}
+			
+			return this;
+		}
+		
 		override public function startWithData(data:Object):void
 		{
 			this.data = data;
