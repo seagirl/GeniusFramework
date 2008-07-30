@@ -29,6 +29,8 @@ package jp.seagirl.genius.views
 	import flash.display.DisplayObjectContainer;
 	import flash.events.Event;
 	
+	import jp.seagirl.controls.Notifier;
+	
 	import mx.containers.Canvas;
 	import mx.containers.ViewStack;
 	import mx.controls.ComboBox;
@@ -41,6 +43,7 @@ package jp.seagirl.genius.views
 	import mx.core.UIComponent;
 	import mx.core.mx_internal;
 	import mx.events.FlexEvent;
+	import mx.validators.Validator;
 
 	use namespace mx_internal;
 
@@ -112,6 +115,28 @@ package jp.seagirl.genius.views
 					updateView();
 			}	
 		}
+		
+		//----------------------------------
+		//  notifier
+		//----------------------------------
+		
+		/**
+		 * メッセージを通知するビュー
+		 * @return  
+		 */	
+		public var notifier:Notifier = new Notifier();
+		
+		//----------------------------------
+		//  vars
+		//----------------------------------
+		
+		/**
+		 * ビューと共用する汎用データオブジェクト
+		 * 
+		 * @return  
+		 */
+		[Bindable]
+		public var vars:ObjectProxy = new ObjectProxy();
 		
 		//----------------------------------
 		//  validators
@@ -210,6 +235,14 @@ package jp.seagirl.genius.views
 		}
 		
 		/**
+		 * validators に入っている全てのバリデータを使って検証します。 
+		 */		
+		public function validate():Boolean
+		{
+		    return Validator.validateAll(validators).length ? false : true;
+		}
+		
+		/**
 		 * 初期化処理の最後に呼び出されます。
 		 * このメソッドをオーバーライドして、実装して下さい。
 		 */		
@@ -250,6 +283,7 @@ package jp.seagirl.genius.views
 		protected function initializeHandler(event:FlexEvent):void
 		{
 			removeEventListener(FlexEvent.INITIALIZE, initializeHandler);
+			notifier.create();
 			initializeView();
 			updateView();
 		}

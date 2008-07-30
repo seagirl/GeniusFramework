@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<NotifierBase
+	xmlns="jp.seagirl.controls.*"
+	xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:genius="http://seagirl.jp/genius"
+	width="300" minHeight="40"
+	backgroundAlpha="0.7" backgroundColor="#000000"
+	borderStyle="solid" cornerRadius="14"
+	showEffect="{inEffect}" hideEffect="{outEffect}">
+	
+	<mx:Fade id="inEffect" duration="1000" alphaFrom="0" alphaTo="1.0"/>
+	<mx:Fade id="outEffect" duration="1000" alphaFrom="1.0" alphaTo="0"/>
+	
+	<mx:Text text="{text}"
+		width="260"
+		horizontalCenter="0" verticalCenter="0"
+		paddingTop="10" paddingBottom="10"
+		color="#FFFFFF" fontSize="14"/>
+</NotifierBase>
