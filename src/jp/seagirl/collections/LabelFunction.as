@@ -27,6 +27,7 @@
 {
 	import mx.controls.dataGridClasses.DataGridColumn;
 	import mx.formatters.DateFormatter;
+	import mx.formatters.NumberFormatter;
 	
 	/**
 	 * LabelFunctionはDataGridColumnのlabelFunctionに
@@ -42,6 +43,21 @@
 		//  Class methods
 		//
 		//--------------------------------------------------------------------------
+		
+		/**
+		 * 数字を表示します。
+		 * @param formatString 表示したい日付のフォーマットを指定します。
+		 * @param useThousandsSeparator 数字を3桁毎に区切るかどうかを指定します。
+		 * @return  
+		 */		
+		public static function displayNumber(formatString:String = 'N円', useThousandsSeparator:Boolean = true):Function
+		{
+			return function (data:Object, self:DataGridColumn):String
+			{
+				var formatter:NumberFormatter = new NumberFormatter();
+				return formatString.replace(/N/, formatter.format(data[self.dataField]));
+			}
+		}
 		
 		/**
 		 * 日付を表示します。
