@@ -288,7 +288,7 @@ package jp.seagirl.genius.models
 			for (var i:int; i < length; i++)
 			{
 				if (rawdata[i].ns::[key].toString() == value)
-					ret = currentItem = rawdata[i];
+					ret = currentItem = rawdata[i].copy();
 			}
 			
 			if (ret == null)

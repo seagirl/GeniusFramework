@@ -51,6 +51,18 @@ package jp.seagirl.genius.threads
 		//--------------------------------------------------------------------------
 		
 		/**
+		 * 汎用的なデータを追加するためのメソッドです。
+		 * @param data
+		 * @return  
+		 */		
+		public function addData(data:Object):GeniusThread
+		{
+			this.data = data;
+			
+			return this;
+		}
+		
+		/**
 		 * 汎用的なデータを保持しながら、Thread を開始するためのメソッドです.
 		 * @param data 汎用的なデータオブジェクト
 		 */		
