@@ -301,16 +301,18 @@ package jp.seagirl.genius.models
 		 * 既存のデータを新しいデータで上書きする形でマージします。
 		 * 
 		 * @param value 新しいデータ
-		 * @param key マージに使われるキー
+		 * @param key マージに使われるプライマリキー。複数のプライマリキーを作る場合は配列を渡します。
 		 * @param ns XML名前空間
 		 */			
-		public function merge(value:XMLList, key:String = 'id', ns:Namespace = null):void
+		public function merge(value:XMLList, key:Object = 'id', ns:Namespace = null):void
 		{
 			if (rawdata == null)
 			{
 				rawdata = value;
 				return;
 			}
+
+			var keys:Array = key is Array ? key as Array : [key]; 
 			
 			if (ns == null)
 				ns = new Namespace();
@@ -319,30 +321,44 @@ package jp.seagirl.genius.models
 			var data2Length:int = value.length();
 			
 			var data1Index:int = data1Length;
-				
+	
 			for (var i:int = 0; i < data2Length; i++)
 			{
-				if (value[i].ns::[key] == undefined)
-				{
-					throw new Error('新しいデータのノードに子ノード「' + key + '」が見つかりません。');
-				}
+				keys.forEach(
+					function (element:Object, index:int, array:Array):void
+					{
+						if (value[i].ns::[element] == undefined)
+							throw new Error('新しいデータのノードに子ノード「' + element + '」が見つかりません。');
+					}
+				);
 				
 				var changedIndex:int = -1;
-				
+
 				for (var j:int = 0; j < data1Length; j++) 
 				{
-					if (rawdata[j].ns::[key] == undefined)
-						throw new Error('既存のデータのノードに子ノード「' + key + '」が見つかりません。');
+					var hasElement:Boolean = true;
 					
-					if (rawdata[j].ns::[key] == value[i].ns::[key])
+					keys.forEach(
+						function (element:Object, index:int, array:Array):void
+						{
+							if (rawdata[j].ns::[element] == undefined)
+								throw new Error('既存データのノードに子ノード「' + element + '」が見つかりません。');
+								
+							if (rawdata[j].ns::[element] != value[i].ns::[element])
+								hasElement = false;
+						}
+					);
+					
+					if (hasElement)
 						changedIndex = j;
 				}
-				
+
 				if (changedIndex > -1)
 					rawdata[changedIndex] = value[i];
 				else
 					rawdata[data1Index++] = value[i];
 			}
+
 		}
 		
 		/**
