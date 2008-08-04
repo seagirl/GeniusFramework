@@ -76,6 +76,25 @@
 				return dateFormatter.format(dateFormattedString);	
 			}
 		}
+		
+		/**
+		 * ソースの値を表示します。
+		 * @param source ソースとなるデータです。
+		 * @return  
+		 */		
+		public static function selectFrom(source:Array):Function
+		{
+			return function (data:Object, self:DataGridColumn):String
+			{
+				if (source == null)
+					return '';
+				
+				if (data[self.dataField] == null)
+					return '';
+
+				return source[data[self.dataField]];	
+			}
+		}
 
 	}
 }
