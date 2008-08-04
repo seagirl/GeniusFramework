@@ -22,7 +22,7 @@ do
 	s )    subpackage=$OPTARG
 	       ;;
 	h )    echo '使用方法: generate [<オプション>] [名前]
-バージョン 1.0.3
+バージョン 1.0.4
     	
 利用可能なオプション:
     -n クラスの名前
@@ -110,6 +110,14 @@ elif [ $type = URLLoaderServiceThread ]
 then
 	package=${package}.threads
 	
+elif [ $type = FileUploadServiceThread ]
+then
+	package=${package}.threads
+	
+elif [ $type = FileDownloadServiceThread ]
+then
+	package=${package}.threads
+	
 else
 	echo 'Error: type must be "Model" or "View" or "Thread"'
 	exit
@@ -183,6 +191,20 @@ then
 elif [ $type = URLLoaderServiceThread ]
 then
 	sed -e "s/\[% name %]/$name/g" ${template}/URLLoaderServiceThread.as |
+	sed -e "s/\[% package %]/$package/g" > genius-tmp
+	mv genius-tmp ${output}/${name}.as
+	echo created ${output}/${name}.as
+	
+elif [ $type = FileUploadServiceThread ]
+then
+	sed -e "s/\[% name %]/$name/g" ${template}/FileUploadServiceThread.as |
+	sed -e "s/\[% package %]/$package/g" > genius-tmp
+	mv genius-tmp ${output}/${name}.as
+	echo created ${output}/${name}.as
+
+elif [ $type = FileDownloadServiceThread ]
+then
+	sed -e "s/\[% name %]/$name/g" ${template}/FileDownloadServiceThread.as |
 	sed -e "s/\[% package %]/$package/g" > genius-tmp
 	mv genius-tmp ${output}/${name}.as
 	echo created ${output}/${name}.as
