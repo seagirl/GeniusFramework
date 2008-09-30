@@ -256,7 +256,7 @@ package jp.seagirl.genius.views
 		 * ビューがViewStackの子供の場合、
 		 * 選択されるとこのメソッドが呼ばれます。 
 		 */		
-		protected function updateView():void
+		public function updateView():void
 		{
 			
 		}

@@ -10,7 +10,7 @@ package [% package %]
 			// このビューが生成された時にのみ実行されます。
 		}
 		
-		override protected function updateView():void
+		override public function updateView():void
 		{
 			// ここに画面更新処理を記述します。
 			// このビューが表示されると毎回実行されます。

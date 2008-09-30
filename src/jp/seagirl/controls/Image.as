@@ -22,60 +22,38 @@
  * THE SOFTWARE.
  * 
  */
-
-package jp.seagirl.genius.commands
+ 
+ package jp.seagirl.controls
 {
+	import flash.display.Bitmap;
+	import flash.display.LoaderInfo;
 	import flash.events.Event;
-	import flash.events.IOErrorEvent;
-	import flash.events.ProgressEvent;
-	import flash.events.SecurityErrorEvent;
 	
-	import jp.seagirl.genius.business.IResponder;
+	import mx.controls.Image;
+	import mx.core.mx_internal;
+	
+	use namespace mx_internal;
 
 	/**
-	 * AsyncCommandは非同期通信に使われるコマンドの実装クラスです。
-	 * IResponderを実装します。
-	 * （互換性のために残してある古いクラスです。）
+	 * スムージングの調整が出来る Image コントロールです。
 	 * 
 	 * @author yoshizu 
-	 * @see jp.s2factory.genius.business.IResponder
 	 */	
-	public class AsyncCommand extends SequenceCommand implements IResponder
-	{		
-		//--------------------------------------------------------------------------
-		//
-		//  Event handlers
-		//
-		//--------------------------------------------------------------------------
-		
-		/**
-		 * @inheritDoc
-		 */		
-		public function complete(event:Event):void
+	public class Image extends mx.controls.Image
+	{
+		public function Image()
 		{
+			super();
 		}
 		
-		/**
-		 * @inheritDoc
-		 */		
-		public function ioError(event:IOErrorEvent):void
-		{
-			throw new Error(event);
-		}
+		public var smoothing:Boolean = true;
 		
-		/**
-		 * @inheritDoc
-		 */		
-		public function progress(event:ProgressEvent):void
+		override mx_internal function contentLoaderInfo_completeEventHandler(event:Event):void
 		{
-		}
-		
-		/**
-		 * @inheritDoc
-		 */		
-		public function securityError(event:SecurityErrorEvent):void
-		{
-			throw new Error(event);
+			var image:Bitmap = LoaderInfo(event.target).loader.content as Bitmap;
+			image.smoothing = smoothing;
+			
+			super.contentLoaderInfo_completeEventHandler(event);
 		}
 		
 	}

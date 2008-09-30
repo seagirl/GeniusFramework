@@ -1,7 +1,5 @@
 package [% package %].views
-{
-	import flash.display.DisplayObject;
-	
+{	
 	import jp.seagirl.genius.managers.ApplicationManager;
 	import jp.seagirl.genius.views.ViewBase;
 	
@@ -25,18 +23,25 @@ package [% package %].views
 			if (data == null)
 				return;
 				
-			var child:UIComponent;
+			var child:ViewBase;
 			viewStack.getChildren().forEach(
 				function (element:UIComponent, index:int, array:Array):void
 				{
 					if (element.className == ApplicationManager.instance.state.page)
-						child = element;
+						child = element as ViewBase;
 				}
 			);
 			
 			if (child)
 			{
-				viewStack.selectedIndex = viewStack.getChildIndex(child);
+				var oldIndex:int = viewStack.selectedIndex;
+				var newIndex:int = viewStack.getChildIndex(child);
+				
+				viewStack.selectedIndex = newIndex;
+				
+				if (oldIndex == newIndex)
+					child.updateView();
+				
 				return;
 			}
 			
