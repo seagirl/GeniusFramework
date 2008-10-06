@@ -27,7 +27,8 @@ package [% package %].core
 			applicationManager.defaultState.page = DEFAULT_PAGE;
 			applicationManager.traceApplicationInformation();
 			
-			Thread.initialize(new EnterFrameThreadExecutor());
+			if (!Thread.isReady)
+				Thread.initialize(new EnterFrameThreadExecutor());
 		}
 		
 		private function initializeView():void
