@@ -25,6 +25,8 @@
 
 package jp.seagirl.genius.models
 {
+	import flash.utils.getQualifiedClassName;
+	
 	import jp.seagirl.genius.managers.CursorManager;
 	
 	import mx.utils.ObjectUtil;
@@ -47,6 +49,7 @@ package jp.seagirl.genius.models
 		 */		
 		public function Model()
 		{
+			initialize();
 		}
 		
 		//--------------------------------------------------------------------------
@@ -65,6 +68,12 @@ package jp.seagirl.genius.models
 		//  Properties
 		//
 		//--------------------------------------------------------------------------
+		
+		//----------------------------------
+		//  name
+		//----------------------------------
+		
+		public var name:String;
 		
 		//----------------------------------
 		//  loaded
@@ -114,6 +123,16 @@ package jp.seagirl.genius.models
 					CursorManager.removeBusyCursor(cursorID);
 			}
 		}
+		
+		//----------------------------------
+		//  notifyView
+		//----------------------------------
+		
+		[Bindable]
+		/**
+		 * View に通信結果を通知するためのフラグ
+		 */		
+		public var notifyView:Boolean = false;
 		
 		//----------------------------------
 		//  lastModified
@@ -179,8 +198,6 @@ package jp.seagirl.genius.models
 		 */
 		public function get data():XMLList
 		{
-			if (loaded == false && isLoading == false)
-				initializeData();
 			return _data;
 		}
 		
@@ -258,13 +275,10 @@ package jp.seagirl.genius.models
 		//
 		//--------------------------------------------------------------------------
 		
-		/**
-		 * データの初期化処理を記述します。
-		 * このメソッドは初めてdataが呼ばれた時に呼び出されます。
-		 */		
-		protected function initializeData():void
+		protected function initialize():void
 		{
-			
+			var flagments:Array = getQualifiedClassName(this).split("::");
+			name = flagments[flagments.length - 1];
 		}
 		
 		/**

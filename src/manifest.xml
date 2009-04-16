@@ -4,10 +4,5 @@
 	<component id="AdvancedRadioButton" class="jp.seagirl.controls.AdvancedRadioButton"/>
 	<component id="Image" class="jp.seagirl.controls.Image"/>
 	<component id="Link" class="jp.seagirl.controls.Link"/>
-	<component id="SimpleButton" class="jp.seagirl.controls.SimpleButton"/>
 	<component id="Notifier" class="jp.seagirl.controls.Notifier"/>
-	<component id="Application" class="jp.seagirl.genius.core.Application"/>
-	<component id="WindowedApplication" class="jp.seagirl.genius.core.WindowedApplication"/>
-	<component id="ViewBase" class="jp.seagirl.genius.views.ViewBase"/>
-	<component id="ItemRenderer" class="jp.seagirl.genius.views.ItemRenderer"/>
 </componentPackage>

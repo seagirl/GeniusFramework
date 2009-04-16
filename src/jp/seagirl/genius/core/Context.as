@@ -1,86 +1,28 @@
-/**
- * Licensed under the MIT License
- * 
- * Copyright (c) 2008 seagirl
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- * 
- */
-
-package jp.seagirl.genius.managers
+package jp.seagirl.genius.core
 {
 	import flash.net.SharedObject;
 	import flash.system.Security;
 	
-	import mx.core.Application;
+	import jp.seagirl.genius.models.Model;
+	
+	import mx.core.IMXMLObject;
 	import mx.events.BrowserChangeEvent;
 	import mx.managers.BrowserManager;
 	import mx.managers.IBrowserManager;
 	import mx.utils.URLUtil;
 	
-	/**
-	 * ApplicationManagerはアプリケーションを管理するクラスです。
-	 * 
-	 * @author yoshizu 
-	 */	
-	public class ApplicationManager
-	{
-		//--------------------------------------------------------------------------
-		//
-		//  Class properties
-		//
-		//--------------------------------------------------------------------------
+	import org.libspark.thread.EnterFrameThreadExecutor;
+	import org.libspark.thread.Thread;
+	
+	public class Context implements IMXMLObject
+	{	
 		
-		//----------------------------------
-		//  instance
-		//----------------------------------
-		
-		/**
-		 * @private 
-		 */	
-		private static var _instance:ApplicationManager;
-		
-		/**
-		 * このクラスの唯一のインスタンスです。
-		 */		
-		public static function get instance():ApplicationManager
+		public function Context()
 		{
-			if (_instance == null)
-				_instance = new ApplicationManager();
-			return _instance;
-		}
-		
-		//--------------------------------------------------------------------------
-		//
-		//  Constructor
-		//
-		//--------------------------------------------------------------------------
-		
-		/**
-		 * コンストラクタ 
-		 */		
-		public function ApplicationManager()
-		{
-			if (_instance != null)
-				throw new Error("Public construction not allowed.");
 			initialize();
 		}
+		
+		private var modelMap:Array = [];
 		
 		//--------------------------------------------------------------------------
 		//
@@ -120,7 +62,7 @@ package jp.seagirl.genius.managers
 		/**
 		 * アプリケーションのバージョンです。
 		 */	
-		public var version:String = '';
+		public var version:String = '1.0';
 		
 		//----------------------------------
 		//  defaultState
@@ -129,7 +71,7 @@ package jp.seagirl.genius.managers
 		/**
 		 * デフォルトの状態です。
 		 */
-		public var defaultState:Object = { page: 'index' };
+		public var defaultState:Object = {};
 		
 		
 		//----------------------------------
@@ -165,13 +107,13 @@ package jp.seagirl.genius.managers
 		}
 		
 		//----------------------------------
-		//  data
+		//  storedData
 		//----------------------------------
 
 		/**
 		 * SharedObjectに保存されるデータです。
 		 */
-		public function get data():Object
+		public function get storedData():Object
 		{
 			return sharedObject.data;
 		}
@@ -179,7 +121,7 @@ package jp.seagirl.genius.managers
 		/**
 		 * @private 
 		 */	
-		public function set data(value:Object):void
+		public function set storedData(value:Object):void
 		{
 			if (sharedObject.data != value)
 			{	
@@ -198,27 +140,58 @@ package jp.seagirl.genius.managers
 						sharedObject.data[index2] = value[index2];
 					}
 				}
+				
 				sharedObject.flush();
 			}
 		}
 		
-		//--------------------------------------------------------------------------
-		//
-		//  Methods
-		//
-		//--------------------------------------------------------------------------
-		
-		/**
-		 * @private 
-		 */		
-		private function initialize():void
+		public function initialized(document:Object, id:String):void
 		{
+			initializeModels();
+		}
+		
+		protected function initialize():void
+		{
+			Thread.initialize(new EnterFrameThreadExecutor());
+			
 			sharedObject = SharedObject.getLocal('db');
 			
 			browserManager = BrowserManager.getInstance();
 			browserManager.addEventListener(
 				BrowserChangeEvent.BROWSER_URL_CHANGE, browserURLChangeHandler);
 			browserManager.init();
+		}
+		
+		protected function initializeModels():void
+		{
+			
+		}
+		
+		public function getModel(modelName:String):Model
+		{
+			return modelMap[modelName];
+		}
+		
+		public function hasModel(modelName:String):Boolean
+		{
+			return modelMap[modelName] != null;
+		}
+		
+		public function addModel(model:Model):void
+		{
+			modelMap[model.name] = model;
+		}
+		
+		public function removeModel(modelName:String):Model
+		{
+			var model:Model = modelMap[modelName] as Model;
+			
+			if (model)
+			{
+				modelMap[modelName] = null;
+			}
+			
+			return model;
 		}
 		
 		/**
@@ -235,7 +208,7 @@ package jp.seagirl.genius.managers
 			
 			trace('---------------------------------------------', new Date());
 			trace(this.name, this.version);
-			trace('SandboxType is', Security.sandboxType, '\n');
+			trace('Sandbox is', Security.sandboxType, '\n');
 		}
 		
 		//--------------------------------------------------------------------------
@@ -250,11 +223,12 @@ package jp.seagirl.genius.managers
 		private function browserURLChangeHandler(event:BrowserChangeEvent):void
 		{
 			var urlString:String = browserManager.fragment;
+			
 			if (urlString != '')
 				state = URLUtil.stringToObject(urlString, '&');
 			else
 				state = defaultState;
 		}
-
+		
 	}
 }
