@@ -2,6 +2,7 @@
 
 name=
 package=application
+package2=
 type=
 output=
 subpackage=
@@ -71,28 +72,52 @@ then
 	if [ ${name%*Model} != $name ]
 	then
 		type=Model
+		
 	elif [ ${name%*Filter} != $name ]
 	then
 		type=Filter
+		
+	elif [ ${name%*Controller} != $name ]
+	then
+		type=Controller
+		
 	elif [ ${name%*Thread} != $name ]
 	then
 		type=Thread
+		
 	elif [ ${name%*Renderer} != $name ]
 	then
 		type=Renderer
+		
 	else
-		type=View
+		type=Default
 	fi
 fi
 
 # パッケージの調整
-if [ $type = Model ]
+if [ $type = Default ]
+then
+	package=${package}.controllers
+
+elif [ $type = Model ]
 then
 	package=${package}.models
 	
 elif [ $type = Filter ]
 then
 	package=${package}.models
+	
+elif [ $type = Controller ]
+then
+	package=${package}.controllers
+	
+elif [ $type = ViewController ]
+then
+	package=${package}.controllers
+	
+elif [ $type = RendererController ]
+then
+	package=${package}.controllers
 	
 elif [ $type = View ]
 then
@@ -119,7 +144,7 @@ then
 	package=${package}.threads
 	
 else
-	echo 'Error: type must be "Model" or "View" or "Thread"'
+	echo 'Error: type must be "Model" or "View" or "Controller" or "Thread"'
 	exit
 fi
 
@@ -141,7 +166,7 @@ mkdir -p ${output}
 
 # -------------------------------------------------------------------
 
-if [ $type = View ]
+if [ $type = Default ]
 then
 	package2=${package//controller/view}
 
@@ -158,22 +183,66 @@ then
 	sed -e "s/\[% view_package %]/$package2/g" > genius-tmp
 	mv genius-tmp ${output}/${name}.mxml
 	echo created ${output}/${name}.mxml
+	
+elif [ $type = View ]
+then
+	package2=${package//controller/view}	
+	output=${output//controller/view}
+	
+	sed -e "s/\[% name %]/$name/g" ${template}/View.mxml |
+	sed -e "s/\[% controller_package %]/$package/g" |
+	sed -e "s/\[% view_package %]/$package2/g" > genius-tmp
+	mv genius-tmp ${output}/${name}.mxml
+	echo created ${output}/${name}.mxml
 
 elif [ $type = Renderer ]
 then
 	package2=${package//controller/view}
 	
 	sed -e "s/\[% name %]/$name/g" ${template}/RendererController.as |
-	sed -e "s/\[% package %]/$package/g" > genius-tmp
+	sed -e "s/\[% controller_package %]/$package/g" |
+	sed -e "s/\[% view_package %]/$package2/g" > genius-tmp
 	mv genius-tmp ${output}/${name}Controller.as
 	echo created ${output}/${name}Controller.as
 	
 	output=${output//controller/view}
 	
 	sed -e "s/\[% name %]/$name/g" ${template}/Renderer.mxml |
-	sed -e "s/\[% package %]/$package/g" > genius-tmp
+	sed -e "s/\[% controller_package %]/$package/g" |
+	sed -e "s/\[% view_package %]/$package2/g" > genius-tmp
 	mv genius-tmp ${output}/${name}.mxml
 	echo created ${output}/${name}.mxml
+	
+elif [ $type = Controller ]
+then
+	name=${name//Controller/}
+	package2=${package//controller/view}
+
+	sed -e "s/\[% name %]/$name/g" ${template}/ViewController.as |
+	sed -e "s/\[% controller_package %]/$package/g" |
+	sed -e "s/\[% view_package %]/$package2/g" > genius-tmp
+	mv genius-tmp ${output}/${name}Controller.as
+	echo created ${output}/${name}Controller.as
+	
+elif [ $type = ViewController ]
+then
+	package2=${package//controller/view}
+
+	sed -e "s/\[% name %]/$name/g" ${template}/ViewController.as |
+	sed -e "s/\[% controller_package %]/$package/g" |
+	sed -e "s/\[% view_package %]/$package2/g" > genius-tmp
+	mv genius-tmp ${output}/${name}Controller.as
+	echo created ${output}/${name}Controller.as
+	
+elif [ $type = RendererController ]
+then
+	package2=${package//controller/view}
+
+	sed -e "s/\[% name %]/$name/g" ${template}/RendererController.as |
+	sed -e "s/\[% controller_package %]/$package/g" |
+	sed -e "s/\[% view_package %]/$package2/g" > genius-tmp
+	mv genius-tmp ${output}/${name}Controller.as
+	echo created ${output}/${name}Controller.as
 	
 elif [ $type = Model ]
 then
