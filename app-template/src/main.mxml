@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Application
-	xmlns="[% package %].core.*"
+<mx:Application
 	xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:local="*"
 	layout="absolute"
-	pageTitle="">
-	<mx:Style source="main.css"/>
-</Application>
+	pageTitle="[% name %]">
+	<mx:Style source="[% name %].css"/>
+	<local:[% name %]Delegate />
+</mx:Application>

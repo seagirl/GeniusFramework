@@ -13,8 +13,16 @@ package [% package %]
 
 		override protected function run():void
 		{			
+			if (model.isLoading)
+				return;
+							
 			model.isLoading = true;
 			
+			next(load);
+		}
+		
+		private function load():void
+		{
 			request.url = '';
 			request.data = variables;
 			
@@ -35,9 +43,13 @@ package [% package %]
 			model.isLoading = false;
 		}
 		
-		private function handleError():void
+		private function handleError(error:Error, thread:Thread):void
 		{
-			model.lastResult = <result><status>-100</status></result>;
+			trace(error.message);
+			
+			model.lastResult = <result><status>{ Config.ERROR_CODES.IOError }</status></result>;
+			model.notifyView = true;
+			model.isLoading = false;
 		}
 		
 	}

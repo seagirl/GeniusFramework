@@ -1,24 +1,22 @@
 package [% package %]
 {
-	import flash.errors.IOError;
+	import flash.events.ErrorEvent;
 	import flash.events.Event;
-	import flash.net.FileReference;
+	import flash.events.IOErrorEvent;
+	import flash.events.SecurityErrorEvent;
 	import flash.net.URLRequest;
 	import flash.net.URLRequestMethod;
 	import flash.net.URLVariables;
 	
 	import jp.seagirl.genius.models.Model;
-	import jp.seagirl.genius.threads.GeniusThread;
+	import jp.seagirl.genius.threads.FileReferenceServiceThread;
 
-	public class [% name %] extends GeniusThread
+	public class [% name %] extends FileReferenceServiceThread
 	{
 		private var model:Model;
-		private var file:FileReference;
 		
 		override protected function run():void
-		{	
-			file = new FileReference();
-			
+		{				
 			var name:String = '';
 			var ext:String = '';
 			
@@ -29,36 +27,39 @@ package [% package %]
 			request.data = variables;
 			request.method = URLRequestMethod.POST; 
 			
-			event(file, Event.SELECT, select);
-			
+			file.addEventListener(Event.SELECT, selectHandler);
 			file.download(request, name + '.' + ext);
 		}
 		
-		private function select(e:Event):void
+		private function selectHandler(event:Event):void
 		{
 			file.removeEventListener(Event.SELECT, arguments.callee);
 			
-			event(file, Event.COMPLETE, complete);
-			
-			error(IOError, handleError);
-			error(SecurityError, handleError);
+			file.addEventListener(Event.COMPLETE, completeHandler);
+			file.addEventListener(IOErrorEvent.IO_ERROR, errorHandler);
+			file.addEventListener(SecurityErrorEvent.SECURITY_ERROR, errorHandler);
 			
 			model.isLoading = true;
 		}
 		
-		private function complete(e:Event):void
+		private function completeHandler(event:Event):void
 		{
 			file.removeEventListener(Event.COMPLETE, arguments.callee);
 			
-			trace('downloaded "', file.name, '" at ', new Date())
+			trace('downloaded "', file.name, '" at ', new Date());
 			
-			model.lastResult = <result><status>1</status></result>;
+			model.lastResult = <result><status>2</status></result>;
+			model.notifyView = true;
 			model.isLoading = false;
 		}
 		
-		private function handleError():void
+		private function errorHandler(event:ErrorEvent):void
 		{
-			model.lastResult = <result><status>-100</status></result>;
+			trace(event.text);
+			
+			model.lastResult = <result><status>100</status></result>;
+			model.notifyView = true;
+			model.isLoading = false;
 		}
 		
 	}

@@ -27,8 +27,8 @@
 {
 	import mx.events.FlexEvent;
 	
-	public class ItemRendererController extends Controller
-	{		
+	public class ItemRendererController extends AbstractController
+	{	
 		override protected function view_initializeHandler(event:FlexEvent):void
 		{
 			super.view_initializeHandler(event);

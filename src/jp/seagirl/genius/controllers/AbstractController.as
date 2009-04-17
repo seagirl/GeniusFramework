@@ -33,10 +33,14 @@
 	import mx.core.IMXMLObject;
 	import mx.events.FlexEvent;
 
-	public class Controller implements IMXMLObject
+	public class AbstractController implements IMXMLObject
 	{
-		public function Controller()
+		public function AbstractController()
 		{
+			if (Object(this).constructor == AbstractController)
+			{
+				throw new Error("This is a abstract class.");	
+			}
 		}
 		
 		public var context:Context;
@@ -90,7 +94,7 @@
 			
 		}
 		
-		protected function update():void
+		public function update():void
 		{
 			
 		}

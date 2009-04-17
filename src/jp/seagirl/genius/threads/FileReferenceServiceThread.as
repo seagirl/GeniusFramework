@@ -30,10 +30,10 @@ package jp.seagirl.genius.threads
 	import flash.net.URLVariables;
 
 	/**
-	 * FileDownloadThread を使ったサービスクラスです。 
+	 * FileReference を使ったサービスクラスです。 
 	 * @author yoshizu 
 	 */		
-	public class FileDownloadServiceThread extends GeniusThread
+	public class FileReferenceServiceThread extends GeniusThread
 	{
 		//--------------------------------------------------------------------------
 		//

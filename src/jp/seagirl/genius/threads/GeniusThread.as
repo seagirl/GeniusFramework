@@ -1,5 +1,8 @@
 package jp.seagirl.genius.threads
 {
+	import jp.seagirl.genius.controllers.ApplicationDelegate;
+	import jp.seagirl.genius.core.Context;
+	
 	import org.libspark.thread.Thread;
 
 	public class GeniusThread extends Thread
@@ -7,6 +10,8 @@ package jp.seagirl.genius.threads
 		public function GeniusThread()
 		{
 			super();
+			
+			initialize();
 		}
 		
 		//--------------------------------------------------------------------------
@@ -20,11 +25,18 @@ package jp.seagirl.genius.threads
 		 */		
 		protected var data:Object;
 		
+		protected var context:Context;
+		
 		//--------------------------------------------------------------------------
 		//
 		//  Methods
 		//
 		//--------------------------------------------------------------------------
+		
+		private function initialize():void
+		{
+			context = ApplicationDelegate.sharedApplicationDelegate().context;
+		}
 		
 		/**
 		 * 汎用的なデータを追加するためのメソッドです。

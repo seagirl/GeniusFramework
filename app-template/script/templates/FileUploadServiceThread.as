@@ -1,63 +1,59 @@
 package [% package %]
 {
-	import flash.errors.IOError;
+	import flash.events.ErrorEvent;
 	import flash.events.Event;
-	import flash.net.FileFilter;
-	import flash.net.FileReference;
+	import flash.events.DataEvent;
+	import flash.events.IOErrorEvent;
+	import flash.events.SecurityErrorEvent;
 	import flash.net.URLRequestMethod;
 	
-	import jp.seagirl.genius.threads.FileUploadServiceThread;
 	import jp.seagirl.genius.models.Model;
-	
-	import org.libspark.thread.threads.net.FileUploadThread;
 
 	public class [% name %] extends FileUploadServiceThread
 	{
 		private var model:Model;
-		private var file:FileReference;
 
 		override protected function run():void
-		{	
-			file = new FileReference();
-						
+		{			
 			request.url = '';
 			request.data = variables;
 			request.method = URLRequestMethod.POST;
 			
-			event(file, Event.SELECT, select);
-			
+			file.addEventListener(Event.SELECT, selectHandler);
 			file.browse([new FileFilter("Images", "*.jpg;")]);
 		}
 		
-		private function select(e:Event):void
+		private function selectHandler(event:Event):void
 		{
+			file.removeEventListener(Event.SELECT, arguments.callee);
+			
+			file.addEventListener(DataEvent.UPLOAD_COMPLETE_DATA, completeHandler);
+			file.addEventListener(IOErrorEvent.IO_ERROR, errorHandler);
+			file.addEventListener(SecurityErrorEvent.SECURITY_ERROR, errorHandler);
+			
 			model.isLoading = true;
-
-			fileUploadThread = new FileUploadThread(request, file);
-			fileUploadThread.waitCompleteData = true;
-			fileUploadThread.doBrowse = false;
-			fileUploadThread.start();
-			fileUploadThread.join();
 			
-			error(IOError, handleError);
-			error(SecurityError, handleError);
-			
-			next(complete);
+			file.upload(request);
 		}
 		
-		private function complete():void
+		private function complete(event:DataEvent):void
 		{
-			var result:XML = XML(fileUploadThread.data);
+			file.removeEventListener(DataEvent.UPLOAD_COMPLETE_DATA, arguments.callee);
 			
-			if (result != '')
-				model.lastResult = result;
+			var result:XML = XML(event.data);
 			
+			model.lastResult = result;
+			model.notifyView = true;
 			model.isLoading = false;
 		}
 		
-		private function handleError():void
+		private function errorHandler(event:ErrorEvent):void
 		{
-			model.lastResult = <result><status>-100</status></result>;
+			trace(event.text);
+			
+			model.lastResult = <result><status>100</status></result>;
+			model.notifyView = true;
+			model.isLoading = false;
 		}
 		
 	}

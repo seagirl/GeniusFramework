@@ -15,11 +15,11 @@ do
 	       ;;
 	p )    package=$OPTARG
 	       ;;
+	s )    subpackage=$OPTARG
+	       ;;
 	t )    type=$OPTARG
 	       ;;
 	o )    output=$OPTARG
-	       ;;
-	s )    subpackage=$OPTARG
 	       ;;
 	h )    echo '使用方法: generate [<オプション>] [名前]
 バージョン 1.0.4
@@ -96,11 +96,11 @@ then
 	
 elif [ $type = View ]
 then
-	package=${package}.views
+	package=${package}.controllers
 	
 elif [ $type = Renderer ]
 then
-	package=${package}.views
+	package=${package}.controllers
 	
 elif [ $type = Thread ]
 then
@@ -143,27 +143,37 @@ mkdir -p ${output}
 
 if [ $type = View ]
 then
+	package2=${package//controller/view}
+
+	sed -e "s/\[% name %]/$name/g" ${template}/ViewController.as |
+	sed -e "s/\[% controller_package %]/$package/g" |
+	sed -e "s/\[% view_package %]/$package2/g" > genius-tmp
+	mv genius-tmp ${output}/${name}Controller.as
+	echo created ${output}/${name}Controller.as
+	
+	output=${output//controller/view}
+	
 	sed -e "s/\[% name %]/$name/g" ${template}/View.mxml |
-	sed -e "s/\[% package %]/$package/g" > genius-tmp
+	sed -e "s/\[% controller_package %]/$package/g" |
+	sed -e "s/\[% view_package %]/$package2/g" > genius-tmp
 	mv genius-tmp ${output}/${name}.mxml
 	echo created ${output}/${name}.mxml
-	
-	sed -e "s/\[% name %]/$name/g" ${template}/ViewBase.as |
-	sed -e "s/\[% package %]/$package/g" > genius-tmp
-	mv genius-tmp ${output}/${name}Base.as
-	echo created ${output}/${name}Base.as
 
 elif [ $type = Renderer ]
 then
+	package2=${package//controller/view}
+	
+	sed -e "s/\[% name %]/$name/g" ${template}/RendererController.as |
+	sed -e "s/\[% package %]/$package/g" > genius-tmp
+	mv genius-tmp ${output}/${name}Controller.as
+	echo created ${output}/${name}Controller.as
+	
+	output=${output//controller/view}
+	
 	sed -e "s/\[% name %]/$name/g" ${template}/Renderer.mxml |
 	sed -e "s/\[% package %]/$package/g" > genius-tmp
 	mv genius-tmp ${output}/${name}.mxml
 	echo created ${output}/${name}.mxml
-
-	sed -e "s/\[% name %]/$name/g" ${template}/RendererBase.as |
-	sed -e "s/\[% package %]/$package/g" > genius-tmp
-	mv genius-tmp ${output}/${name}Base.as
-	echo created ${output}/${name}Base.as
 	
 elif [ $type = Model ]
 then

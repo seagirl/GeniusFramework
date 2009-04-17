@@ -306,7 +306,7 @@ package jp.seagirl.genius.models
 			}
 			
 			if (ret == null)
-				throw new Error("Can't find a data.");
+				throw new Error("Couldn't find a data.");
 				
 			return ret;
 		}

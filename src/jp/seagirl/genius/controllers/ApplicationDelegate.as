@@ -31,8 +31,24 @@
 	
 	import org.libspark.ui.SWFWheel;
 
-	public class ApplicationDelegate extends Controller
+	public class ApplicationDelegate extends AbstractController
 	{
+		public static function sharedApplicationDelegate():ApplicationDelegate
+		{
+			var delegate:ApplicationDelegate;
+			
+			if (Application.application.data.hasOwnProperty('delegate'))
+				delegate = Application.application.data.delegate;
+
+			if (Application.application.hasOwnProperty('delegate'))
+				delegate = Application.application.delegate;
+				
+			if (delegate == null)
+				throw new Error("Couldn't find any ApplicationDelegate.");
+				
+			return delegate;
+		}
+		
 		override protected function preinitialize():void
 		{
 			context = new Context();
@@ -45,12 +61,17 @@
 			this['view'].setStyle('color', '#000000');
 			
 			initializeApplication();
-			
+			initializeState();
 			initializeModels();
 			initializeViews();
 		}
 		
 		protected function initializeApplication():void
+		{
+			
+		}
+		
+		protected function initializeState():void
 		{
 			
 		}

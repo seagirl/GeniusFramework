@@ -42,8 +42,8 @@
 	import mx.events.FlexEvent;
 	import mx.validators.Validator;
 	
-	public class ViewController extends Controller
-	{		
+	public class ViewController extends AbstractController
+	{			
 		//----------------------------------
 		//  active
 		//----------------------------------
@@ -188,24 +188,19 @@
 		    return Validator.validateAll(validators).length ? false : true;
 		}
 		
+		/**
+		 * @private
+		 */	
 		override public function initialized(document:Object, id:String):void
-		{
+		{	
+			context = ApplicationDelegate.sharedApplicationDelegate().context;
+			
 			super.initialized(document, id);
-			
-			var delegate:ApplicationDelegate;
-			
-			if (Application.application.data.hasOwnProperty('delegate'))
-				delegate = Application.application.data.delegate;
-
-			if (Application.application.hasOwnProperty('delegate'))
-				delegate = Application.application.delegate;
-				
-			if (delegate == null)
-				throw new Error("Couldn't find any ApplicationDelegate.");
-				
-			context = delegate.context;
 		}
 		
+		/**
+		 * @private
+		 */	
 		override protected function view_initializeHandler(event:FlexEvent):void
 		{
 			super.view_initializeHandler(event);
