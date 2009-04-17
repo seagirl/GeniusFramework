@@ -25,10 +25,9 @@
 
 package jp.seagirl.genius.threads
 {
+	import flash.net.FileReference;
 	import flash.net.URLRequest;
 	import flash.net.URLVariables;
-	
-	import org.libspark.thread.threads.net.FileUploadThread;
 
 	/**
 	 * FileUploadThread を使ったサービスクラスです。 
@@ -43,9 +42,9 @@ package jp.seagirl.genius.threads
 		//--------------------------------------------------------------------------
 		
 		/**
-		 * FileUploadThread のインスタンスを保持するための変数です.
+		 * FileReference のインスタンスです。
 		 */		
-		protected var fileUploadThread:FileUploadThread;
+		protected var file:FileReference = new FileReference();
 		
 		/**
 		 * URLRequest のインスタンスです.
