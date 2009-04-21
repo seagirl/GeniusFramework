@@ -58,6 +58,13 @@ mv genius-tmp script/build
 chmod 755 script/build
 echo created ${output}${name}/script/build
 
+sed -e "s/\[% name %]/$name/g" script/build_test |
+sed -e "s/\[% package %]/$package/g" > genius-tmp
+rm script/build_test
+mv genius-tmp script/build_test
+chmod 755 script/build_test
+echo created ${output}${name}/script/build_test
+
 # bin-debug
 sed -e "s/\[% name %]/$name/g" bin-debug/main.html |
 sed -e "s/\[% package %]/$package/g" > genius-tmp
@@ -65,16 +72,28 @@ rm bin-debug/main.html
 mv genius-tmp bin-debug/index.html
 echo created ${output}${name}/bin-debug/index.html
 
+sed -e "s/\[% name %]/$name/g" tests/bin-debug/main.html |
+sed -e "s/\[% package %]/$package/g" > genius-tmp
+rm tests/bin-debug/main.html
+mv genius-tmp tests/bin-debug/index.html
+echo created ${output}${name}/tests/bin-debug/index.html
+
 # tests
 mkdir -p tests/src/${package_path}
 mv tests/src/genius/* tests/src/${package_path}
 rm -rf tests/src/genius
 
-sed -e "s/\[% name %]/$name/g" tests/src/RunTests.as |
+sed -e "s/\[% name %]/$name/g" tests/src/MyAppTest.as |
 sed -e "s/\[% package %]/$package/g" > genius-tmp
-rm tests/src/RunTests.as
+rm tests/src/MyAppTest.as
 mv genius-tmp tests/src/${name}Test.as
 echo created ${output}${name}/tests/src/${name}Test.as
+
+sed -e "s/\[% name %]/$name/g" tests/src/MyAppTest-config.xml |
+sed -e "s/\[% package %]/$package/g" > genius-tmp
+rm tests/src/MyAppTest-config.xml
+mv genius-tmp tests/src/${name}Test-config.xml
+echo created ${output}${name}/tests/src/${name}Test-config.xml
 
 sed -e "s/\[% name %]/$name/g" tests/src/AllTests.as |
 sed -e "s/\[% package %]/$package/g" > genius-tmp

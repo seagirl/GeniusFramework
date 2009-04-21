@@ -3,9 +3,9 @@
 	import flash.display.Sprite;
 	import org.libspark.as3unit.runner.AS3UnitCore;
 
-	public class RunTests extends Sprite
+	public class [% name %]Test extends Sprite
 	{
-		public function RunTests()
+		public function [% name %]Test()
 		{
 			AS3UnitCore.main(AllTests);
 		}
