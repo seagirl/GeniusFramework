@@ -49,10 +49,8 @@ package_path=${package//./\/}
 cp -r $template $output$name
 cd $output$name
 find . -name '.svn' -type d -exec rm -rf {} \; 2>/dev/null
-mkdir -p src/${package_path}
-mv src/genius/* src/${package_path}
-rm -rf src/genius
 
+# script
 sed -e "s/\[% name %]/$name/g" script/build |
 sed -e "s/\[% package %]/$package/g" > genius-tmp
 rm script/build
@@ -60,11 +58,38 @@ mv genius-tmp script/build
 chmod 755 script/build
 echo created ${output}${name}/script/build
 
+# bin-debug
 sed -e "s/\[% name %]/$name/g" bin-debug/main.html |
 sed -e "s/\[% package %]/$package/g" > genius-tmp
 rm bin-debug/main.html
 mv genius-tmp bin-debug/index.html
 echo created ${output}${name}/bin-debug/index.html
+
+# tests
+mkdir -p tests/${package_path}
+mv tests/genius/* tests/${package_path}
+rm -rf tests/genius
+
+sed -e "s/\[% name %]/$name/g" tests/RunTests.as |
+sed -e "s/\[% package %]/$package/g" > genius-tmp
+mv genius-tmp tests/RunTests.as
+echo created ${output}${name}/tests/RunTests.as
+
+sed -e "s/\[% name %]/$name/g" tests/AllTests.as |
+sed -e "s/\[% package %]/$package/g" > genius-tmp
+mv genius-tmp tests/AllTests.as
+echo created ${output}${name}/tests/AllTests.as
+
+sed -e "s/\[% name %\]/$name/g" tests/${package_path}/MyAppAllTests.as |
+sed -e "s/\[% package %\]/$package/g" > genius-tmp
+rm tests/${package_path}/MyAppAllTests.as
+mv genius-tmp tests/${package_path}/${name}AllTests.as
+echo created ${output}${name}/tests/${package_path}/${name}AllTests.as
+
+# src
+mkdir -p src/${package_path}
+mv src/genius/* src/${package_path}
+rm -rf src/genius
 
 sed -e "s/\[% name %]/$name/g" src/main.mxml |
 sed -e "s/\[% package %]/$package/g" > genius-tmp
@@ -92,49 +117,41 @@ echo created ${output}${name}/src/${name}-config.xml
 
 sed -e "s/\[% name %]/$name/g" src/Config.as |
 sed -e "s/\[% package %]/$package/g" > genius-tmp
-rm src/Config.as
 mv genius-tmp src/Config.as
 echo created ${output}${name}/src/Config.as
 
 sed -e "s/\[% name %\]/$name/g" src/${package_path}/threads/ChangeStateThread.as |
 sed -e "s/\[% package %\]/$package/g" > genius-tmp
-rm src/${package_path}/threads/ChangeStateThread.as
 mv genius-tmp src/${package_path}/threads/ChangeStateThread.as
 echo created ${output}${name}/src/${package_path}/threads/ChangeStateThread.as
 
 sed -e "s/\[% name %\]/$name/g" src/${package_path}/controllers/MainController.as |
 sed -e "s/\[% package %\]/$package/g" > genius-tmp
-rm src/${package_path}/controllers/MainController.as
 mv genius-tmp src/${package_path}/controllers/MainController.as
 echo created ${output}${name}/src/${package_path}/controllers/MainController.as
 
 sed -e "s/\[% name %\]/$name/g" src/${package_path}/views/Main.mxml |
 sed -e "s/\[% package %\]/$package/g" > genius-tmp
-rm src/${package_path}/views/Main.mxml
 mv genius-tmp src/${package_path}/views/Main.mxml
 echo created ${output}${name}/src/${package_path}/views/Main.mxml
 
 sed -e "s/\[% name %\]/$name/g" src/${package_path}/controllers/Page1Controller.as |
 sed -e "s/\[% package %\]/$package/g" > genius-tmp
-rm src/${package_path}/controllers/Page1Controller.as
 mv genius-tmp src/${package_path}/controllers/Page1Controller.as
 echo created ${output}${name}/src/${package_path}/controllers/Page1Controller.as
 
 sed -e "s/\[% name %\]/$name/g" src/${package_path}/views/Page1.mxml |
 sed -e "s/\[% package %\]/$package/g" > genius-tmp
-rm src/${package_path}/views/Page1.mxml
 mv genius-tmp src/${package_path}/views/Page1.mxml
 echo created ${output}${name}/src/${package_path}/views/Page1.mxml
 
 sed -e "s/\[% name %\]/$name/g" src/${package_path}/controllers/Page2Controller.as |
 sed -e "s/\[% package %\]/$package/g" > genius-tmp
-rm src/${package_path}/controllers/Page2Controller.as
 mv genius-tmp src/${package_path}/controllers/Page2Controller.as
 echo created ${output}${name}/src/${package_path}/controllers/Page2Controller.as
 
 sed -e "s/\[% name %\]/$name/g" src/${package_path}/views/Page2.mxml |
 sed -e "s/\[% package %\]/$package/g" > genius-tmp
-rm src/${package_path}/views/Page2.mxml
 mv genius-tmp src/${package_path}/views/Page2.mxml
 echo created ${output}${name}/src/${package_path}/views/Page2.mxml
 
