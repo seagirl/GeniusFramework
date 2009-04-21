@@ -66,25 +66,26 @@ mv genius-tmp bin-debug/index.html
 echo created ${output}${name}/bin-debug/index.html
 
 # tests
-mkdir -p tests/${package_path}
-mv tests/genius/* tests/${package_path}
-rm -rf tests/genius
+mkdir -p tests/src/${package_path}
+mv tests/src/genius/* tests/src/${package_path}
+rm -rf tests/src/genius
 
-sed -e "s/\[% name %]/$name/g" tests/RunTests.as |
+sed -e "s/\[% name %]/$name/g" tests/src/RunTests.as |
 sed -e "s/\[% package %]/$package/g" > genius-tmp
-mv genius-tmp tests/RunTests.as
-echo created ${output}${name}/tests/RunTests.as
+rm tests/src/RunTests.as
+mv genius-tmp tests/src/${name}Test.as
+echo created ${output}${name}/tests/src/${name}Test.as
 
-sed -e "s/\[% name %]/$name/g" tests/AllTests.as |
+sed -e "s/\[% name %]/$name/g" tests/src/AllTests.as |
 sed -e "s/\[% package %]/$package/g" > genius-tmp
-mv genius-tmp tests/AllTests.as
-echo created ${output}${name}/tests/AllTests.as
+mv genius-tmp tests/src/AllTests.as
+echo created ${output}${name}/tests/src/AllTests.as
 
-sed -e "s/\[% name %\]/$name/g" tests/${package_path}/MyAppAllTests.as |
+sed -e "s/\[% name %\]/$name/g" tests/src/${package_path}/MyAppAllTests.as |
 sed -e "s/\[% package %\]/$package/g" > genius-tmp
-rm tests/${package_path}/MyAppAllTests.as
-mv genius-tmp tests/${package_path}/${name}AllTests.as
-echo created ${output}${name}/tests/${package_path}/${name}AllTests.as
+rm tests/src/${package_path}/MyAppAllTests.as
+mv genius-tmp tests/src/${package_path}/${name}AllTests.as
+echo created ${output}${name}/tests/src/${package_path}/${name}AllTests.as
 
 # src
 mkdir -p src/${package_path}
