@@ -33,11 +33,11 @@
 	import mx.core.IMXMLObject;
 	import mx.events.FlexEvent;
 
-	public class AbstractController implements IMXMLObject
+	public class AbstractDelegate implements IMXMLObject
 	{
-		public function AbstractController()
+		public function AbstractDelegate()
 		{
-			if (Object(this).constructor == AbstractController)
+			if (Object(this).constructor == AbstractDelegate)
 			{
 				throw new Error("This is a abstract class.");	
 			}

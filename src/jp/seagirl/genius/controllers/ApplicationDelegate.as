@@ -31,7 +31,7 @@
 	
 	import org.libspark.ui.SWFWheel;
 
-	public class ApplicationDelegate extends AbstractController
+	public class ApplicationDelegate extends AbstractDelegate
 	{
 		public static function sharedApplicationDelegate():ApplicationDelegate
 		{
