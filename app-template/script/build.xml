@@ -1,4 +1,7 @@
-<project basedir="./" default="help" name="AntTest">
+<project basedir="./" default="help" name="GeniusGenerator">
+	<property file="build.properties" />
+	<taskdef classpath="${FLEX_HOME}/ant/lib/flexTasks.jar" resource="flexTasks.tasks" />
+	
 	<!-- Properties -->
 	<property name="package" value="application"/>
 	<property name="output" value="./"/>
@@ -39,6 +42,17 @@
 name: The name of the class. (required)
 type: The type of the class. (optional)
       This must be "Model" or "View" or "Controller" or "Thread".</echo>
+	</target>
+	
+	<target name="build">
+		 <mxmlc
+			actionscript-file-encoding="UTF-8"
+			file="${MAIN_APP}"
+			utput="${OUTPUT_BIN}"
+			incremental="true"
+			keep-generated-actionscript="false">
+				<load-config filename="${FLEX_HOME}/frameworks/flex-config.xml" />
+		</mxmlc>
 	</target>
 	
 	<target name="generate" depends="_prepare, _init, _exec" />
