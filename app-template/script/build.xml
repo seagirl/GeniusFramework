@@ -53,6 +53,11 @@ type: The type of the class. (optional)
 	<target name="_init" depends="_check_type">
 		<property name="is${type}" value="true" />
 		
+		<property name="model_package" value="${package}.models"/>
+		<property name="view_package" value="${package}.views"/>
+		<property name="controller_package" value="${package}.controllers"/>
+		<property name="thread_package" value="${package}.threads"/>
+		
 		<echo>Name:    ${name}</echo>
 		<echo>Type:    ${type}</echo>
 		<echo>Package: ${package}</echo>
@@ -85,9 +90,6 @@ type: The type of the class. (optional)
 	
 	<!-- Default -->
 	<target name="_exec_default" if="isDefault">
-		<property name="controller_package" value="${package}.controllers"/>
-		<property name="view_package" value="${package}.views"/>
-		
 		<property name="src1" value="templates/ViewController.as"/>
 		<property name="dst1" value="../src/${package}/controllers/${name}Controller.as"/>
 		
@@ -109,8 +111,6 @@ type: The type of the class. (optional)
 	
 	<!-- Model -->
 	<target name="_exec_model" if="isModel">
-		<property name="model_package" value="${package}.models"/>
-		
 		<property name="src1" value="templates/Model.as"/>
 		<property name="dst1" value="../src/${package}/models/${name}.as"/>
 		
@@ -122,8 +122,6 @@ type: The type of the class. (optional)
 	
 	<!-- Filter -->
 	<target name="_exec_filter" if="isFilter">
-		<property name="model_package" value="${package}.models"/>
-		
 		<property name="src1" value="templates/Filter.as"/>
 		<property name="dst1" value="../src/${package}/models/${name}.as"/>
 		
@@ -135,9 +133,6 @@ type: The type of the class. (optional)
 	
 	<!-- Controller -->
 	<target name="_exec_controller" if="isController">
-		<property name="controller_package" value="${package}.controllers"/>
-		<property name="view_package" value="${package}.views"/>
-		
 		<property name="src1" value="templates/ViewController.as"/>
 		<property name="dst1" value="../src/${package}/controllers/${name}.as"/>
 		
@@ -150,9 +145,6 @@ type: The type of the class. (optional)
 	
 	<!-- ViewController -->
 	<target name="_exec_view_controller" if="isViewController">
-		<property name="controller_package" value="${package}.controllers"/>
-		<property name="view_package" value="${package}.views"/>
-		
 		<property name="src1" value="templates/ViewController.as"/>
 		<property name="dst1" value="../src/${package}/controllers/${name}.as"/>
 		
@@ -165,9 +157,6 @@ type: The type of the class. (optional)
 	
 	<!-- RendererDelegate -->
 	<target name="_exec_renderer_delegate" if="isRendererDelegate">
-		<property name="controller_package" value="${package}.controllers"/>
-		<property name="view_package" value="${package}.views"/>
-		
 		<property name="src1" value="templates/RendererDelegate.as"/>
 		<property name="dst1" value="../src/${package}/controllers/${name}.as"/>
 		
@@ -180,9 +169,6 @@ type: The type of the class. (optional)
 	
 	<!-- View -->
 	<target name="_exec_view" if="isView">
-		<property name="controller_package" value="${package}.controllers"/>
-		<property name="view_package" value="${package}.views"/>
-		
 		<property name="src1" value="templates/View.mxml"/>
 		<property name="dst1" value="../src/${package}/views/${name}.mxml"/>
 		
@@ -195,9 +181,6 @@ type: The type of the class. (optional)
 	
 	<!-- Renderer -->
 	<target name="_exec_renderer" if="isRenderer">
-		<property name="controller_package" value="${package}.controllers"/>
-		<property name="view_package" value="${package}.views"/>
-		
 		<property name="src1" value="templates/Renderer.mxml"/>
 		<property name="dst1" value="../src/${package}/views/${name}.mxml"/>
 		
@@ -210,8 +193,6 @@ type: The type of the class. (optional)
 	
 	<!-- Thread -->
 	<target name="_exec_thread" if="isThread">
-		<property name="thread_package" value="${package}.threads"/>
-		
 		<property name="src1" value="templates/Thread.as"/>
 		<property name="dst1" value="../src/${package}/threads/${name}.as"/>
 		
@@ -223,8 +204,6 @@ type: The type of the class. (optional)
 	
 	<!-- UrlLoaderServiceThread -->
 	<target name="_exec_url_loader_service_thread" if="isURLLoaderServiceThread">
-		<property name="thread_package" value="${package}.threads"/>
-		
 		<property name="src1" value="templates/URLLoaderServiceThread.as"/>
 		<property name="dst1" value="../src/${package}/threads/${name}.as"/>
 		
@@ -236,8 +215,6 @@ type: The type of the class. (optional)
 	
 	<!-- FileDownloadServiceThread -->
 	<target name="_exec_file_download_service_thread" if="isFileDownloadServiceThread">
-		<property name="thread_package" value="${package}.threads"/>
-		
 		<property name="src1" value="templates/FileDownloadServiceThread.as"/>
 		<property name="dst1" value="../src/${package}/threads/${name}.as"/>
 		
@@ -249,8 +226,6 @@ type: The type of the class. (optional)
 	
 	<!-- FileUploadServiceThread -->
 	<target name="_exec_file_upload_service_thread" if="isFileUploadServiceThread">
-		<property name="thread_package" value="${package}.threads"/>
-		
 		<property name="src1" value="templates/FileUploadServiceThread.as"/>
 		<property name="dst1" value="../src/${package}/threads/${name}.as"/>
 		
