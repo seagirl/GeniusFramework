@@ -93,16 +93,14 @@ type: The type of the class. (optional)
 		<property name="src1" value="templates/ViewController.as"/>
 		<property name="dst1" value="../src/${package}/controllers/${name}Controller.as"/>
 		
-		<property name="src2" value="templates/View.mxml"/>
-		<property name="dst2" value="../src/${package}/views/${name}.mxml"/>
-		
-		<!-- Generate Controller -->
 		<copy file="${src1}" tofile="${dst1}" />
 		<replace file="${dst1}" token="[% name %]" value="${name}"/>
 		<replace file="${dst1}" token="[% controller_package %]" value="${controller_package}"/>
 		<replace file="${dst1}" token="[% view_package %]" value="${view_package}"/>
 		
-		<!-- Generate View -->
+		<property name="src2" value="templates/View.mxml"/>
+		<property name="dst2" value="../src/${package}/views/${name}.mxml"/>
+		
 		<copy file="${src2}" tofile="${dst2}" />
 		<replace file="${dst2}" token="[% name %]" value="${name}"/>
 		<replace file="${dst2}" token="[% controller_package %]" value="${controller_package}"/>
@@ -114,7 +112,6 @@ type: The type of the class. (optional)
 		<property name="src1" value="templates/Model.as"/>
 		<property name="dst1" value="../src/${package}/models/${name}.as"/>
 		
-		<!-- Generate -->
 		<copy file="${src1}" tofile="${dst1}" />
 		<replace file="${dst1}" token="[% name %]" value="${name}"/>
 		<replace file="${dst1}" token="[% package %]" value="${model_package}"/>
@@ -125,7 +122,6 @@ type: The type of the class. (optional)
 		<property name="src1" value="templates/Filter.as"/>
 		<property name="dst1" value="../src/${package}/models/${name}.as"/>
 		
-		<!-- Generate -->
 		<copy file="${src1}" tofile="${dst1}" />
 		<replace file="${dst1}" token="[% name %]" value="${name}"/>
 		<replace file="${dst1}" token="[% package %]" value="${model_package}"/>
@@ -136,7 +132,6 @@ type: The type of the class. (optional)
 		<property name="src1" value="templates/ViewController.as"/>
 		<property name="dst1" value="../src/${package}/controllers/${name}.as"/>
 		
-		<!-- Generate -->
 		<copy file="${src1}" tofile="${dst1}" />
 		<replace file="${dst1}" token="[% name %]" value="${name}"/>
 		<replace file="${dst1}" token="[% controller_package %]" value="${controller_package}"/>
@@ -148,7 +143,6 @@ type: The type of the class. (optional)
 		<property name="src1" value="templates/ViewController.as"/>
 		<property name="dst1" value="../src/${package}/controllers/${name}.as"/>
 		
-		<!-- Generate -->
 		<copy file="${src1}" tofile="${dst1}" />
 		<replace file="${dst1}" token="[% name %]" value="${name}"/>
 		<replace file="${dst1}" token="[% controller_package %]" value="${controller_package}"/>
@@ -160,7 +154,6 @@ type: The type of the class. (optional)
 		<property name="src1" value="templates/RendererDelegate.as"/>
 		<property name="dst1" value="../src/${package}/controllers/${name}.as"/>
 		
-		<!-- Generate -->
 		<copy file="${src1}" tofile="${dst1}" />
 		<replace file="${dst1}" token="[% name %]" value="${name}"/>
 		<replace file="${dst1}" token="[% controller_package %]" value="${controller_package}"/>
@@ -172,7 +165,6 @@ type: The type of the class. (optional)
 		<property name="src1" value="templates/View.mxml"/>
 		<property name="dst1" value="../src/${package}/views/${name}.mxml"/>
 		
-		<!-- Generate -->
 		<copy file="${src1}" tofile="${dst1}" />
 		<replace file="${dst1}" token="[% name %]" value="${name}"/>
 		<replace file="${dst1}" token="[% controller_package %]" value="${controller_package}"/>
@@ -184,7 +176,6 @@ type: The type of the class. (optional)
 		<property name="src1" value="templates/Renderer.mxml"/>
 		<property name="dst1" value="../src/${package}/views/${name}.mxml"/>
 		
-		<!-- Generate -->
 		<copy file="${src1}" tofile="${dst1}" />
 		<replace file="${dst1}" token="[% name %]" value="${name}"/>
 		<replace file="${dst1}" token="[% controller_package %]" value="${controller_package}"/>
@@ -196,7 +187,6 @@ type: The type of the class. (optional)
 		<property name="src1" value="templates/Thread.as"/>
 		<property name="dst1" value="../src/${package}/threads/${name}.as"/>
 		
-		<!-- Generate -->
 		<copy file="${src1}" tofile="${dst1}" />
 		<replace file="${dst1}" token="[% name %]" value="${name}"/>
 		<replace file="${dst1}" token="[% package %]" value="${thread_package}"/>
@@ -207,7 +197,6 @@ type: The type of the class. (optional)
 		<property name="src1" value="templates/URLLoaderServiceThread.as"/>
 		<property name="dst1" value="../src/${package}/threads/${name}.as"/>
 		
-		<!-- Generate -->
 		<copy file="${src1}" tofile="${dst1}" />
 		<replace file="${dst1}" token="[% name %]" value="${name}"/>
 		<replace file="${dst1}" token="[% package %]" value="${thread_package}"/>
@@ -218,7 +207,6 @@ type: The type of the class. (optional)
 		<property name="src1" value="templates/FileDownloadServiceThread.as"/>
 		<property name="dst1" value="../src/${package}/threads/${name}.as"/>
 		
-		<!-- Generate -->
 		<copy file="${src1}" tofile="${dst1}" />
 		<replace file="${dst1}" token="[% name %]" value="${name}"/>
 		<replace file="${dst1}" token="[% package %]" value="${thread_package}"/>
@@ -229,7 +217,6 @@ type: The type of the class. (optional)
 		<property name="src1" value="templates/FileUploadServiceThread.as"/>
 		<property name="dst1" value="../src/${package}/threads/${name}.as"/>
 		
-		<!-- Generate -->
 		<copy file="${src1}" tofile="${dst1}" />
 		<replace file="${dst1}" token="[% name %]" value="${name}"/>
 		<replace file="${dst1}" token="[% package %]" value="${thread_package}"/>
