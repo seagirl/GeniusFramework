@@ -48,7 +48,7 @@ type: The type of the class. (optional)
 		 <mxmlc
 			actionscript-file-encoding="UTF-8"
 			file="${MAIN_APP}"
-			utput="${OUTPUT_BIN}"
+			output="${OUTPUT_BIN}"
 			incremental="true"
 			keep-generated-actionscript="false">
 				<load-config filename="${FLEX_HOME}/frameworks/flex-config.xml" />
