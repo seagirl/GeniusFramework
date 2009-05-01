@@ -2,7 +2,7 @@
 <mx:Application
 	xmlns:mx="http://www.adobe.com/2006/mxml"
 	xmlns:local="*"
-	xmlns:views="views.*"
+	xmlns:views="[% package %].views.*"
 	layout="absolute"
 	pageTitle="[% name %]">
 	<mx:Style source="[% name %].css"/>

@@ -7,7 +7,6 @@ package
 	
 	import jp.seagirl.genius.views.ApplicationDelegate;
 	
-	import mx.binding.utils.BindingUtils;
 	import mx.core.UIComponent;
 	
 	import [% package %].threads.ChangeStateThread;
@@ -17,26 +16,11 @@ package
 		public var view:[% name %];
 		
 		/**
-		 * アプリケーション情報を登録します。 
+		 * アプリケーション設定ファイルを初期化 
 		 */		
-		override protected function initializeApplication():void
+		override protected function initializeConfig():void
 		{
-			context.name = Config.APPLICATION_NAME;
-			context.version = Config.APPLICATION_VERSION;		
-			context.traceApplicationInformation();
-		}
-		
-		/**
-		 * アプリケーションの状態を登録します。 
-		 */		
-		override protected function initializeState():void
-		{
-			context.defaultState = Config.DEFAULT_STATE;
-			
-			if (!context.state.hasOwnProperty('page'))
-				context.state = Config.DEFAULT_STATE;
-				
-			BindingUtils.bindSetter(changePage, context, 'state');
+			config = new [% name %]Config();
 		}
 		
 		/**
@@ -44,7 +28,7 @@ package
 		 */		
 		override protected function initializeModels():void
 		{			
-			//context.addModel(new MainModel());
+			//addModel(new MainModel());
 		}
 		
 		/**
@@ -52,18 +36,15 @@ package
 		 */		
 		override protected function initializeControllers():void
 		{
-			context.addController(new Page1Controller(view.page1));
-			context.addController(new Page2Controller(view.page2));
+			addController(new Page1Controller(view.page1));
+			addController(new Page2Controller(view.page2));
 		}
 		
 		/**
-		 * 状態に変化があると呼び出されるコールバック関数です。
+		 * 状態に変化があると呼び出されます。。
 		 */		
-		private function changePage(data:Object):void
+		override protected function changePage(data:Object):void
 		{
-			if (data == null)
-				return;
-				
 			var child:UIComponent;
 			
 			view.viewStack.getChildren().forEach
