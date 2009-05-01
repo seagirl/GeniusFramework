@@ -1,14 +1,12 @@
-package [% package %].controllers
+package [% package %].views
 {
 	import flash.events.MouseEvent;
 	
 	import jp.seagirl.genius.controllers.ViewController;
 	
 	import [% package %].threads.ChangeStateThread;
-	
-	import [% package %].views.Page2;
 
-	public class Page2Controller extends ViewController
+	public class Page2Delegateextends ViewController
 	{
 		public var view:Page2;
 		

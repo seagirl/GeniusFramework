@@ -23,7 +23,7 @@
  * 
  */
  
- package jp.seagirl.genius.controllers
+ package jp.seagirl.genius.views
 {
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
@@ -44,27 +44,8 @@
 	import mx.events.FlexEvent;
 	import mx.validators.Validator;
 	
-	public class ViewController
-	{	
-		public function ViewController(view:UIComponent)
-		{
-			context = ApplicationDelegate.sharedApplicationDelegate().context;
-			
-			if (!hasOwnProperty('view'))
-				throw new Error("対応する View が見つかりません。");
-			
-			this['view'] = view;
-			
-			viewClass = getViewClass();
-			
-			this['view'].addEventListener(FlexEvent.PREINITIALIZE, view_preinitializeHandler);
-			this['view'].addEventListener(FlexEvent.INITIALIZE, view_initializeHandler);
-			this['view'].addEventListener(FlexEvent.CREATION_COMPLETE, view_creationCompleteHandler);
-		}
-		
-		public var context:Context;
-		public var viewClass:Class;
-		
+	public class ViewDelegate extends AbstractDelegate
+	{			
 		//----------------------------------
 		//  active
 		//----------------------------------
@@ -114,25 +95,6 @@
 		//  Methods
 		//
 		//--------------------------------------------------------------------------
-		
-		protected function getViewClass():Class
-		{
-			var className:String = getQualifiedClassName(this['view']);				
-			var viewClassName:String = className.replace(/::/g, '.');
-			var viewClass:Class;
-			
-			try
-			{
-				viewClass = getDefinitionByName(viewClassName) as Class
-			}
-			catch(e:Error)
-			{
-				viewClass = null;
-			}
-			
-			return viewClass;
-			
-		}
 		
 		/**
 		 * ビューに含まれる全てのUIComponentのenabledを一度に変更します。
@@ -220,6 +182,13 @@
 			}
 		}
 		
+		override public function initialized(document:Object, id:String):void
+		{
+			context = ApplicationDelegate.sharedApplicationDelegate().context;
+			
+			super.initialized(document, id);
+		}
+		
 		/**
 		 * validators に入っている全てのバリデータを使って検証します。 
 		 */		
@@ -228,45 +197,12 @@
 		    return Validator.validateAll(validators).length ? false : true;
 		}
 		
-		protected function preinitialize():void
-		{
-			
-		}
-		
-		protected function initialize():void
-		{
-			
-		}
-		
-		protected function creationComplete():void
-		{
-			
-		}
-		
-		public function update():void
-		{
-			
-		}
-		
-		/**
-		 * FlexEvent.PREINITIALIZEで呼ばれるハンドラ
-		 * @param event 
-		 */
-		protected function view_preinitializeHandler(event:FlexEvent):void
-		{
-			this['view'].removeEventListener(FlexEvent.PREINITIALIZE, view_preinitializeHandler);
-			
-			preinitialize();
-		}
-		
 		/**
 		 * @private
 		 */	
-		protected function view_initializeHandler(event:FlexEvent):void
+		override protected function view_initializeHandler(event:FlexEvent):void
 		{
-			this['view'].removeEventListener(FlexEvent.INITIALIZE, view_initializeHandler);
-			
-			initialize();
+			super.view_initializeHandler(event);
 			
 			this['view'].addEventListener(FlexEvent.SHOW, view_showHandler);
 			this['view'].addEventListener(FlexEvent.HIDE, view_hideHandler);
@@ -278,17 +214,6 @@
 				active = true;
 				update();
 			}
-		}
-		
-		/**
-		 * FlexEvent.CREATION_COMPLETEで呼ばれるハンドラ
-		 * @param event 
-		 */		 
-		protected function view_creationCompleteHandler(event:FlexEvent):void
-		{
-			this['view'].removeEventListener(FlexEvent.CREATION_COMPLETE, view_creationCompleteHandler);
-			
-			creationComplete();
 		}
 		
 		/**

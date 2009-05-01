@@ -25,7 +25,7 @@
 
 package jp.seagirl.genius.threads
 {
-	import jp.seagirl.genius.controllers.ApplicationDelegate;
+	import jp.seagirl.genius.views.ApplicationDelegate;
 	import jp.seagirl.genius.core.Context;
 	
 	import org.libspark.thread.Thread;

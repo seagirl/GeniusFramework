@@ -23,7 +23,7 @@
  * 
  */
  
- package jp.seagirl.genius.controllers
+ package jp.seagirl.genius.views
 {
 	import mx.events.FlexEvent;
 	

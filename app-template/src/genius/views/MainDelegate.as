@@ -1,15 +1,13 @@
-package [% package %].controllers
+package [% package %].views
 {
-	import jp.seagirl.genius.controllers.ViewController;
+	import jp.seagirl.genius.controllers.ViewDelegate;
 	
 	import mx.binding.utils.BindingUtils;
 	import mx.core.UIComponent;
 	
 	import [% package %].threads.ChangeStateThread;
-	
-	import [% package %].views.Main;
 
-	public class MainController extends ViewController
+	public class MainDelegate extends ViewDelegate
 	{
 		// View
 		public var view:Main;
