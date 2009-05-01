@@ -2,8 +2,20 @@
 <mx:Application
 	xmlns:mx="http://www.adobe.com/2006/mxml"
 	xmlns:local="*"
+	xmlns:views="views.*"
 	layout="absolute"
 	pageTitle="[% name %]">
 	<mx:Style source="[% name %].css"/>
 	<local:[% name %]Delegate />
+	
+	<mx:VBox x="20" y="20">
+		<mx:Label text="Hello, Genius Framework!" />
+		
+		<mx:ViewStack id="viewStack" width="100%" height="100%">
+			<views:Page1 id="page1" width="100%" height="100%"/>
+			<views:Page2 id="page2" width="100%" height="100%"/>
+		</mx:ViewStack>
+	</mx:VBox>
 </mx:Application>
+	
+	

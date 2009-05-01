@@ -23,7 +23,7 @@
  * 
  */
  
- package jp.seagirl.genius.views
+ package jp.seagirl.genius.controllers
 {
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
@@ -32,6 +32,7 @@
 	
 	import jp.seagirl.controls.Notifier;
 	import jp.seagirl.genius.core.Context;
+	import jp.seagirl.genius.views.ApplicationDelegate;
 	
 	import mx.controls.ComboBox;
 	import mx.controls.DateField;
@@ -44,8 +45,31 @@
 	import mx.events.FlexEvent;
 	import mx.validators.Validator;
 	
-	public class ViewDelegate extends AbstractDelegate
-	{			
+	public class ViewController
+	{
+		public function ViewController(view:Object)
+		{
+			initWithView(view);
+		}
+		
+		//----------------------------------
+		//  name
+		//----------------------------------
+		
+		public var name:String;
+		
+		//----------------------------------
+		//  context
+		//----------------------------------
+		
+		public var context:Context;
+		
+		//----------------------------------
+		//  viewClass
+		//----------------------------------
+		
+		public var viewClass:Class;
+		
 		//----------------------------------
 		//  active
 		//----------------------------------
@@ -95,6 +119,43 @@
 		//  Methods
 		//
 		//--------------------------------------------------------------------------
+		
+		protected function getViewClass():Class
+		{
+			var className:String = getQualifiedClassName(this['view']);				
+			var viewClassName:String = className.replace(/::/g, '.');
+			var viewClass:Class;
+			
+			try
+			{
+				viewClass = getDefinitionByName(viewClassName) as Class
+			}
+			catch(e:Error)
+			{
+				viewClass = null;
+			}
+			
+			return viewClass;
+			
+		}
+		
+		protected function initWithView(view:Object):void
+		{
+			var flagments:Array = getQualifiedClassName(this).split("::");
+			name = flagments[flagments.length - 1];
+			
+			context = ApplicationDelegate.sharedApplicationDelegate().context;
+			
+			if (!hasOwnProperty('view'))
+				throw new Error("対応する View が見つかりません。");
+			
+			this['view'] = view;
+			
+			viewClass = getViewClass();
+
+			this['view'].addEventListener(FlexEvent.INITIALIZE, view_initializeHandler);
+			this['view'].addEventListener(FlexEvent.CREATION_COMPLETE, view_creationCompleteHandler);
+		}
 		
 		/**
 		 * ビューに含まれる全てのUIComponentのenabledを一度に変更します。
@@ -182,13 +243,6 @@
 			}
 		}
 		
-		override public function initialized(document:Object, id:String):void
-		{
-			context = ApplicationDelegate.sharedApplicationDelegate().context;
-			
-			super.initialized(document, id);
-		}
-		
 		/**
 		 * validators に入っている全てのバリデータを使って検証します。 
 		 */		
@@ -197,12 +251,30 @@
 		    return Validator.validateAll(validators).length ? false : true;
 		}
 		
-		/**
-		 * @private
-		 */	
-		override protected function view_initializeHandler(event:FlexEvent):void
+		protected function initialize():void
 		{
-			super.view_initializeHandler(event);
+			
+		}
+		
+		protected function creationComplete():void
+		{
+			
+		}
+		
+		public function update():void
+		{
+			
+		}
+		
+		/**
+		 * FlexEvent.INITIALIZEで呼ばれるハンドラ
+		 * @param event 
+		 */
+		protected function view_initializeHandler(event:FlexEvent):void
+		{
+			this['view'].removeEventListener(FlexEvent.INITIALIZE, view_initializeHandler);
+			
+			initialize();
 			
 			this['view'].addEventListener(FlexEvent.SHOW, view_showHandler);
 			this['view'].addEventListener(FlexEvent.HIDE, view_hideHandler);
@@ -214,6 +286,17 @@
 				active = true;
 				update();
 			}
+		}
+		 
+		/**
+		 * FlexEvent.CREATION_COMPLETEで呼ばれるハンドラ
+		 * @param event 
+		 */		 
+		protected function view_creationCompleteHandler(event:FlexEvent):void
+		{
+			this['view'].removeEventListener(FlexEvent.CREATION_COMPLETE, view_creationCompleteHandler);
+			
+			creationComplete();
 		}
 		
 		/**

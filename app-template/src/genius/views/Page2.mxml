@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Canvas
-	xmlns:mx="http://www.adobe.com/2006/mxml"
-	xmlns:genius="http://seagirl.jp/genius"
-	xmlns:controllers="[% package %].controllers.*">
-	<controllers:Page2Controller />
-	
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml">
 	<mx:Text text="This is Page2" y="20"/>
-	<mx:Button id="button" label="next" y="60"/>
+	<mx:Button id="button" label="prev" y="60"/>
 </mx:Canvas>

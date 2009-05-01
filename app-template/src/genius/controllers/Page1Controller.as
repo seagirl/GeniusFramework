@@ -1,13 +1,20 @@
-package [% package %].views
+package [% package %].controllers
 {
 	import flash.events.MouseEvent;
 	
 	import jp.seagirl.genius.controllers.ViewController;
 	
 	import [% package %].threads.ChangeStateThread;
+	
+	import [% package %].views.Page1;
 
-	public class Page1Delegate extends ViewController
-	{
+	public class Page1Controller extends ViewController
+	{	
+		public function Page1Controller(view:Object)
+		{
+			super(view);	
+		}
+		
 		public var view:Page1;
 		
 		override protected function initialize():void

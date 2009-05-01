@@ -28,9 +28,9 @@ package jp.seagirl.genius.core
 	import flash.net.SharedObject;
 	import flash.system.Security;
 	
+	import jp.seagirl.genius.controllers.ViewController;
 	import jp.seagirl.genius.models.Model;
 	
-	import mx.core.IMXMLObject;
 	import mx.events.BrowserChangeEvent;
 	import mx.managers.BrowserManager;
 	import mx.managers.IBrowserManager;
@@ -39,7 +39,7 @@ package jp.seagirl.genius.core
 	import org.libspark.thread.EnterFrameThreadExecutor;
 	import org.libspark.thread.Thread;
 	
-	public class Context implements IMXMLObject
+	public class Context
 	{	
 		
 		public function Context()
@@ -47,7 +47,8 @@ package jp.seagirl.genius.core
 			initialize();
 		}
 		
-		private var modelMap:Array = [];
+		private var modelsMap:Array = [];
+		private var controllersMap:Array = [];
 		
 		//--------------------------------------------------------------------------
 		//
@@ -170,11 +171,6 @@ package jp.seagirl.genius.core
 			}
 		}
 		
-		public function initialized(document:Object, id:String):void
-		{
-			initializeModels();
-		}
-		
 		protected function initialize():void
 		{
 			Thread.initialize(new EnterFrameThreadExecutor());
@@ -187,36 +183,58 @@ package jp.seagirl.genius.core
 			browserManager.init();
 		}
 		
-		protected function initializeModels():void
-		{
-			
-		}
-		
 		public function getModel(modelName:String):Model
 		{
-			return modelMap[modelName];
+			return modelsMap[modelName];
 		}
 		
 		public function hasModel(modelName:String):Boolean
 		{
-			return modelMap[modelName] != null;
+			return modelsMap[modelName] != null;
 		}
 		
 		public function addModel(model:Model):void
 		{
-			modelMap[model.name] = model;
+			modelsMap[model.name] = model;
 		}
 		
 		public function removeModel(modelName:String):Model
 		{
-			var model:Model = modelMap[modelName] as Model;
+			var model:Model = modelsMap[modelName] as Model;
 			
 			if (model)
 			{
-				modelMap[modelName] = null;
+				modelsMap[modelName] = null;
 			}
 			
 			return model;
+		}
+		
+		public function getController(controllerName:String):ViewController
+		{
+			return controllersMap[controllerName];
+		}
+		
+		public function hasController(controllerName:String):Boolean
+		{
+			return controllersMap[controllerName] != null;
+		}
+		
+		public function addController(controller:ViewController):void
+		{
+			controllersMap[controller.name] = controller;
+		}
+		
+		public function removeController(controllerName:String):ViewController
+		{
+			var controller:ViewController = controllersMap[controllerName] as ViewController;
+			
+			if (controller)
+			{
+				controllersMap[controllerName] = null;
+			}
+			
+			return controller;
 		}
 		
 		/**

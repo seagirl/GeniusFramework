@@ -59,11 +59,14 @@
 			this['view'].data = { delegate: this };
 			this['view'].styleName = 'plain';
 			this['view'].setStyle('color', '#000000');
-			
+		}
+		
+		override protected function initialize():void
+		{
 			initializeApplication();
 			initializeState();
 			initializeModels();
-			initializeViews();
+			initializeControllers();
 		}
 		
 		protected function initializeApplication():void
@@ -81,7 +84,7 @@
 			
 		}
 		
-		protected function initializeViews():void
+		protected function initializeControllers():void
 		{
 			
 		}
