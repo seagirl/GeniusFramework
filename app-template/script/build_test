@@ -1,4 +1,0 @@
-#!/bin/sh
-
-path=${0%/*}
-mxmlc ${path}/../tests/src/[% name %]Test.as -o ${path}/../tests/bin-debug/[% name %]Test.swf

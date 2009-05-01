@@ -1,4 +1,4 @@
-<project basedir="./" default="help" name="GeniusGenerator">
+<project basedir="." default="help" name="GeniusGenerator">
 	<property file="build.properties" />
 	<taskdef classpath="${FLEX_HOME}/ant/lib/flexTasks.jar" resource="flexTasks.tasks" />
 	
@@ -62,6 +62,11 @@ type: The type of the class. (optional)
 	
 	<target name="_prepare">
 		<fail unless="name" message="name must be specified." />
+		
+		<echo message="${package}" file="${basedir}/geniusgenerator.tmp" />
+		<replace file="${basedir}/geniusgenerator.tmp" token="." value="/" />
+		<loadfile property="package_path" srcFile="${basedir}/geniusgenerator.tmp" />
+		<delete file="${basedir}/geniusgenerator.tmp" />
 	</target>
 	
 	<target name="_init" depends="_check_type">
@@ -105,7 +110,7 @@ type: The type of the class. (optional)
 	<!-- Default -->
 	<target name="_exec_default" if="isDefault">
 		<property name="src1" value="templates/ViewController.as"/>
-		<property name="dst1" value="../src/${package}/controllers/${name}Controller.as"/>
+		<property name="dst1" value="../src/${package_path}/controllers/${name}Controller.as"/>
 		
 		<copy file="${src1}" tofile="${dst1}" />
 		<replace file="${dst1}" token="[% name %]" value="${name}"/>
@@ -113,7 +118,7 @@ type: The type of the class. (optional)
 		<replace file="${dst1}" token="[% view_package %]" value="${view_package}"/>
 		
 		<property name="src2" value="templates/View.mxml"/>
-		<property name="dst2" value="../src/${package}/views/${name}.mxml"/>
+		<property name="dst2" value="../src/${package_path}/views/${name}.mxml"/>
 		
 		<copy file="${src2}" tofile="${dst2}" />
 		<replace file="${dst2}" token="[% name %]" value="${name}"/>
@@ -124,7 +129,7 @@ type: The type of the class. (optional)
 	<!-- Model -->
 	<target name="_exec_model" if="isModel">
 		<property name="src1" value="templates/Model.as"/>
-		<property name="dst1" value="../src/${package}/models/${name}.as"/>
+		<property name="dst1" value="../src/${package_path}/models/${name}.as"/>
 		
 		<copy file="${src1}" tofile="${dst1}" />
 		<replace file="${dst1}" token="[% name %]" value="${name}"/>
@@ -134,7 +139,7 @@ type: The type of the class. (optional)
 	<!-- Filter -->
 	<target name="_exec_filter" if="isFilter">
 		<property name="src1" value="templates/Filter.as"/>
-		<property name="dst1" value="../src/${package}/models/${name}.as"/>
+		<property name="dst1" value="../src/${package_path}/models/${name}.as"/>
 		
 		<copy file="${src1}" tofile="${dst1}" />
 		<replace file="${dst1}" token="[% name %]" value="${name}"/>
@@ -144,7 +149,7 @@ type: The type of the class. (optional)
 	<!-- Controller -->
 	<target name="_exec_controller" if="isController">
 		<property name="src1" value="templates/ViewController.as"/>
-		<property name="dst1" value="../src/${package}/controllers/${name}.as"/>
+		<property name="dst1" value="../src/${package_path}/controllers/${name}.as"/>
 		
 		<copy file="${src1}" tofile="${dst1}" />
 		<replace file="${dst1}" token="[% name %]" value="${name}"/>
@@ -155,7 +160,7 @@ type: The type of the class. (optional)
 	<!-- ViewController -->
 	<target name="_exec_view_controller" if="isViewController">
 		<property name="src1" value="templates/ViewController.as"/>
-		<property name="dst1" value="../src/${package}/controllers/${name}.as"/>
+		<property name="dst1" value="../src/${package_path}/controllers/${name}.as"/>
 		
 		<copy file="${src1}" tofile="${dst1}" />
 		<replace file="${dst1}" token="[% name %]" value="${name}"/>
@@ -166,7 +171,7 @@ type: The type of the class. (optional)
 	<!-- RendererDelegate -->
 	<target name="_exec_renderer_delegate" if="isRendererDelegate">
 		<property name="src1" value="templates/RendererDelegate.as"/>
-		<property name="dst1" value="../src/${package}/controllers/${name}.as"/>
+		<property name="dst1" value="../src/${package_path}/controllers/${name}.as"/>
 		
 		<copy file="${src1}" tofile="${dst1}" />
 		<replace file="${dst1}" token="[% name %]" value="${name}"/>
@@ -177,7 +182,7 @@ type: The type of the class. (optional)
 	<!-- View -->
 	<target name="_exec_view" if="isView">
 		<property name="src1" value="templates/View.mxml"/>
-		<property name="dst1" value="../src/${package}/views/${name}.mxml"/>
+		<property name="dst1" value="../src/${package_path}/views/${name}.mxml"/>
 		
 		<copy file="${src1}" tofile="${dst1}" />
 		<replace file="${dst1}" token="[% name %]" value="${name}"/>
@@ -188,7 +193,7 @@ type: The type of the class. (optional)
 	<!-- Renderer -->
 	<target name="_exec_renderer" if="isRenderer">
 		<property name="src1" value="templates/Renderer.mxml"/>
-		<property name="dst1" value="../src/${package}/views/${name}.mxml"/>
+		<property name="dst1" value="../src/${package_path}/views/${name}.mxml"/>
 		
 		<copy file="${src1}" tofile="${dst1}" />
 		<replace file="${dst1}" token="[% name %]" value="${name}"/>
@@ -196,10 +201,10 @@ type: The type of the class. (optional)
 		<replace file="${dst1}" token="[% view_package %]" value="${view_package}"/>
 	</target>
 	
-	<!-- Thread -->
+	<!-- Thread --> 
 	<target name="_exec_thread" if="isThread">
 		<property name="src1" value="templates/Thread.as"/>
-		<property name="dst1" value="../src/${package}/threads/${name}.as"/>
+		<property name="dst1" value="../src/${package_path}/threads/${name}.as"/>
 		
 		<copy file="${src1}" tofile="${dst1}" />
 		<replace file="${dst1}" token="[% name %]" value="${name}"/>
@@ -209,7 +214,7 @@ type: The type of the class. (optional)
 	<!-- UrlLoaderServiceThread -->
 	<target name="_exec_url_loader_service_thread" if="isURLLoaderServiceThread">
 		<property name="src1" value="templates/URLLoaderServiceThread.as"/>
-		<property name="dst1" value="../src/${package}/threads/${name}.as"/>
+		<property name="dst1" value="../src/${package_path}/threads/${name}.as"/>
 		
 		<copy file="${src1}" tofile="${dst1}" />
 		<replace file="${dst1}" token="[% name %]" value="${name}"/>
@@ -219,7 +224,7 @@ type: The type of the class. (optional)
 	<!-- FileDownloadServiceThread -->
 	<target name="_exec_file_download_service_thread" if="isFileDownloadServiceThread">
 		<property name="src1" value="templates/FileDownloadServiceThread.as"/>
-		<property name="dst1" value="../src/${package}/threads/${name}.as"/>
+		<property name="dst1" value="../src/${package_path}/threads/${name}.as"/>
 		
 		<copy file="${src1}" tofile="${dst1}" />
 		<replace file="${dst1}" token="[% name %]" value="${name}"/>
@@ -229,7 +234,7 @@ type: The type of the class. (optional)
 	<!-- FileUploadServiceThread -->
 	<target name="_exec_file_upload_service_thread" if="isFileUploadServiceThread">
 		<property name="src1" value="templates/FileUploadServiceThread.as"/>
-		<property name="dst1" value="../src/${package}/threads/${name}.as"/>
+		<property name="dst1" value="../src/${package_path}/threads/${name}.as"/>
 		
 		<copy file="${src1}" tofile="${dst1}" />
 		<replace file="${dst1}" token="[% name %]" value="${name}"/>
