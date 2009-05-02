@@ -1,26 +1,19 @@
 package
 {
-	import jp.seagirl.genius.core.IConfig;
+	import jp.seagirl.genius.core.ApplicationConfig;
 	
-	public class [% name %]Config implements IConfig
+	public class [% name %]Config extends ApplicationConfig
 	{
-		// アプリケーションの名前
-		public function get applicationName():String
+		override protected function initialize():void
 		{
-			return '[% name %]';
+			// アプリケーションの名前
+			applicationName = '[% name %]';
+			
+			// アプリケーションのバージョン
+			applicationVersion = '1.0.0';
+			
+			// デフォルトの状態
+			defaultState = { page: 'Page1' };
 		}
-		
-		// アプリケーションのバージョン
-		public function get applicationVersion():String
-		{
-			return '1.0.0';
-		}
-		
-		// デフォルトの状態
-		public function get defaultState():Object
-		{
-			return { page: 'Page1' };
-		}
-		
 	}
 }

@@ -1,10 +1,10 @@
 package [% controller_package %]
 {
-	import jp.seagirl.genius.controllers.ItemRendererController;
+	import jp.seagirl.genius.controllers.ItemRendererDelegate;
 	
 	import [% view_package %].[% name %];
 
-	public class [% name %]Controller extends ItemRendererController
+	public class [% name %]Delegate extends ItemRendererDelegate
 	{		
 		public var view:[% name %];
 	

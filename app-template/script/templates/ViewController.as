@@ -6,6 +6,11 @@ package [% controller_package %]
 
 	public class [% name %]Controller extends ViewController
 	{
+		public function [% name %]Controller(view:Object)
+		{
+			super(view);	
+		}
+		
 		public var view:[% name %];
 	
 		override protected function initialize():void

@@ -3,5 +3,5 @@
 	xmlns:mx="http://www.adobe.com/2006/mxml"
 	xmlns:genius="http://seagirl.jp/genius"
 	xmlns:controllers="[% controller_package %].*">
-	<controllers:[% name %]Controller />
+	<controllers:[% name %]Delegate />
 </mx:Canvas>

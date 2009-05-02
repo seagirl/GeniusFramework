@@ -1,6 +1,5 @@
 package [% package %].controllers
 {
-	import flash.display.DisplayObject;
 	import flash.events.MouseEvent;
 	
 	import jp.seagirl.genius.controllers.ViewController;
