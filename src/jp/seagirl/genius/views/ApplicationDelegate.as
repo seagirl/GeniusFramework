@@ -26,8 +26,9 @@
  package jp.seagirl.genius.views
 {
 	import jp.seagirl.genius.controllers.ViewController;
+	import jp.seagirl.genius.core.Config;
 	import jp.seagirl.genius.core.Context;
-	import jp.seagirl.genius.core.IConfig;
+	import jp.seagirl.genius.events.ApplicationEvent;
 	import jp.seagirl.genius.models.Model;
 	
 	import mx.binding.utils.BindingUtils;
@@ -53,7 +54,7 @@
 			return delegate;
 		}
 		
-		protected var config:IConfig;
+		protected var config:Config;
 		
 		override protected function preinitialize():void
 		{
@@ -67,16 +68,14 @@
 		
 		override protected function initialize():void
 		{
-			initializeConfig();
-			initializeContext();
-			initializeModels();
-			initializeControllers();
+			config = createConfig();
+			config.addEventListener(ApplicationEvent.APPLICATION_DID_FINISHED_INITIALIZING_CONFIG, configInitializedHandler);
+			config.initialize();
 		}
 		
-		protected function initializeConfig():void
+		protected function createConfig():Config
 		{
-			if (config == null)
-				throw new Error("IConfig インスタンスが設定されていません。")
+			return new Config();
 		}
 		
 		protected function initializeContext():void
@@ -95,6 +94,11 @@
 		}
 		
 		protected function initializeModels():void
+		{
+			
+		}
+		
+		protected function initializeViews():void
 		{
 			
 		}
@@ -158,6 +162,14 @@
 				return;
 			
 			changePage(data);
+		}
+		
+		private function configInitializedHandler(event:ApplicationEvent):void
+		{
+			initializeContext();
+			initializeModels();
+			initializeViews();
+			initializeControllers();
 		}
 		
 	}
