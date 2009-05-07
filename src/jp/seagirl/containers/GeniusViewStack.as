@@ -12,27 +12,27 @@ package jp.seagirl.containers
 		
 		public function selectByClassName(className:String):void
 		{
-			var child:UIComponent;
+			var view:UIComponent;
 			
 			getChildren().forEach
 			(
 				function (element:UIComponent, index:int, array:Array):void
 				{
 					if (element.className == className)
-						child = element;
+						view = element;
 				}
 			);
 			
-			if (child)
+			if (view)
 			{
 				var oldIndex:int = selectedIndex;
-				var newIndex:int = getChildIndex(child);
+				var newIndex:int = getChildIndex(view);
 				
 				selectedIndex = newIndex;
 			}
 			else
 			{
-				selectedIndex = 0;
+				throw new Error("Couldn't find " + className);
 			}
 		}
 		

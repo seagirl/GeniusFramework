@@ -42,8 +42,10 @@ package jp.seagirl.genius.core
 	public class Context
 	{	
 		
-		public function Context()
+		public function Context(config:Config)
 		{
+			this.config = config;
+			
 			initialize();
 		}
 		
@@ -73,32 +75,13 @@ package jp.seagirl.genius.core
 		//--------------------------------------------------------------------------
 		
 		//----------------------------------
-		//  name
+		//  config
 		//----------------------------------
 		
 		/**
-		 * アプリケーションの名前です。
+		 * アプリケーションの設定です。
 		 */	
-		public var name:String;
-		
-		//----------------------------------
-		//  version
-		//----------------------------------
-		
-		/**
-		 * アプリケーションのバージョンです。
-		 */	
-		public var version:String;
-		
-		//----------------------------------
-		//  defaultState
-		//----------------------------------
-		
-		/**
-		 * デフォルトの状態です。
-		 */
-		public var defaultState:Object;
-		
+		public var config:Config;
 		
 		//----------------------------------
 		//  state
@@ -107,7 +90,7 @@ package jp.seagirl.genius.core
 		/**
 		 * @private 
 		 */	
-		private var _state:Object = defaultState;
+		private var _state:Object;
 		
 		[Bindable]
 		/**
@@ -174,6 +157,8 @@ package jp.seagirl.genius.core
 		protected function initialize():void
 		{
 			Thread.initialize(new EnterFrameThreadExecutor());
+			
+			state = config.defaultState;
 			
 			sharedObject = SharedObject.getLocal('db');
 			
@@ -242,15 +227,10 @@ package jp.seagirl.genius.core
 		 * 
 		 * @param name 
 		 */		
-		public function traceApplicationInformation(name:String = null, version:String = null):void
-		{
-			if (name != null)
-				this.name = name;
-			if (version != null)
-				this.version = version;	
-			
+		public function traceApplicationInformation():void
+		{			
 			trace('---------------------------------------------', new Date());
-			trace(this.name, this.version);
+			trace(config.applicationName, config.applicationVersion);
 			trace('Sandbox is', Security.sandboxType, '\n');
 		}
 		
@@ -270,7 +250,7 @@ package jp.seagirl.genius.core
 			if (urlString != '')
 				state = URLUtil.stringToObject(urlString, '&');
 			else
-				state = defaultState;
+				state = config.defaultState;
 		}
 		
 	}

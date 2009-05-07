@@ -80,15 +80,8 @@
 		
 		protected function initializeContext():void
 		{
-			context = new Context();
-			context.name = config.applicationName;
-			context.version = config.applicationVersion;
+			context = new Context(config);
 			context.traceApplicationInformation();
-			
-			context.defaultState = config.defaultState;
-			
-			if (!context.state.hasOwnProperty('page'))
-				context.state = config.defaultState;
 				
 			BindingUtils.bindSetter(onContextStateChange, context, 'state');
 		}
