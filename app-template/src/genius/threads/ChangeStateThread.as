@@ -8,7 +8,7 @@ package [% package %].threads
 		override protected function run():void
 		{
 			if (data == null)
-				data = context.defaultState;
+				data = context.config.defaultState;
 				
 			var newState:Object = {};
 			
