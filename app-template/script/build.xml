@@ -53,6 +53,9 @@ type: The type of the class. (optional)
 			keep-generated-actionscript="false">
 				<load-config filename="${FLEX_HOME}/frameworks/flex-config.xml" />
 		</mxmlc>
+		<copy todir="${basedir}/../bin-debug/assets">
+			<fileset dir="${basedir}/../src/assets"/>
+		</copy>
 	</target>
 	
 	<target name="generate" depends="_prepare, _init, _exec" />

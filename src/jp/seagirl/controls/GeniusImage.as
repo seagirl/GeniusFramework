@@ -39,9 +39,9 @@
 	 * 
 	 * @author yoshizu 
 	 */	
-	public class Image extends mx.controls.Image
+	public class GeniusImage extends mx.controls.Image
 	{
-		public function Image()
+		public function GeniusImage()
 		{
 			super();
 		}

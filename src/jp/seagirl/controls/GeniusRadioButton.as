@@ -54,7 +54,7 @@ package jp.seagirl.controls
 	 * @author yoshizu
 	 * @see mx.controls.RadioButton
 	 */
-	public class AdvancedRadioButton extends mx.controls.RadioButton
+	public class GeniusRadioButton extends mx.controls.RadioButton
 	{	
 		//--------------------------------------------------------------------------
 		//
@@ -65,7 +65,7 @@ package jp.seagirl.controls
 		/**
 		 * コンストラクタ
 		 */
-		public function AdvancedRadioButton()
+		public function GeniusRadioButton()
 		{
 			super();	
 		}

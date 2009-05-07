@@ -79,7 +79,7 @@ package jp.seagirl.genius.core
 		/**
 		 * アプリケーションの名前です。
 		 */	
-		public var name:String = 'Application';
+		public var name:String;
 		
 		//----------------------------------
 		//  version
@@ -88,7 +88,7 @@ package jp.seagirl.genius.core
 		/**
 		 * アプリケーションのバージョンです。
 		 */	
-		public var version:String = '1.0';
+		public var version:String;
 		
 		//----------------------------------
 		//  defaultState
@@ -97,7 +97,7 @@ package jp.seagirl.genius.core
 		/**
 		 * デフォルトの状態です。
 		 */
-		public var defaultState:Object = {};
+		public var defaultState:Object;
 		
 		
 		//----------------------------------

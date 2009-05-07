@@ -32,6 +32,7 @@
 	
 	import jp.seagirl.controls.Notifier;
 	import jp.seagirl.genius.core.Context;
+	import jp.seagirl.genius.models.Model;
 	import jp.seagirl.genius.views.ApplicationDelegate;
 	
 	import mx.controls.ComboBox;
@@ -119,6 +120,11 @@
 		//  Methods
 		//
 		//--------------------------------------------------------------------------
+		
+		protected function getModel(modelName:String):Model
+		{
+			return context.getModel(modelName);
+		}
 		
 		protected function getViewClass():Class
 		{

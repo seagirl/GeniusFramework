@@ -5,6 +5,7 @@ package
 	
 	import flash.display.DisplayObject;
 	
+	import jp.seagirl.genius.core.Config;
 	import jp.seagirl.genius.views.ApplicationDelegate;
 	
 	import mx.core.UIComponent;
@@ -18,9 +19,16 @@ package
 		/**
 		 * アプリケーション設定ファイルを初期化 
 		 */		
-		override protected function initializeConfig():void
-		{
-			config = new [% name %]Config();
+		override protected function createConfig():Config
+		{				
+			return new Config("assets/config.json");
+			
+			//return new Config("assets/config.yaml");
+			
+			/* return new Config({
+				applicationName: 'GettingStarted',
+				applicationVersion: '1.0.0'
+			}); */
 		}
 		
 		/**
@@ -45,28 +53,7 @@ package
 		 */		
 		override protected function changePage(data:Object):void
 		{
-			var child:UIComponent;
-			
-			view.viewStack.getChildren().forEach
-			(
-				function (element:UIComponent, index:int, array:Array):void
-				{
-					if (element.className == context.state.page)
-						child = element;
-				}
-			);
-			
-			if (child)
-			{
-				var oldIndex:int = view.viewStack.selectedIndex;
-				var newIndex:int = view.viewStack.getChildIndex(child);
-				
-				view.viewStack.selectedIndex = newIndex;
-				
-				return;
-			}
-			
-			new ChangeStateThread().start();
+			view.viewStack.selectByClassName(data.page);
 		}
 
 	}

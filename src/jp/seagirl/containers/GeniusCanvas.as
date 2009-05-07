@@ -53,7 +53,7 @@ package jp.seagirl.containers
 	 * @author yoshizu 
 	 * @see mx.containers.Canvas
 	 */	
-	public class AdvancedCanvas extends Canvas
+	public class GeniusCanvas extends Canvas
 	{
 		//--------------------------------------------------------------------------
 		//
@@ -64,7 +64,7 @@ package jp.seagirl.containers
 		/** 
 		 * コンストラクタ
 		 */		
-		public function AdvancedCanvas()
+		public function GeniusCanvas()
 		{
 			super();
 			
