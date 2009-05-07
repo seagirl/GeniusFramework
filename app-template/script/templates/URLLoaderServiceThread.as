@@ -47,7 +47,7 @@ package [% package %]
 		{
 			trace(error.message);
 			
-			model.lastResult = <result><status>{ Config.ERROR_CODES.IOError }</status></result>;
+			model.lastResult = <result><status>{ context.config.errorCodes.io }</status></result>;
 			model.notifyView = true;
 			model.isLoading = false;
 		}

@@ -12,9 +12,9 @@
 	
 	"errorCodes":
 	{
-		"Unknown": "0",
-		"Server": "99",
-		"IO": "100"
+		"unknown": "0",
+		"server": "99",
+		"io": "100"
 	},
 	
 	"errorMessages":

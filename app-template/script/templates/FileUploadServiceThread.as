@@ -51,7 +51,7 @@ package [% package %]
 		{
 			trace(event.text);
 			
-			model.lastResult = <result><status>100</status></result>;
+			model.lastResult = <result><status>context.config.errorCodes.io</status></result>;
 			model.notifyView = true;
 			model.isLoading = false;
 		}
