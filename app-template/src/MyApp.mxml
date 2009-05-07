@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Application
 	xmlns:mx="http://www.adobe.com/2006/mxml"
-	xmlns:seagirl="http://seagirl.jp/genius"
+	xmlns:genius="http://seagirl.jp/genius"
 	xmlns:local="*"
 	xmlns:views="[% package %].views.*"
 	layout="absolute"
@@ -12,10 +12,10 @@
 	<mx:VBox x="20" y="20">
 		<mx:Label text="Hello, Genius Framework!" />
 		
-		<seagirl:GeniusViewStack id="viewStack" width="100%" height="100%">
+		<genius:GeniusViewStack id="viewStack" width="100%" height="100%">
 			<views:Page1 id="page1" width="100%" height="100%"/>
 			<views:Page2 id="page2" width="100%" height="100%"/>
-		</seagirl:GeniusViewStack>
+		</genius:GeniusViewStack>
 	</mx:VBox>
 </mx:Application>
 	
