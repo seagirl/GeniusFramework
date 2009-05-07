@@ -64,6 +64,40 @@ package jp.seagirl.genius.core
 			_defaultState = value;
 		}
 		
+		private var _errorCodes:Object =
+		{
+			'unknown': 0,
+			'server' : 99,
+			'io'     : 100
+		};
+		
+		public function set errorCodes(val:Object):void
+		{
+			_errorCodes = val;
+		}
+
+		public function get errorCodes():Object
+		{
+			return _errorCodes;
+		}
+		
+		private var _errorMessages:Object =
+		{
+			0:   'Unknown Error',
+			99:  'Server Error',
+			100: 'IO Error or Security Error'
+		};
+		
+		public function set errorMessages(val:Object):void
+		{
+			_errorMessages = val;
+		}
+
+		public function get errorMessages():Object
+		{
+			return _errorMessages;
+		}
+		
 		private var _localBaseURL:String;
 		
 		public function set localBaseURL(val:String):void

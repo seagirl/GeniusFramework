@@ -6,23 +6,6 @@
 	{
 		"page": "Page1"
 	},
-	
-	"pageLength": "100",
-	"timerInterval": "5",
-	
-	"errorCodes":
-	{
-		"unknown": "0",
-		"server": "99",
-		"io": "100"
-	},
-	
-	"errorMessages":
-	{
-		"0": "Unknown Error",
-		"99": "Server Error",
-		"100": "IO Error or Security Error"
-	},
 		
 	"localBaseURL": ""
 }
