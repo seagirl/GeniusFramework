@@ -2,11 +2,6 @@
 	<property file="build.properties" />
 	<taskdef classpath="${FLEX_HOME}/ant/lib/flexTasks.jar" resource="flexTasks.tasks" />
 	
-	<!-- Properties -->
-	<property name="package" value="application"/>
-	<property name="output" value="./"/>
-	
-	
 	<!-- Conditions -->
 	<condition property="package" value="application">
 		<contains string="${name}" substring="Model" />
