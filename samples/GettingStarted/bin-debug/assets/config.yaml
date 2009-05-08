@@ -1,0 +1,25 @@
+applicationName: GettingStarted
+applicationVersion: 1.0.0
+
+defaultState:
+    page: Page1
+
+pageLength: 100
+timerInterval: 5
+
+# statuCodes: null
+# statusNames: null
+
+errorCodes:
+    Unknown: 0
+    Server: 99
+    IO: 100
+
+errorMessages:
+    0: Unknown Error
+    99: Server Error
+    100: IO Error or Security Error
+    
+localBaseURL: http://yoshizu.local/
+
+

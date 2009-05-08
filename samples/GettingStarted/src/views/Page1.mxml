@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas
+	xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:genius="http://seagirl.jp/genius">
+	<mx:VBox y="20" verticalGap="15">
+		<mx:VBox>
+			<mx:Text styleName="h2" text="1. Install" />
+			<mx:Text styleName="p" text="Genius Framework 2 を Spark project のリポジトリからチェックアウトしましょう。" />
+			<genius:Link
+				href="http://www.libspark.org/browser/as3/GeniusFramework/branches/2.0"
+				text="http://www.libspark.org/browser/as3/GeniusFramework/branches/2.0"
+			/>
+		</mx:VBox>
+		
+		<genius:Link href="Page2" text="next >" />
+	</mx:VBox>
+</mx:Canvas>
