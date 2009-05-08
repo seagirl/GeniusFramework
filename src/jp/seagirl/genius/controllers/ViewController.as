@@ -43,6 +43,8 @@
 	import mx.controls.TextArea;
 	import mx.controls.TextInput;
 	import mx.core.UIComponent;
+	import mx.effects.CompositeEffect;
+	import mx.effects.Parallel;
 	import mx.events.FlexEvent;
 	import mx.validators.Validator;
 	
@@ -51,6 +53,41 @@
 		public function ViewController(view:Object)
 		{
 			initWithView(view);
+		}
+		
+		//----------------------------------
+		//  showEffect
+		//----------------------------------
+		
+		private var _showEffects:CompositeEffect;
+		
+		public function get showEffects():CompositeEffect
+		{
+			return _showEffects;
+		}
+		
+		public function set showEffects(value:CompositeEffect):void
+		{
+			_showEffects = value;
+			this['view'].setStyle('showEffect', _showEffects);
+			this['view'].setStyle('creationCompleteEffect', _showEffects);
+		}
+		
+		//----------------------------------
+		//  hideEffect
+		//----------------------------------
+		
+		private var _hideEffects:CompositeEffect;
+		
+		public function get hideEffects():CompositeEffect
+		{
+			return _hideEffects;
+		}
+		
+		public function set hideEffects(value:CompositeEffect):void
+		{
+			_hideEffects = value;
+			this['view'].setStyle('hideEffect', _hideEffects);
 		}
 		
 		//----------------------------------
