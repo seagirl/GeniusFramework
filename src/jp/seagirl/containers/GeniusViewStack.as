@@ -1,5 +1,12 @@
 package jp.seagirl.containers
 {
+	import flash.display.InteractiveObject;
+	import flash.events.ContextMenuEvent;
+	import flash.ui.ContextMenu;
+	import flash.ui.ContextMenuItem;
+	
+	import jp.seagirl.genius.threads.ChangeStateThread;
+	
 	import mx.containers.ViewStack;
 	import mx.core.UIComponent;
 
@@ -10,7 +17,7 @@ package jp.seagirl.containers
 			super();
 		}
 		
-		public function selectByClassName(className:String):void
+		public function selectViewByClassName(className:String):void
 		{
 			var view:UIComponent;
 			
@@ -34,6 +41,38 @@ package jp.seagirl.containers
 			{
 				throw new Error("Couldn't find " + className);
 			}
+		}
+		
+		public function addAllViewsToContextMenu(target:InteractiveObject):void
+		{
+			var items:Array = [];
+			
+			getChildren().forEach
+			(
+				function (element:UIComponent, index:int, array:Array):void
+				{
+					var item:ContextMenuItem = new ContextMenuItem(element.className);
+					
+					if (index === 0)
+						item.separatorBefore = true;
+					
+					item.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, itemSelectHandler);
+						
+					items.push(item);
+				}
+			);
+			
+			var menu:ContextMenu = target.contextMenu.clone() as ContextMenu;
+			menu.hideBuiltInItems();
+			menu.customItems = menu.customItems.concat(items);
+			target.contextMenu = menu;
+		}
+		
+		private function itemSelectHandler(event:ContextMenuEvent):void
+		{
+			var page:String = ContextMenuItem(event.target).caption;
+			
+			new ChangeStateThread().startWithData({ page: page });
 		}
 		
 	}

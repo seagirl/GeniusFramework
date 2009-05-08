@@ -3,21 +3,15 @@ package
 	import [% package %].controllers.Page1Controller;
 	import [% package %].controllers.Page2Controller;
 	
-	import flash.display.DisplayObject;
-	
 	import jp.seagirl.genius.core.Config;
 	import jp.seagirl.genius.views.ApplicationDelegate;
-	
-	import mx.core.UIComponent;
-	
-	import [% package %].threads.ChangeStateThread;
 	
 	public class [% name %]Delegate extends ApplicationDelegate
 	{
 		public var view:[% name %];
 		
 		/**
-		 * アプリケーション設定ファイルを初期化 
+		 * アプリケーションの設定 
 		 */		
 		override protected function createConfig():Config
 		{				
@@ -32,7 +26,7 @@ package
 		}
 		
 		/**
-		 * アプリケーションで使用するモデルを登録します。 
+		 * アプリケーションで使用するモデルを初期化します。 
 		 */		
 		override protected function initializeModels():void
 		{			
@@ -40,7 +34,15 @@ package
 		}
 		
 		/**
-		 * アプリケーションで使用するビューコントローラを登録します。 
+		 * アプリケーションで使用するビューを初期化します。 
+		 */	
+		override protected function initializeViews():void
+		{
+			view.viewStack.addAllViewsToContextMenu(view);
+		}
+		
+		/**
+		 * アプリケーションで使用するコントローラを初期化します。 
 		 */		
 		override protected function initializeControllers():void
 		{
@@ -53,7 +55,7 @@ package
 		 */		
 		override protected function changePage(data:Object):void
 		{
-			view.viewStack.selectByClassName(data.page);
+			view.viewStack.selectViewByClassName(data.page);
 		}
 
 	}

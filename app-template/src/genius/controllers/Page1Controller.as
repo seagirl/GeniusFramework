@@ -3,8 +3,7 @@ package [% package %].controllers
 	import flash.events.MouseEvent;
 	
 	import jp.seagirl.genius.controllers.ViewController;
-	
-	import [% package %].threads.ChangeStateThread;
+	import jp.seagirl.genius.threads.ChangeStateThread;
 	
 	import [% package %].views.Page1;
 

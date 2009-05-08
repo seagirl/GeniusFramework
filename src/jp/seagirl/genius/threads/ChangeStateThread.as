@@ -1,8 +1,5 @@
-package [% package %].threads
-{
-	import jp.seagirl.genius.core.Context;
-	import jp.seagirl.genius.threads.GeniusThread;
-	
+package jp.seagirl.genius.threads
+{	
 	public class ChangeStateThread extends GeniusThread
 	{	
 		override protected function run():void

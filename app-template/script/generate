@@ -48,11 +48,21 @@ output=${current}/${output%*/}/
 # スクリプトのあるディレクトリ
 path=${0%/*}
 
+if [ ${name:-0} = 0 ]
+then
+	if [ ${1:-0} = 0 ]
+	then
+		name=Untitled
+	else
+		name=$1
+	fi
+fi
+
 if [ ${type:-0} = 0 ]
 then
-	ant -buildfile ${path}/build.xml generate -Dname=${name} -Dtype=${type}
-else
 	ant -buildfile ${path}/build.xml generate -Dname=${name}
+else
+	ant -buildfile ${path}/build.xml generate -Dname=${name} -Dtype=${type}
 fi
 
 exit

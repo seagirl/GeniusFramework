@@ -3,5 +3,5 @@
 # スクリプトのあるディレクトリ
 path=${0%/*}
 
-ant build
+ant -buildfile ${path}/build.xml build
 open -a Safari ${path}/../bin-debug/index.html
