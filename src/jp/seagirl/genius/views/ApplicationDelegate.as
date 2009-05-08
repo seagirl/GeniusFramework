@@ -27,6 +27,11 @@
 {
 	import com.flashdynamix.utils.SWFProfiler;
 	
+	import flash.events.ContextMenuEvent;
+	import flash.external.ExternalInterface;
+	import flash.ui.ContextMenu;
+	import flash.ui.ContextMenuItem;
+	
 	import jp.seagirl.genius.controllers.ViewController;
 	import jp.seagirl.genius.core.Config;
 	import jp.seagirl.genius.core.Context;
@@ -112,6 +117,20 @@
 			
 		}
 		
+		protected function initializeContextMenu():void
+		{
+			var target:Application = this['view'] as Application;
+			
+			var item:ContextMenuItem = new ContextMenuItem("Reload");
+			item.separatorBefore = true;
+			item.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, itemSelectHandler);
+			
+			var menu:ContextMenu = target.contextMenu as ContextMenu;
+			menu.hideBuiltInItems();
+			menu.customItems = [item].concat(menu.customItems);
+			target.contextMenu = menu;
+		}
+		
 		protected function changePage(data:Object):void
 		{
 			
@@ -174,6 +193,17 @@
 			initializeModels();
 			initializeViews();
 			initializeControllers();
+			initializeContextMenu();
+		}
+		
+		private function itemSelectHandler(event:ContextMenuEvent):void
+		{
+			var caption:String = ContextMenuItem(event.target).caption;
+			
+			if (caption === "Reload")
+			{
+				ExternalInterface.call("document.location.reload");
+			}
 		}
 		
 	}

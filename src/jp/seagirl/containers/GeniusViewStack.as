@@ -62,9 +62,9 @@ package jp.seagirl.containers
 				}
 			);
 			
-			var menu:ContextMenu = target.contextMenu.clone() as ContextMenu;
+			var menu:ContextMenu = target.contextMenu as ContextMenu;
 			menu.hideBuiltInItems();
-			menu.customItems = menu.customItems.concat(items);
+			menu.customItems = items.concat(menu.customItems);
 			target.contextMenu = menu;
 		}
 		
