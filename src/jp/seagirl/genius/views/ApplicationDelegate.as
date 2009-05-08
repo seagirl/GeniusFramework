@@ -25,6 +25,8 @@
  
  package jp.seagirl.genius.views
 {
+	import com.flashdynamix.utils.SWFProfiler;
+	
 	import jp.seagirl.genius.controllers.ViewController;
 	import jp.seagirl.genius.core.Config;
 	import jp.seagirl.genius.core.Context;
@@ -34,6 +36,8 @@
 	import mx.binding.utils.BindingUtils;
 	import mx.core.Application;
 	
+	import org.libspark.thread.EnterFrameThreadExecutor;
+	import org.libspark.thread.Thread;
 	import org.libspark.ui.SWFWheel;
 
 	public class ApplicationDelegate extends AbstractDelegate
@@ -54,16 +58,23 @@
 			return delegate;
 		}
 		
-		protected var config:Config;
+		private var config:Config;
 		
 		override protected function preinitialize():void
 		{
-			if (this['view'] is Application)
-				SWFWheel.initialize(Application(this['view']).systemManager.stage);
+			Thread.initialize(new EnterFrameThreadExecutor());
+			
+			var application:Application = this['view'] as Application;
+			
+			if (application)
+			{
+				SWFWheel.initialize(application.systemManager.stage);
+				SWFProfiler.init(application.systemManager.stage, application);
 				
-			this['view'].data = { delegate: this };
-			this['view'].styleName = 'plain';
-			this['view'].setStyle('color', '#000000');
+				application.data = { delegate: this };
+				application.styleName = 'plain';
+				application.setStyle('color', '#000000');
+			}
 		}
 		
 		override protected function initialize():void

@@ -36,9 +36,6 @@ package jp.seagirl.genius.core
 	import mx.managers.IBrowserManager;
 	import mx.utils.URLUtil;
 	
-	import org.libspark.thread.EnterFrameThreadExecutor;
-	import org.libspark.thread.Thread;
-	
 	public class Context
 	{	
 		
@@ -156,8 +153,6 @@ package jp.seagirl.genius.core
 		
 		protected function initialize():void
 		{
-			Thread.initialize(new EnterFrameThreadExecutor());
-			
 			state = config.defaultState;
 			
 			sharedObject = SharedObject.getLocal('db');

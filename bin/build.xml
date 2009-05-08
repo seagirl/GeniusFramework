@@ -54,6 +54,9 @@ package: The package of the application. (optional)</echo>
 			<replacefilter token="[% name %]" value="${name}"/>
 			<replacefilter token="[% package %]" value="${package}"/>
 		</replace>
+		
+		<chmod file="${app_root}/script/generate" perm="755"/>
+		<chmod file="${app_root}/script/debug" perm="755"/>
 	</target>	
 	
 </project>

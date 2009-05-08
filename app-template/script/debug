@@ -1,0 +1,7 @@
+#!/bin/sh
+
+# スクリプトのあるディレクトリ
+path=${0%/*}
+
+ant build
+open -a Safari ${path}/../bin-debug/index.html

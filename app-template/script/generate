@@ -50,9 +50,9 @@ path=${0%/*}
 
 if [ ${type:-0} = 0 ]
 then
-	ant -buildfile ${path}/build.xml genius -Dname=${name} -Dtype=${type}
+	ant -buildfile ${path}/build.xml generate -Dname=${name} -Dtype=${type}
 else
-	ant -buildfile ${path}/build.xml genius -Dname=${name}
+	ant -buildfile ${path}/build.xml generate -Dname=${name}
 fi
 
 exit
