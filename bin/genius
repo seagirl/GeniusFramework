@@ -1,8 +1,12 @@
 #!/bin/sh
 
-name='MyApp';
-package='application'
-output='./'
+default_name='MyApp'
+default_package='application'
+default_output='./'
+
+name=
+package=${default_package}
+output=${default_output}
 
 # オプションをハンドリング
 while getopts n:p:o:h opt
@@ -32,6 +36,9 @@ Genius FrameworkはFlex用のフレームワークです。
 	esac
 done
 
+# オプションを全て削除し、引数だけを残す
+shift $((OPTIND - 1))
+
 # カレントディレクトリ
 current=`pwd`
 
@@ -40,6 +47,16 @@ output=${current}/${output%*/}/
 
 # スクリプトのあるディレクトリ
 path=${0%/*}
+
+if [ ${name:-0} = 0 ]
+then
+	if [ ${1:-0} = 0 ]
+	then
+		name=${default_name}
+	else
+		name=$1
+	fi
+fi
 
 ant -buildfile ${path}/build.xml genius -Dname=${name} -Dpackage=${package} -Doutput=${output}
 
