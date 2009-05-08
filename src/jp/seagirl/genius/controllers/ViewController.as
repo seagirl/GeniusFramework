@@ -44,7 +44,7 @@
 	import mx.controls.TextInput;
 	import mx.core.UIComponent;
 	import mx.effects.CompositeEffect;
-	import mx.effects.Parallel;
+	import mx.effects.Effect;
 	import mx.events.FlexEvent;
 	import mx.validators.Validator;
 	
@@ -59,14 +59,14 @@
 		//  showEffect
 		//----------------------------------
 		
-		private var _showEffects:CompositeEffect;
+		private var _showEffects:Effect;
 		
-		public function get showEffects():CompositeEffect
+		public function get showEffects():Effect
 		{
 			return _showEffects;
 		}
 		
-		public function set showEffects(value:CompositeEffect):void
+		public function set showEffects(value:Effect):void
 		{
 			_showEffects = value;
 			this['view'].setStyle('showEffect', _showEffects);
@@ -77,14 +77,14 @@
 		//  hideEffect
 		//----------------------------------
 		
-		private var _hideEffects:CompositeEffect;
+		private var _hideEffects:Effect;
 		
-		public function get hideEffects():CompositeEffect
+		public function get hideEffects():Effect
 		{
 			return _hideEffects;
 		}
 		
-		public function set hideEffects(value:CompositeEffect):void
+		public function set hideEffects(value:Effect):void
 		{
 			_hideEffects = value;
 			this['view'].setStyle('hideEffect', _hideEffects);
