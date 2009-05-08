@@ -1,7 +1,6 @@
 package
 {
-	import [% package %].controllers.Page1Controller;
-	import [% package %].controllers.Page2Controller;
+	import [% package %].controllers.*;
 	
 	import jp.seagirl.genius.core.Config;
 	import jp.seagirl.genius.views.ApplicationDelegate;
