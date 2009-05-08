@@ -25,6 +25,12 @@
 
 package jp.seagirl.controls
 {
+	import flash.events.MouseEvent;
+	import flash.net.URLRequest;
+	import flash.net.navigateToURL;
+	
+	import jp.seagirl.genius.threads.ChangeStateThread;
+	
 	import mx.controls.Label;
 
 	/**
@@ -52,5 +58,39 @@ package jp.seagirl.controls
 			setStyle('textDecoration', 'underline');
 		}
 		
+		private var type:String;
+		
+		private var _href:String;
+		
+		public function get href():String
+		{
+			return _href;
+		}
+		
+		public function set href(value:String):void
+		{
+			_href = value;
+			
+			if (_href.indexOf('http://') > -1 ||
+				_href.indexOf('https://') > -1)
+				type = 'external';
+			else
+				type = 'internal';
+			
+			if (!hasEventListener(MouseEvent.CLICK))
+				addEventListener(MouseEvent.CLICK, clickHandler);
+		}
+		
+		private function clickHandler(event:MouseEvent):void
+		{
+			if (type === 'external')
+			{
+				navigateToURL(new URLRequest(href));
+			}
+			else
+			{
+				new ChangeStateThread().startWithData({ page: href });	
+			}
+		}
 	}
 }
