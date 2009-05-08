@@ -1,8 +1,9 @@
 package jp.seagirl.genius.effects
 {
 	import mx.effects.CompositeEffect;
+	import mx.effects.Effect;
 	
-	public class GeniusCompositeEffect
+	public class GeniusCompositeEffect implements IGeniusEffect
 	{
 		public function GeniusCompositeEffect()
 		{
@@ -13,7 +14,7 @@ package jp.seagirl.genius.effects
 		
 		protected var effects:Array = [];
 		
-		public function create():CompositeEffect
+		public function create():Effect
 		{
 			var l:int = effects.length;
 			

@@ -32,6 +32,7 @@
 	
 	import jp.seagirl.controls.Notifier;
 	import jp.seagirl.genius.core.Context;
+	import jp.seagirl.genius.effects.IGeniusEffect;
 	import jp.seagirl.genius.models.Model;
 	import jp.seagirl.genius.views.ApplicationDelegate;
 	
@@ -43,7 +44,6 @@
 	import mx.controls.TextArea;
 	import mx.controls.TextInput;
 	import mx.core.UIComponent;
-	import mx.effects.CompositeEffect;
 	import mx.effects.Effect;
 	import mx.events.FlexEvent;
 	import mx.validators.Validator;
@@ -59,35 +59,41 @@
 		//  showEffect
 		//----------------------------------
 		
-		private var _showEffects:Effect;
+		private var _showEffects:IGeniusEffect;
+		private var _flexShowEffects:Effect;
 		
-		public function get showEffects():Effect
+		public function get showEffects():IGeniusEffect
 		{
 			return _showEffects;
 		}
 		
-		public function set showEffects(value:Effect):void
+		public function set showEffects(value:IGeniusEffect):void
 		{
 			_showEffects = value;
-			this['view'].setStyle('showEffect', _showEffects);
-			this['view'].setStyle('creationCompleteEffect', _showEffects);
+			_flexShowEffects = _showEffects.create();
+			
+			this['view'].setStyle('showEffect', _flexShowEffects);
+			this['view'].setStyle('creationCompleteEffect', _flexShowEffects);
 		}
 		
 		//----------------------------------
 		//  hideEffect
 		//----------------------------------
 		
-		private var _hideEffects:Effect;
+		private var _hideEffects:IGeniusEffect;
+		private var _flexHideEffects:Effect;
 		
-		public function get hideEffects():Effect
+		public function get hideEffects():IGeniusEffect
 		{
 			return _hideEffects;
 		}
 		
-		public function set hideEffects(value:Effect):void
+		public function set hideEffects(value:IGeniusEffect):void
 		{
 			_hideEffects = value;
-			this['view'].setStyle('hideEffect', _hideEffects);
+			_flexHideEffects = _hideEffects.create();
+			
+			this['view'].setStyle('hideEffect', _flexHideEffects);
 		}
 		
 		//----------------------------------

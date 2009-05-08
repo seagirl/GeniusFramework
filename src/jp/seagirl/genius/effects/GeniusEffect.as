@@ -3,7 +3,7 @@ package jp.seagirl.genius.effects
 	import mx.core.UIComponent;
 	import mx.effects.Effect;
 	
-	public class GeniusEffect
+	public class GeniusEffect implements IGeniusEffect
 	{
 		public function GeniusEffect(target:UIComponent, factory:Class, params:Object = null)
 		{
