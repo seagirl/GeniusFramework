@@ -58,6 +58,6 @@ then
 	fi
 fi
 
-ant -buildfile ${path}/build.xml genius -Dname=${name} -Dpackage=${package} -Doutput=${output}
+${path}/../ant/bin/ant -buildfile ${path}/build.xml genius -Dname=${name} -Dpackage=${package} -Doutput=${output}
 
 exit
