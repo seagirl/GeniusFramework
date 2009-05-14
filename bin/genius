@@ -2,7 +2,7 @@
 
 default_name='MyApp'
 default_package='application'
-default_output='./'
+default_output='.'
 
 name=
 package=${default_package}
@@ -24,7 +24,7 @@ do
 利用可能なオプション:
     -n プロジェクトの名前（デフォルトは"MyApp"です。）
     -p パッケージ（デフォルトは"application"です。）
-    -o 出力先（デフォルトは"./"です。）
+    -o 出力先（デフォルトは"."です。）
     	
 Genius FrameworkはFlex用のフレームワークです。
 さらに詳しい情報は、http://seagirl.jp/genius/をご覧ください。'
