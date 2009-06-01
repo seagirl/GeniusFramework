@@ -7,7 +7,7 @@ Genius Framework 2.0.0 for Flex
 - MXML と AS の分離をして記述するためのアーキテクチャ
 - プロジェクトのスケルトンを作成するコマンド（シェルスクリプト）が付属
 - モデル、ビュー、コントローラ、スレッドのスケルトンを生成するコマンド（シェルスクリプト）が付属
-- コントローラ + サービス層には Thread を採用
+- サービス層には Thread を採用
 - BrowserManager と ViewStack を使った状態管理の仕組み（デフォルトはページ単位）
 - Macのホイールスクロールをサポート（SWFWheel 採用）
 - 独自ビューコンポーネント (Link, AdvancedCanvas, AdvancedRadioButton など)
