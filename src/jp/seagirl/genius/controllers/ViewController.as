@@ -33,7 +33,7 @@
 	import jp.seagirl.controls.Notifier;
 	import jp.seagirl.genius.core.Context;
 	import jp.seagirl.genius.effects.IGeniusEffect;
-	import jp.seagirl.genius.models.Model;
+	import jp.seagirl.genius.models.IModel;
 	import jp.seagirl.genius.views.ApplicationDelegate;
 	
 	import mx.controls.ComboBox;
@@ -164,7 +164,7 @@
 		//
 		//--------------------------------------------------------------------------
 		
-		protected function getModel(modelName:String):Model
+		protected function getModel(modelName:String):IModel
 		{
 			return context.getModel(modelName);
 		}

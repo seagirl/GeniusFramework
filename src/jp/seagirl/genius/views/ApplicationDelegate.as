@@ -35,11 +35,12 @@
 	import jp.seagirl.genius.controllers.ViewController;
 	import jp.seagirl.genius.core.Config;
 	import jp.seagirl.genius.core.Context;
-	import jp.seagirl.genius.events.ApplicationEvent;
-	import jp.seagirl.genius.models.Model;
+	import jp.seagirl.genius.models.IModel;
+	import jp.seagirl.preloaders.GeniusPreloader;
 	
 	import mx.binding.utils.BindingUtils;
 	import mx.core.Application;
+	import mx.events.FlexEvent;
 	
 	import org.libspark.thread.EnterFrameThreadExecutor;
 	import org.libspark.thread.Thread;
@@ -65,41 +66,46 @@
 		
 		private var config:Config;
 		
-		override protected function preinitialize():void
+		override public function initialized(document:Object, id:String):void
 		{
+			trace('initialized')
 			Thread.initialize(new EnterFrameThreadExecutor());
+			
+			config = GeniusPreloader.config;
+		
+			context = new Context(config);
+			context.traceApplicationInformation();
+			
+			BindingUtils.bindSetter(onContextStateChange, context, 'state');
+			
+			if (!hasOwnProperty('view'))
+				throw new Error("対応する View が見つかりません。");
+			
+			this['view'] = document;
+			
+			viewClass = getViewClass();
 			
 			var application:Application = this['view'] as Application;
 			
 			if (application)
 			{
-				SWFWheel.initialize(application.systemManager.stage);
-				SWFProfiler.init(application.systemManager.stage, application);
-				
+				application.preloader = GeniusPreloader;
 				application.data = { delegate: this };
 				application.styleName = 'plain';
 				application.setStyle('color', '#000000');
+				
+				application.addEventListener(FlexEvent.PREINITIALIZE, view_preinitializeHandler);
+				application.addEventListener(FlexEvent.INITIALIZE, view_initializeHandler);
+				application.addEventListener(FlexEvent.CREATION_COMPLETE, view_creationCompleteHandler);
 			}
 		}
 		
 		override protected function initialize():void
 		{
-			config = createConfig();
-			config.addEventListener(ApplicationEvent.APPLICATION_DID_FINISHED_INITIALIZING_CONFIG, configInitializedHandler);
-			config.initialize();
-		}
-		
-		protected function createConfig():Config
-		{
-			return new Config();
-		}
-		
-		protected function initializeContext():void
-		{
-			context = new Context(config);
-			context.traceApplicationInformation();
-				
-			BindingUtils.bindSetter(onContextStateChange, context, 'state');
+			initializeModels();
+			initializeViews();
+			initializeControllers();
+			initializeContextMenu();
 		}
 		
 		protected function initializeModels():void
@@ -131,12 +137,12 @@
 			target.contextMenu = menu;
 		}
 		
-		protected function changePage(data:Object):void
+		public function changePage(data:Object):void
 		{
 			
 		}
 		
-		public function getModel(modelName:String):Model
+		public function getModel(modelName:String):IModel
 		{
 			return context.getModel(modelName);
 		}
@@ -146,12 +152,12 @@
 			return context.hasModel(modelName);
 		}
 		
-		public function addModel(model:Model):void
+		public function addModel(model:IModel):void
 		{
 			context.addModel(model);
 		}
 		
-		public function removeModel(modelName:String):Model
+		public function removeModel(modelName:String):IModel
 		{
 			return context.removeModel(modelName);
 		}
@@ -176,24 +182,36 @@
 			return context.removeController(controllerName);
 		}
 		
-		/**
-		 * 状態に変化があると呼び出されるコールバック関数です。
-		 */		
 		private function onContextStateChange(data:Object):void
 		{
-			if (data == null)
+			if (this['view'] == null || data == null)
 				return;
 			
 			changePage(data);
 		}
 		
-		private function configInitializedHandler(event:ApplicationEvent):void
+		override protected function view_preinitializeHandler(event:FlexEvent):void
 		{
-			initializeContext();
-			initializeModels();
-			initializeViews();
-			initializeControllers();
-			initializeContextMenu();
+			trace('view_preinitializeHandler')
+			this['view'].removeEventListener(FlexEvent.PREINITIALIZE, view_preinitializeHandler);
+			
+			var application:Application = this['view'] as Application;
+			
+			if (application)
+			{
+				SWFWheel.initialize(application.systemManager.stage);
+				SWFProfiler.init(application.systemManager.stage, application);
+			}
+			
+			preinitialize();
+		}
+		
+		override protected function view_initializeHandler(event:FlexEvent):void
+		{
+			trace('view_initializeHandler')
+			this['view'].removeEventListener(FlexEvent.INITIALIZE, view_initializeHandler);
+			
+			initialize();
 		}
 		
 		private function itemSelectHandler(event:ContextMenuEvent):void

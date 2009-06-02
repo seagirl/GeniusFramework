@@ -29,6 +29,7 @@ package jp.seagirl.genius.core
 	import flash.system.Security;
 	
 	import jp.seagirl.genius.controllers.ViewController;
+	import jp.seagirl.genius.models.IModel;
 	import jp.seagirl.genius.models.Model;
 	
 	import mx.events.BrowserChangeEvent;
@@ -163,7 +164,7 @@ package jp.seagirl.genius.core
 			browserManager.init();
 		}
 		
-		public function getModel(modelName:String):Model
+		public function getModel(modelName:String):IModel
 		{
 			return modelsMap[modelName];
 		}
@@ -173,14 +174,14 @@ package jp.seagirl.genius.core
 			return modelsMap[modelName] != null;
 		}
 		
-		public function addModel(model:Model):void
+		public function addModel(model:IModel):void
 		{
 			modelsMap[model.name] = model;
 		}
 		
-		public function removeModel(modelName:String):Model
+		public function removeModel(modelName:String):IModel
 		{
-			var model:Model = modelsMap[modelName] as Model;
+			var model:IModel = modelsMap[modelName] as IModel;
 			
 			if (model)
 			{

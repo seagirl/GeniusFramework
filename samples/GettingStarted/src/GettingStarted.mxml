@@ -5,6 +5,7 @@
 	xmlns:local="*"
 	xmlns:views="views.*"
 	backgroundColor="#FFFFFF"
+	preloader="GettingStartedPreloader"
 	layout="absolute">
 	<mx:Style source="GettingStarted.css" />
 	<local:GettingStartedDelegate />

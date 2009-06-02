@@ -127,7 +127,7 @@ package jp.seagirl.genius.core
 		
 		public function initialize():void
 		{
-			if (source is String)
+			if (source != null && source is String)
 			{
 				load();
 				return;

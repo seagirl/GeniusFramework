@@ -12,11 +12,6 @@ package
 	{
 		public var view:GettingStarted;
 		
-		override protected function createConfig():Config
-		{				
-			return new Config("assets/config.json");
-		}
-		
 		override protected function initializeModels():void
 		{			
 			addModel(new MainModel());
@@ -33,7 +28,7 @@ package
 			addController(new Page2Controller(view.page2));
 		}
 		
-		override protected function changePage(data:Object):void
+		override public function changePage(data:Object):void
 		{
 			view.viewStack.selectViewByClassName(data.page);
 		}
