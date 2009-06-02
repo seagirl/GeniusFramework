@@ -12,6 +12,16 @@ package
 	{
 		public var view:GettingStarted;
 		
+		override protected function createConfig():Config
+		{
+			return new Config({
+				applicationName: "GettingStarted",
+				applicationVersion: "1.0.0",
+				defaultState: { page: "Page1" },
+				localBaseURL: "http://yoshizu.local/"
+			});
+		}
+		
 		override protected function initializeModels():void
 		{			
 			addModel(new MainModel());

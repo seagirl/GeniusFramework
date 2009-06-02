@@ -11,7 +11,6 @@
     <classEntry path="jp.seagirl.collections.LabelFunction"/>
     <classEntry path="jp.seagirl.genius.events.ApplicationEvent"/>
     <classEntry path="jp.seagirl.containers.GeniusViewStack"/>
-    <classEntry path="jp.seagirl.preloaders.GeniusPreloader"/>
     <classEntry path="jp.seagirl.genius.core.Config"/>
     <classEntry path="jp.seagirl.genius.models.Model"/>
     <classEntry path="jp.seagirl.genius.effects.GeniusSerial"/>

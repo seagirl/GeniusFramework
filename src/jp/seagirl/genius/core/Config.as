@@ -24,6 +24,7 @@ package jp.seagirl.genius.core
 		public function Config(source:Object = null)
 		{
 			this.source = source;
+			initialize();
 		}
 		
 		private var source:Object;

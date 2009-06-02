@@ -36,7 +36,6 @@
 	import jp.seagirl.genius.core.Config;
 	import jp.seagirl.genius.core.Context;
 	import jp.seagirl.genius.models.IModel;
-	import jp.seagirl.preloaders.GeniusPreloader;
 	
 	import mx.binding.utils.BindingUtils;
 	import mx.core.Application;
@@ -64,16 +63,16 @@
 			return delegate;
 		}
 		
-		private var config:Config;
+		protected function createConfig():Config
+		{
+			return new Config();
+		}
 		
 		override public function initialized(document:Object, id:String):void
 		{
-			trace('initialized')
 			Thread.initialize(new EnterFrameThreadExecutor());
-			
-			config = GeniusPreloader.config;
 		
-			context = new Context(config);
+			context = new Context(createConfig());
 			context.traceApplicationInformation();
 			
 			BindingUtils.bindSetter(onContextStateChange, context, 'state');
@@ -89,7 +88,6 @@
 			
 			if (application)
 			{
-				application.preloader = GeniusPreloader;
 				application.data = { delegate: this };
 				application.styleName = 'plain';
 				application.setStyle('color', '#000000');
@@ -192,7 +190,6 @@
 		
 		override protected function view_preinitializeHandler(event:FlexEvent):void
 		{
-			trace('view_preinitializeHandler')
 			this['view'].removeEventListener(FlexEvent.PREINITIALIZE, view_preinitializeHandler);
 			
 			var application:Application = this['view'] as Application;
@@ -208,7 +205,6 @@
 		
 		override protected function view_initializeHandler(event:FlexEvent):void
 		{
-			trace('view_initializeHandler')
 			this['view'].removeEventListener(FlexEvent.INITIALIZE, view_initializeHandler);
 			
 			initialize();
