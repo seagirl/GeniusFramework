@@ -2,9 +2,11 @@ package jp.seagirl.containers
 {
 	import flash.display.InteractiveObject;
 	import flash.events.ContextMenuEvent;
+	import flash.events.Event;
 	import flash.ui.ContextMenu;
 	import flash.ui.ContextMenuItem;
 	
+	import jp.seagirl.genius.events.GeniusEvent;
 	import jp.seagirl.genius.threads.ChangeStateThread;
 	
 	import mx.containers.ViewStack;
@@ -35,7 +37,14 @@ package jp.seagirl.containers
 				var oldIndex:int = selectedIndex;
 				var newIndex:int = getChildIndex(view);
 				
-				selectedIndex = newIndex;
+				if (oldIndex == newIndex)
+				{
+					view.dispatchEvent(new GeniusEvent(GeniusEvent.UPDATE_PAGE));
+				}
+				else
+				{
+					selectedIndex = newIndex;	
+				}
 			}
 			else
 			{

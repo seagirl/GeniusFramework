@@ -35,6 +35,7 @@
 	import jp.seagirl.genius.controllers.ViewController;
 	import jp.seagirl.genius.core.Config;
 	import jp.seagirl.genius.core.Context;
+	import jp.seagirl.genius.events.GeniusEvent;
 	import jp.seagirl.genius.models.IModel;
 	
 	import mx.binding.utils.BindingUtils;
@@ -70,12 +71,8 @@
 		
 		override public function initialized(document:Object, id:String):void
 		{
-			Thread.initialize(new EnterFrameThreadExecutor());
-		
-			context = new Context(createConfig());
-			context.traceApplicationInformation();
-			
-			BindingUtils.bindSetter(onContextStateChange, context, 'state');
+			if (!Thread.isReady)
+				Thread.initialize(new EnterFrameThreadExecutor());
 			
 			if (!hasOwnProperty('view'))
 				throw new Error("対応する View が見つかりません。");
@@ -100,28 +97,15 @@
 		
 		override protected function initialize():void
 		{
-			initializeModels();
-			initializeViews();
-			initializeControllers();
-			initializeContextMenu();
+
 		}
 		
-		protected function initializeModels():void
+		protected function loadAssets():void
 		{
-			
+			dispatchEvent(new GeniusEvent(GeniusEvent.ASSETES_LOADED));
 		}
 		
-		protected function initializeViews():void
-		{
-			
-		}
-		
-		protected function initializeControllers():void
-		{
-			
-		}
-		
-		protected function initializeContextMenu():void
+		protected function createContextMenu():void
 		{
 			var target:Application = this['view'] as Application;
 			
@@ -188,17 +172,14 @@
 			changePage(data);
 		}
 		
+		private function assetsLoadedHandler(event:GeniusEvent):void
+		{
+			initialize();
+		}
+		
 		override protected function view_preinitializeHandler(event:FlexEvent):void
 		{
 			this['view'].removeEventListener(FlexEvent.PREINITIALIZE, view_preinitializeHandler);
-			
-			var application:Application = this['view'] as Application;
-			
-			if (application)
-			{
-				SWFWheel.initialize(application.systemManager.stage);
-				SWFProfiler.init(application.systemManager.stage, application);
-			}
 			
 			preinitialize();
 		}
@@ -207,7 +188,21 @@
 		{
 			this['view'].removeEventListener(FlexEvent.INITIALIZE, view_initializeHandler);
 			
-			initialize();
+			var application:Application = this['view'] as Application;
+			
+			if (application)
+			{
+				context = new Context(createConfig());
+				context.traceApplicationInformation();
+				
+				BindingUtils.bindSetter(onContextStateChange, context, 'state');
+				
+				SWFWheel.initialize(application.systemManager.stage);
+				SWFProfiler.init(application.systemManager.stage, application);
+			}
+			
+			addEventListener(GeniusEvent.ASSETES_LOADED, assetsLoadedHandler);
+			loadAssets();
 		}
 		
 		private function itemSelectHandler(event:ContextMenuEvent):void

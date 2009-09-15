@@ -25,8 +25,11 @@
 
 package jp.seagirl.genius.threads
 {
-	import jp.seagirl.genius.views.ApplicationDelegate;
+	import jp.seagirl.genius.controllers.ViewController;
+	import jp.seagirl.genius.core.Config;
 	import jp.seagirl.genius.core.Context;
+	import jp.seagirl.genius.models.IModel;
+	import jp.seagirl.genius.views.ApplicationDelegate;
 	
 	import org.libspark.thread.Thread;
 
@@ -70,6 +73,21 @@ package jp.seagirl.genius.threads
 		private function initialize():void
 		{
 			context = ApplicationDelegate.sharedApplicationDelegate().context;
+		}
+		
+		protected function getConfig():Config
+		{
+			return context.config;
+		}
+		
+		protected function getModel(modelName:String):IModel
+		{
+			return context.getModel(modelName);
+		}
+		
+		protected function getController(controllerName:String):ViewController
+		{
+			return context.getController(controllerName);
 		}
 		
 		/**

@@ -11,7 +11,7 @@ package jp.seagirl.controls
 		[Bindable]
 		public var text:String;
 		
-		public function create(target:UIComponent = null):void
+		public function init(target:UIComponent = null):void
 		{
 			if (target == null)
 				target = Application.application as UIComponent;

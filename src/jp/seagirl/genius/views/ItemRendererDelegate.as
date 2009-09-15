@@ -25,10 +25,29 @@
  
  package jp.seagirl.genius.views
 {
-	import mx.events.FlexEvent;
+	import jp.seagirl.genius.controllers.ViewController;
+	import jp.seagirl.genius.core.Config;
+	import jp.seagirl.genius.models.IModel;
 	
+	import mx.events.FlexEvent;
+
 	public class ItemRendererDelegate extends AbstractDelegate
 	{	
+		protected function getConfig():Config
+		{
+			return context.config;
+		}
+		
+		protected function getModel(modelName:String):IModel
+		{
+			return context.getModel(modelName);
+		}
+		
+		protected function getController(controllerName:String):ViewController
+		{
+			return context.getController(controllerName);
+		}
+		
 		override protected function view_initializeHandler(event:FlexEvent):void
 		{
 			super.view_initializeHandler(event);
@@ -38,7 +57,8 @@
 		
 		protected function view_dataChangeHandler(event:FlexEvent):void
 		{
-			update();
+			if (this['view'].data)
+				update();
 		}
 		
 	}

@@ -31,8 +31,10 @@
 	import flash.utils.getQualifiedClassName;
 	
 	import jp.seagirl.controls.Notifier;
+	import jp.seagirl.genius.core.Config;
 	import jp.seagirl.genius.core.Context;
 	import jp.seagirl.genius.effects.IGeniusEffect;
+	import jp.seagirl.genius.events.GeniusEvent;
 	import jp.seagirl.genius.models.IModel;
 	import jp.seagirl.genius.views.ApplicationDelegate;
 	
@@ -47,7 +49,7 @@
 	import mx.effects.Effect;
 	import mx.events.FlexEvent;
 	import mx.validators.Validator;
-	
+
 	public class ViewController
 	{
 		public function ViewController(view:Object)
@@ -164,9 +166,19 @@
 		//
 		//--------------------------------------------------------------------------
 		
+		protected function getConfig():Config
+		{
+			return context.config;
+		}
+		
 		protected function getModel(modelName:String):IModel
 		{
 			return context.getModel(modelName);
+		}
+		
+		protected function getController(controllerName:String):ViewController
+		{
+			return context.getController(controllerName);
 		}
 		
 		protected function getViewClass():Class
@@ -204,6 +216,12 @@
 
 			this['view'].addEventListener(FlexEvent.INITIALIZE, view_initializeHandler);
 			this['view'].addEventListener(FlexEvent.CREATION_COMPLETE, view_creationCompleteHandler);
+			
+			if (this['view'].processedDescriptors)
+				view_initializeHandler(new FlexEvent(FlexEvent.INITIALIZE));
+			
+			if (this['view'].initialized)
+				view_creationCompleteHandler(new FlexEvent(FlexEvent.CREATION_COMPLETE));
 		}
 		
 		/**
@@ -325,10 +343,11 @@
 			
 			initialize();
 			
+			this['view'].addEventListener(GeniusEvent.UPDATE_PAGE, view_updatePageHandler);
 			this['view'].addEventListener(FlexEvent.SHOW, view_showHandler);
 			this['view'].addEventListener(FlexEvent.HIDE, view_hideHandler);
 			
-			notifier.create();
+			notifier.init();
 			
 			if (context.state.page == this['view'].className)
 			{
@@ -346,6 +365,17 @@
 			this['view'].removeEventListener(FlexEvent.CREATION_COMPLETE, view_creationCompleteHandler);
 			
 			creationComplete();
+		}
+		
+		/**
+		 * @private
+		 */			
+		protected function view_updatePageHandler(event:GeniusEvent):void
+		{
+			if (!active)
+				return;
+			
+			update();
 		}
 		
 		/**

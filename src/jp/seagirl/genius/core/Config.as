@@ -1,33 +1,36 @@
-package jp.seagirl.genius.core
-{
-	import com.adobe.serialization.json.JSON;
-	
-	import flash.events.ErrorEvent;
-	import flash.events.Event;
-	import flash.events.EventDispatcher;
-	import flash.events.IOErrorEvent;
-	import flash.events.SecurityErrorEvent;
-	import flash.net.URLLoader;
-	import flash.net.URLRequest;
-	import flash.system.Security;
-	
-	import jp.seagirl.genius.events.ApplicationEvent;
-	
-	import mx.core.Application;
-	
-	import org.as3yaml.YAML;
-	
-	[Event(name="applicationDidFinishedInitializingConfig", type="jp.seagirl.genius.events.ApplicationEvent")]
-	
-	dynamic public class Config extends EventDispatcher
+/**
+ * Licensed under the MIT License
+ * 
+ * Copyright (c) 2009 seagirl
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ * 
+ */
+ 
+ package jp.seagirl.genius.core
+{	
+	public class Config
 	{
-		public function Config(source:Object = null)
+		public function Config()
 		{
-			this.source = source;
-			initialize();
+
 		}
-		
-		private var source:Object;
 		
 		private var _applicationName:String = 'Genius Application';
 
@@ -112,7 +115,6 @@ package jp.seagirl.genius.core
 		}
 		
 		private var _serviceURL:String;
-		private var _application:Application = Application.application as Application;
 		
 		public function set serviceURL(val:String):void
 		{
@@ -121,67 +123,7 @@ package jp.seagirl.genius.core
 
 		public function get serviceURL():String
 		{
-			return Security.sandboxType.indexOf('local') != -1
-				? _localBaseURL + _serviceURL
-				: _application.url.replace(/\/[0-9a-zA-Z_-]+\.swf$/, _serviceURL);
+			return _serviceURL;
 		}
-		
-		public function initialize():void
-		{
-			if (source != null && source is String)
-			{
-				load();
-				return;
-			}
-			
-			process(source);
-		}
-		
-		private function load():void
-		{	
-			var loader:URLLoader = new URLLoader();
-			loader.addEventListener(Event.COMPLETE, loaderCompleteHandler);
-			loader.addEventListener(IOErrorEvent.IO_ERROR, loaderErrorHandler);
-			loader.addEventListener(SecurityErrorEvent.SECURITY_ERROR, loaderErrorHandler);
-			loader.load(new URLRequest(source as String));
-		}
-		
-		private function process(data:Object = null):void
-		{
-			for (var key:Object in data)
-			{
-				this[key] = data[key];
-			}
-			
-			dispatchEvent(new ApplicationEvent(ApplicationEvent.APPLICATION_DID_FINISHED_INITIALIZING_CONFIG));
-		}
-		
-		private function loaderErrorHandler(event:ErrorEvent):void
-		{
-			process();
-		}
-		
-		private function loaderCompleteHandler(event:Event):void
-		{
-			var flagments:Array = source.split('.');
-			var extension:String = flagments[flagments.length - 1] as String;
-			var data:Object;
-			
-			switch (extension)
-			{
-				case "yaml":
-				{
-					data = YAML.decode(event.target.data);
-					break;
-				}
-				case "json":
-				{
-					data = JSON.decode(event.target.data);	
-					break;
-				}
-			}
-		
-			process(data);
-		}	
 	}
 }

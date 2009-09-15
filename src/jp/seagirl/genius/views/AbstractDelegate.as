@@ -25,6 +25,7 @@
  
  package jp.seagirl.genius.views
 {
+	import flash.events.EventDispatcher;
 	import flash.utils.getDefinitionByName;
 	import flash.utils.getQualifiedClassName;
 	
@@ -33,7 +34,7 @@
 	import mx.core.IMXMLObject;
 	import mx.events.FlexEvent;
 
-	public class AbstractDelegate implements IMXMLObject
+	public class AbstractDelegate extends EventDispatcher implements IMXMLObject
 	{
 		public function AbstractDelegate()
 		{
@@ -69,6 +70,8 @@
 		{
 			if (!hasOwnProperty('view'))
 				throw new Error("対応する View が見つかりません。");
+			
+			context = ApplicationDelegate.sharedApplicationDelegate().context;
 			
 			this['view'] = document;
 			

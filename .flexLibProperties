@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <flexLibProperties version="1">
   <includeClasses>
     <classEntry path="com.flashdynamix.utils.SWFProfiler"/>
@@ -9,7 +9,7 @@
     <classEntry path="jp.seagirl.genius.managers.CursorManager"/>
     <classEntry path="jp.seagirl.genius.controllers.ViewController"/>
     <classEntry path="jp.seagirl.collections.LabelFunction"/>
-    <classEntry path="jp.seagirl.genius.events.ApplicationEvent"/>
+    <classEntry path="jp.seagirl.genius.events.GeniusEvent"/>
     <classEntry path="jp.seagirl.containers.GeniusViewStack"/>
     <classEntry path="jp.seagirl.genius.core.Config"/>
     <classEntry path="jp.seagirl.genius.models.Model"/>

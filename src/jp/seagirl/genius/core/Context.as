@@ -30,7 +30,6 @@ package jp.seagirl.genius.core
 	
 	import jp.seagirl.genius.controllers.ViewController;
 	import jp.seagirl.genius.models.IModel;
-	import jp.seagirl.genius.models.Model;
 	
 	import mx.events.BrowserChangeEvent;
 	import mx.managers.BrowserManager;
@@ -82,6 +81,27 @@ package jp.seagirl.genius.core
 		public var config:Config;
 		
 		//----------------------------------
+		//  defaultState
+		//----------------------------------
+		
+		/**
+		 * デフォルトの状態です。 
+		 */		
+		public function get defaultState():Object
+		{
+			return config.defaultState;
+		}
+		
+		//----------------------------------
+		//  ignoredState
+		//----------------------------------
+		
+		/**
+		 * ブラウザに同期させない状態のキーを定義した配列です。
+		 */	
+		public var ignoredState:Array = [];
+		
+		//----------------------------------
 		//  state
 		//----------------------------------
 		
@@ -108,7 +128,23 @@ package jp.seagirl.genius.core
 			
 			if (browserManager != null)
 			{
-				var string:String = URLUtil.objectToString(_state, '&');
+				var aState:Object = {};
+				
+				for (var aKey:String in _state)
+				{
+					var ignore:Boolean = false;
+					
+					for each (var ignoredKey:String in ignoredState)
+					{
+						if (aKey == ignoredKey)
+							ignore = true;
+					}
+					
+					if (!ignore)
+						aState[aKey] = _state[aKey];
+				}
+				
+				var string:String = URLUtil.objectToString(aState, '&');
 				browserManager.setFragment(string);
 			}
 		}
