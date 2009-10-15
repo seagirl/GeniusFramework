@@ -49,6 +49,9 @@ package jp.seagirl.genius.models
 		 */		
 		public function Model()
 		{
+			var flagments:Array = getQualifiedClassName(this).split("::");
+			name = flagments[flagments.length - 1];
+			
 			initialize();
 		}
 		
@@ -61,7 +64,7 @@ package jp.seagirl.genius.models
 		/**
 		 * デフォルトのフィルタ条件です。 
 		 */		
-		protected var defaultFilterCondition:Object;
+		protected var defaultFilterCondition:Object = {};
 		
 		//--------------------------------------------------------------------------
 		//
@@ -287,8 +290,7 @@ package jp.seagirl.genius.models
 		
 		protected function initialize():void
 		{
-			var flagments:Array = getQualifiedClassName(this).split("::");
-			name = flagments[flagments.length - 1];
+			
 		}
 		
 		/**

@@ -11,7 +11,8 @@
 	<mx:Fade id="inEffect" duration="1000" alphaFrom="0" alphaTo="1.0"/>
 	<mx:Fade id="outEffect" duration="1000" alphaFrom="1.0" alphaTo="0"/>
 	
-	<mx:Text text="{text}"
+	<mx:Text id="labelText"
+		text="{text}"
 		width="260"
 		horizontalCenter="0" verticalCenter="0"
 		paddingTop="10" paddingBottom="10"
