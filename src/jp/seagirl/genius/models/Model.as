@@ -25,18 +25,22 @@
 
 package jp.seagirl.genius.models
 {
+	import flash.events.EventDispatcher;
 	import flash.utils.getQualifiedClassName;
 	
+	import jp.seagirl.genius.events.GeniusEvent;
 	import jp.seagirl.genius.managers.CursorManager;
 	
 	import mx.utils.ObjectUtil;
+	
+	[Event(name="notified", type="jp.seagirl.genius.events.GeniusEvent")]
 	
 	/**
 	 * Modelは汎用的なモデルの実装クラスです。
 	 * 
 	 * @author yoshizu 
 	 */	
-	public class Model implements IModel
+	public class Model extends EventDispatcher implements IModel
 	{
 		//--------------------------------------------------------------------------
 		//
@@ -160,11 +164,27 @@ package jp.seagirl.genius.models
 		//  lastResult
 		//----------------------------------
 		
+		/**
+		 * @private 
+		 */
+		private var _lastResult:XML;
+		
 		[Bindable]
 		/**
-		 * サービスとの通信結果です。
-		 */		
-		public var lastResult:XML;
+		 *  サービスとの通信結果です。
+		 */
+		public function get lastResult():XML
+		{
+			return _lastResult;
+		}
+		
+		/**
+		 * @private 
+		 */	
+		public function set lastResult(value:XML):void
+		{
+			_lastResult = value;
+		}
 		
 		//----------------------------------
 		//  currentId
@@ -394,6 +414,15 @@ package jp.seagirl.genius.models
 		{
 			_filterCondition = ObjectUtil.copy(defaultFilterCondition);
 		}
-
+		
+		/**
+		 * メッセージを送出します。
+		 */		
+		public function notify(message:String):void
+		{
+			var event:GeniusEvent = new GeniusEvent(GeniusEvent.NOTIFIED);
+			event.data = message;
+			dispatchEvent(event);
+		}
 	}
 }

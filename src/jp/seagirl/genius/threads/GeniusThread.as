@@ -31,6 +31,9 @@ package jp.seagirl.genius.threads
 	import jp.seagirl.genius.models.IModel;
 	import jp.seagirl.genius.views.ApplicationDelegate;
 	
+	import mx.controls.Alert;
+	import mx.utils.ObjectUtil;
+	
 	import org.libspark.thread.Thread;
 
 	public class GeniusThread extends Thread
@@ -42,7 +45,7 @@ package jp.seagirl.genius.threads
 		{
 			super();
 			
-			initialize();
+			context = ApplicationDelegate.sharedApplicationDelegate().context;
 		}
 		
 		//--------------------------------------------------------------------------
@@ -67,14 +70,6 @@ package jp.seagirl.genius.threads
 		//
 		//--------------------------------------------------------------------------
 		
-		/**
-		 * 初期化メソッドです. 
-		 */		
-		private function initialize():void
-		{
-			context = ApplicationDelegate.sharedApplicationDelegate().context;
-		}
-		
 		protected function getConfig():Config
 		{
 			return context.config;
@@ -88,6 +83,11 @@ package jp.seagirl.genius.threads
 		protected function getController(controllerName:String):ViewController
 		{
 			return context.getController(controllerName);
+		}
+		
+		protected function alert(text:*, title:String = 'エラー'):void
+		{
+			Alert.show(ObjectUtil.toString(text), title);
 		}
 		
 		/**

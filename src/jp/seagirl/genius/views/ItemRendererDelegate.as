@@ -52,6 +52,9 @@
 		{
 			super.view_initializeHandler(event);
 			
+			if (this['view'].data)
+				update();
+			
 			this['view'].addEventListener(FlexEvent.DATA_CHANGE, view_dataChangeHandler);
 		}
 		
