@@ -2,6 +2,7 @@
 <mx:Canvas
 	xmlns:mx="http://www.adobe.com/2006/mxml"
 	xmlns:genius="http://seagirl.jp/genius"
-	xmlns:controllers="[% controller_package %].*">
-	<controllers:[% name %]Delegate />
+	xmlns:local="[% controller_package %].*"
+>
+	<local:[% name %]Delegate />
 </mx:Canvas>

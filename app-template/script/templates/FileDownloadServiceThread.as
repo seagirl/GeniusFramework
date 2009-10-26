@@ -4,9 +4,7 @@ package [% package %]
 	import flash.events.Event;
 	import flash.events.IOErrorEvent;
 	import flash.events.SecurityErrorEvent;
-	import flash.net.URLRequest;
 	import flash.net.URLRequestMethod;
-	import flash.net.URLVariables;
 	
 	import jp.seagirl.genius.models.Model;
 	import jp.seagirl.genius.threads.FileReferenceServiceThread;
@@ -15,20 +13,24 @@ package [% package %]
 	{
 		private var model:Model;
 		
-		override protected function run():void
-		{				
+		override public function start():void
+		{
+			model = getModel('Model') as Model;
+			
 			var name:String = '';
 			var ext:String = '';
 			
-			var variables:URLVariables = new URLVariables();
-			
-			var request:URLRequest = new URLRequest();
-			request.url = '';
+			request.url = context.config.serviceURL + '/hoge';
 			request.data = variables;
 			request.method = URLRequestMethod.POST; 
 			
 			file.addEventListener(Event.SELECT, selectHandler);
 			file.download(request, name + '.' + ext);
+		}
+		
+		override protected function finalize():void
+		{
+			model.isLoading = false;
 		}
 		
 		private function selectHandler(event:Event):void
@@ -44,22 +46,14 @@ package [% package %]
 		
 		private function completeHandler(event:Event):void
 		{
-			file.removeEventListener(Event.COMPLETE, arguments.callee);
-			
+			file.removeEventListener(Event.COMPLETE, arguments.callee);	
 			trace('downloaded "', file.name, '" at ', new Date());
-			
-			model.lastResult = <result><status>2</status></result>;
-			model.notifyView = true;
-			model.isLoading = false;
+			model.notify('ダウンロードしました。');
 		}
 		
 		private function errorHandler(event:ErrorEvent):void
 		{
-			trace(event.text);
-			
-			model.lastResult = <result><status>context.config.errorCodes.io</status></result>;
-			model.notifyView = true;
-			model.isLoading = false;
+			alert(event.text);
 		}
 		
 	}

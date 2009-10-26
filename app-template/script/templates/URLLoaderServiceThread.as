@@ -1,7 +1,5 @@
 package [% package %]
-{
-	import flash.errors.IOError;
-	
+{	
 	import jp.seagirl.genius.threads.URLLoaderServiceThread;
 	import jp.seagirl.genius.models.Model;
 	
@@ -11,7 +9,7 @@ package [% package %]
 	{
 		private var model:Model;
 
-		override protected function run():void
+		override protected function initialize():void
 		{			
 			if (model.isLoading)
 				return;
@@ -21,17 +19,19 @@ package [% package %]
 			next(load);
 		}
 		
+		override protected function finalize():void
+		{
+			model.isLoading = false;
+		}
+		
 		private function load():void
 		{
-			request.url = '';
+			request.url = context.config.serviceURL + '/hoge';
 			request.data = variables;
 			
 			urlLoaderThread = new URLLoaderThread(request);
 			urlLoaderThread.start();
 			urlLoaderThread.join();
-			
-			error(IOError, handleError);
-			error(SecurityError, handleError);
 			
 			next(complete);
 		}
@@ -40,16 +40,22 @@ package [% package %]
 		{
 			var result:XML = XML(urlLoaderThread.loader.data);
 			
-			model.isLoading = false;
-		}
-		
-		private function handleError(error:Error, thread:Thread):void
-		{
-			trace(error.message);
-			
-			model.lastResult = <result><status>{ context.config.errorCodes.io }</status></result>;
-			model.notifyView = true;
-			model.isLoading = false;
+			// 成功
+			if (result.@status == 1)
+			{
+				model.lastResult = result;
+			}
+			// サーバーエラー
+			else if (result.@status == context.config.errorCodes.server)
+			{
+				model.lastResult = result;
+				alert(result.@data);	
+			}
+			// 不正なデータ
+			else
+			{
+				alert("データ形式が正しくありません。");	
+			}
 		}
 		
 	}

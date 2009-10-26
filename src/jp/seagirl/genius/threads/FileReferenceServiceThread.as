@@ -26,6 +26,7 @@
 package jp.seagirl.genius.threads
 {
 	import flash.net.FileReference;
+	import flash.net.FileReferenceList;
 	import flash.net.URLRequest;
 	import flash.net.URLVariables;
 
@@ -45,6 +46,11 @@ package jp.seagirl.genius.threads
 		 * FileReference のインスタンスです。
 		 */		
 		protected var file:FileReference = new FileReference();
+		
+		/**
+		 * FileReferenceList のインスタンスです。
+		 */		
+		protected var files:FileReferenceList = new FileReferenceList();
 		
 		/**
 		 * URLRequest のインスタンスです.
