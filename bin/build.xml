@@ -34,8 +34,9 @@ package: The package of the application. (optional)</echo>
 		
 		<move file="${app_root}/src/MyApp.mxml" tofile="${app_root}/src/${name}.mxml" />
 		<move file="${app_root}/src/MyAppDelegate.as" tofile="${app_root}/src/${name}Delegate.as" />
-		<move file="${app_root}/src/main.css" tofile="${app_root}/src/${name}.css" />
-		<move file="${app_root}/src/main-config.xml" tofile="${app_root}/src/${name}-config.xml" />
+        <move file="${app_root}/src/MyAppConfig.as" tofile="${app_root}/src/${name}Config.as" />
+		<move file="${app_root}/src/MyApp.css" tofile="${app_root}/src/${name}.css" />
+		<move file="${app_root}/src/MyApp-config.xml" tofile="${app_root}/src/${name}-config.xml" />
 		
 		<move todir="${app_root}/src/${package_path}">
 			<fileset dir="${app_root}/src/genius"/>
@@ -49,6 +50,7 @@ package: The package of the application. (optional)</echo>
 			<include name="src/**/*.css"/>
 			<include name="src/**/*.xml"/>
 			<include name="src/**/*.json"/>
+            <include name=".*"/>
 			
 			<replacefilter token="[% sdk %]" value="${FLEX_HOME}"/>
 			<replacefilter token="[% name %]" value="${name}"/>

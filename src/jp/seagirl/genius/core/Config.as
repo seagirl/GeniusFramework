@@ -114,6 +114,18 @@
 			return _localBaseURL;
 		}
 		
+		private var _baseURL:String;
+		
+		public function set baseURL(val:String):void
+		{
+			_baseURL = val;
+		}
+		
+		public function get baseURL():String
+		{
+			return _baseURL;
+		}
+		
 		private var _serviceURL:String;
 		
 		public function set serviceURL(val:String):void

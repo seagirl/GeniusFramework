@@ -10,37 +10,41 @@ package
 		public var view:[% name %];
 		
 		/**
-		 * アプリケーションで使用するモデルを初期化します。 
-		 */		
-		override protected function initializeModels():void
-		{			
-			//addModel(new MainModel());
-		}
-		
-		/**
-		 * アプリケーションで使用するビューを初期化します。 
+		 * 設定ファイルの初期化
 		 */	
-		override protected function initializeViews():void
+		override protected function createConfig():Config
 		{
-			view.viewStack.addAllViewsToContextMenu(view);
+			return new [% name %]Config(view);
 		}
 		
 		/**
-		 * アプリケーションで使用するコントローラを初期化します。 
+		 * アプリケーションに必要なデータをロードするためのテンプレートメソッド
+		 * オーバーライドしなければ即座に initialize メソッドに移行
+		 * 実装する場合は GeniusEvent.ASSETES_LOADED を発行することで initialize メソッドに移行
 		 */		
-		override protected function initializeControllers():void
+		//override protected function loadAssets():void
+		//{
+		//}
+		
+		/**
+		 * 初期化 
+		 */	
+		override protected function initialize():void
 		{
+			context.ignoredState = [];
+			
 			addController(new Page1Controller(view.page1));
 			addController(new Page2Controller(view.page2));
+			
+			createContextMenu();
 		}
 		
 		/**
-		 * 状態に変化があると呼び出されます。。
+		 * 状態に変化があると呼び出されます。
 		 */		
 		override public function changePage(data:Object):void
 		{
 			view.viewStack.selectViewByClassName(data.page);
 		}
-
 	}
 }

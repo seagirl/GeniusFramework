@@ -5,16 +5,33 @@
 	xmlns:local="*"
 	xmlns:views="[% package %].views.*"
 	layout="absolute"
-	pageTitle="[% name %]">
+	pageTitle="[% name %]"
+>
 	<mx:Style source="[% name %].css"/>
-	<local:[% name %]Delegate />
+	
+	<!-- Effects -->
+	<mx:Dissolve id="showEffect" duration="200" alphaFrom="0" alphaTo="1.0"/>
+	<mx:Dissolve id="hideEffect" duration="200" alphaFrom="1.0" alphaTo="0"/>
+	<!-- /Effects -->
+
+	<local:[% name %]Delegate id="delgate" />
 	
 	<mx:VBox x="20" y="20">
 		<mx:Label text="Hello, Genius Framework!" />
 		
 		<genius:GeniusViewStack id="viewStack" width="100%" height="100%">
-			<views:Page1 id="page1" width="100%" height="100%"/>
-			<views:Page2 id="page2" width="100%" height="100%"/>
+			<views:Page1 id="page1"
+				width="100%"
+				height="100%"
+				showEffect="{showEffect}"
+				hideEffect="{hideEffect}"
+			/>
+			<views:Page2 id="page2"
+				width="100%"
+				height="100%"
+				showEffect="{showEffect}"
+				hideEffect="{hideEffect}"
+			/>
 		</genius:GeniusViewStack>
 	</mx:VBox>
 </mx:Application>
