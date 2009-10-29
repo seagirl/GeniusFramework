@@ -66,11 +66,14 @@ package [% package %]
 			{
 				alert("データ形式が正しくありません。");
 			}
+			
+			model.isLoading = false;
 		}
 		
 		private function errorHandler(event:ErrorEvent):void
 		{
 			alert(event.text);
+			model.isLoading = false;
 		}
 		
 	}

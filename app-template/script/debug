@@ -4,4 +4,4 @@
 path=${0%/*}
 
 ant -buildfile ${path}/build.xml build
-open -a Safari ${path}/../bin-debug/index.html
+open ${path}/../bin-debug/index.html

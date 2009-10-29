@@ -28,11 +28,6 @@ package [% package %]
 			file.download(request, name + '.' + ext);
 		}
 		
-		override protected function finalize():void
-		{
-			model.isLoading = false;
-		}
-		
 		private function selectHandler(event:Event):void
 		{
 			file.removeEventListener(Event.SELECT, arguments.callee);
@@ -49,11 +44,13 @@ package [% package %]
 			file.removeEventListener(Event.COMPLETE, arguments.callee);	
 			trace('downloaded "', file.name, '" at ', new Date());
 			model.notify('ダウンロードしました。');
+			model.isLoading = false;
 		}
 		
 		private function errorHandler(event:ErrorEvent):void
 		{
 			alert(event.text);
+			model.isLoading = false;
 		}
 		
 	}

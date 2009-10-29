@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<flexLibProperties version="1">
+<flexLibProperties includeAllClasses="false" version="1">
   <includeClasses>
     <classEntry path="com.flashdynamix.utils.SWFProfiler"/>
     <classEntry path="jp.seagirl.genius.views.AbstractDelegate"/>
@@ -35,6 +35,7 @@
     <classEntry path="jp.seagirl.genius.threads.URLLoaderServiceThread"/>
     <classEntry path="jp.seagirl.genius.threads.SleepThread"/>
     <classEntry path="jp.seagirl.containers.GeniusCanvas"/>
+    <classEntry path="org.libspark.ui.SWFWheel"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests>
