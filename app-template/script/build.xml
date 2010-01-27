@@ -40,15 +40,33 @@ type: The type of the class. (optional)
 	</target>
 	
 	<target name="build">
-		 <mxmlc
+		<mxmlc
 			actionscript-file-encoding="UTF-8"
 			file="${MAIN_APP}"
-			output="${OUTPUT_BIN}"
+			output="${APP_ROOT}/bin-debug/${APP_NAME}.swf"
+			debug="true"
 			incremental="true"
-			keep-generated-actionscript="false">
+			keep-generated-actionscript="false"
+			>
 				<load-config filename="${FLEX_HOME}/frameworks/flex-config.xml" />
 		</mxmlc>
 		<copy todir="${basedir}/../bin-debug/assets">
+			<fileset dir="${basedir}/../src/assets"/>
+		</copy>
+	</target>
+	
+	<target name="release">
+		 <mxmlc
+			actionscript-file-encoding="UTF-8"
+			file="${MAIN_APP}"
+			output="${APP_ROOT}/bin-release/${APP_NAME}.swf"
+			debug="false"
+			incremental="true"
+			keep-generated-actionscript="false"
+			>
+				<load-config filename="${FLEX_HOME}/frameworks/flex-config.xml" />
+		</mxmlc>
+		<copy todir="${basedir}/../bin-release/assets">
 			<fileset dir="${basedir}/../src/assets"/>
 		</copy>
 	</target>

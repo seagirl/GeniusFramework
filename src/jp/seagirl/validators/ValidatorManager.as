@@ -159,6 +159,25 @@ package jp.seagirl.validators
 			return validator;
 		}
 		
+		public function removeValidator(validator:Validator):void
+		{
+			repository.filter(
+				function (element:Validator, index:int, array:Array):Boolean
+				{
+					return element != validator;
+				}
+			);
+			
+			return;
+		}
+		
+		public function removeAllValidators():void
+		{
+			repository = [];
+			
+			return;
+		}
+		
 		/**
 		 * リポジトリに登録された全てのValidatorを使って妥当性を判断します。
 		 * 

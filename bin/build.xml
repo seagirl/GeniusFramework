@@ -45,6 +45,7 @@ package: The package of the application. (optional)</echo>
 		<replace dir="${app_root}">
 			<include name="script/*.properties"/>
 			<include name="bin-debug/*.html"/>
+			<include name="bin-release/*.html"/>
 			<include name="src/**/*.as"/>
 			<include name="src/**/*.mxml"/>
 			<include name="src/**/*.css"/>
@@ -59,6 +60,7 @@ package: The package of the application. (optional)</echo>
 		
 		<chmod file="${app_root}/script/generate" perm="755"/>
 		<chmod file="${app_root}/script/debug" perm="755"/>
+		<chmod file="${app_root}/script/release" perm="755"/>
 	</target>	
 	
 </project>

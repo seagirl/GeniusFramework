@@ -1,0 +1,7 @@
+#!/bin/sh
+
+# スクリプトのあるディレクトリ
+path=${0%/*}
+
+ant -buildfile ${path}/build.xml release
+open ${path}/../bin-release/index.html

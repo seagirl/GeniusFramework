@@ -96,15 +96,7 @@ package jp.seagirl.genius.threads
 		
 		override protected function run():void
 		{
-			error(IOError, handleError);
-			error(SecurityError, handleError);
-			
-			initialize();
-		}
-		
-		protected function initialize():void
-		{
-			
+
 		}
 		
 		protected function handleError(error:Error, thread:Thread):void
