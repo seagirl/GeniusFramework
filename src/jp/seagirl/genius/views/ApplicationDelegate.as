@@ -174,6 +174,7 @@
 		
 		private function assetsLoadedHandler(event:GeniusEvent):void
 		{
+			removeEventListener(GeniusEvent.ASSETES_LOADED, assetsLoadedHandler);
 			initialize();
 		}
 		
