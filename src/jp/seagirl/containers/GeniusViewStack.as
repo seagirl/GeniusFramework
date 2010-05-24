@@ -42,7 +42,7 @@ package jp.seagirl.containers
 					view.dispatchEvent(new GeniusEvent(GeniusEvent.UPDATE_PAGE));
 				}
 				else
-				{
+				{					
 					selectedIndex = newIndex;	
 				}
 			}

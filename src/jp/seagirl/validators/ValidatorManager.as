@@ -25,6 +25,7 @@
 
 package jp.seagirl.validators
 {
+	import mx.events.ValidationResultEvent;
 	import mx.validators.EmailValidator;
 	import mx.validators.NumberValidator;
 	import mx.validators.RegExpValidator;
@@ -174,6 +175,18 @@ package jp.seagirl.validators
 		public function removeAllValidators():void
 		{
 			repository = [];
+			
+			return;
+		}
+		
+		public function clearAllErrorStrings():void
+		{
+			repository.forEach(
+				function (element:Validator, index:int, array:Array):void
+				{
+					element.dispatchEvent(new ValidationResultEvent(ValidationResultEvent.VALID));
+				}
+			);
 			
 			return;
 		}

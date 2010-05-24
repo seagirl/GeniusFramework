@@ -64,6 +64,16 @@
 			return delegate;
 		}
 		
+		public function get browserScroll():Boolean
+		{
+			return SWFWheel.browserScroll;
+		}
+		
+		public function set browserScroll(value:Boolean):void
+		{
+			SWFWheel.browserScroll = value;
+		}
+		
 		protected function createConfig():Config
 		{
 			return new Config();

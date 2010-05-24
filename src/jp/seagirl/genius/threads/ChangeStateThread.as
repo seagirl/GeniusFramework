@@ -17,6 +17,9 @@ package jp.seagirl.genius.threads
 			for (var key2:String in data)
 			{
 				newState[key2] = data[key2];
+				
+				if (data[key2] == null)
+					delete newState[key2];
 			}
 			
 			context.state = newState;
