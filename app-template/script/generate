@@ -1,11 +1,9 @@
 #!/bin/sh
 
 name=
-package=application
+package=
 type=
 output=
-subpackage=
-
 
 # オプションをハンドリング
 while getopts n:p:t:o:s:h opt
@@ -19,15 +17,12 @@ do
 	       ;;
 	o )    output=$OPTARG
 	       ;;
-	s )    subpackage=$OPTARG
-	       ;;
 	h )    echo '使用方法: generate [<オプション>] [名前]
-バージョン 1.0.4
+バージョン 1.0.5
     	
 利用可能なオプション:
     -n クラスの名前
     -p クラスのパッケージ（デフォルトは"application"です。）
-    -s クラスのサブパッケージ
     -t クラスのタイプ（"View", "Model", "Thread" を指定することが出来ます。デフォルトは "View"）
     -o 出力先（指定しない場合は、パッケージとタイプから出力先を決めます）
     	
@@ -41,176 +36,33 @@ Genius Framework は Flex 用のフレームワークです。
 	esac
 done
 
-
 # オプションを全て削除し、引数だけを残す
 shift $((OPTIND - 1))
+
+# カレントディレクトリ
+current=`pwd`
+
+# アウトプットディレクトリ
+output=${current}/${output%*/}/
 
 # スクリプトのあるディレクトリ
 path=${0%/*}
 
-# テンプレートファイルのあるディレクトリ
-template=${path}/templates;
-
-
-# 名前のチェックと調整
 if [ ${name:-0} = 0 ]
 then
-	name=$1
-fi
-
-if [ ${name:-0} = 0 ]
-then
-	echo 'Error: name must be specified.'
-	exit
-fi
-
-
-# タイプのチェックと調整
-if [ ${type:-0} = 0 ]
-then
-	if [ ${name%*Model} != $name ]
+	if [ ${1:-0} = 0 ]
 	then
-		type=Model
-	elif [ ${name%*Filter} != $name ]
-	then
-		type=Filter
-	elif [ ${name%*Thread} != $name ]
-	then
-		type=Thread
-	elif [ ${name%*Renderer} != $name ]
-	then
-		type=Renderer
+		name=Untitled
 	else
-		type=View
+		name=$1
 	fi
 fi
 
-# パッケージの調整
-if [ $type = Model ]
+if [ ${type:-0} = 0 ]
 then
-	package=${package}.models
-	
-elif [ $type = Filter ]
-then
-	package=${package}.models
-	
-elif [ $type = View ]
-then
-	package=${package}.views
-	
-elif [ $type = Renderer ]
-then
-	package=${package}.views
-	
-elif [ $type = Thread ]
-then
-	package=${package}.threads
-	
-elif [ $type = URLLoaderServiceThread ]
-then
-	package=${package}.threads
-	
-elif [ $type = FileUploadServiceThread ]
-then
-	package=${package}.threads
-	
-elif [ $type = FileDownloadServiceThread ]
-then
-	package=${package}.threads
-	
+	ant -buildfile ${path}/build.xml generate -Dname=${name}
 else
-	echo 'Error: type must be "Model" or "View" or "Thread"'
-	exit
+	ant -buildfile ${path}/build.xml generate -Dname=${name} -Dtype=${type}
 fi
-
-# サブディレクトリの調整
-if [ ${subpackage:-0} != 0 ]
-then
-	package=${package}.${subpackage}
-fi
-
-# 出力先の調整
-package_path=${package//./\/}
-
-if [ ${output:-0} = 0 ]
-then
-	output=${path}/../src/${package_path}
-fi
-
-mkdir -p ${output}
-
-# -------------------------------------------------------------------
-
-if [ $type = View ]
-then
-	sed -e "s/\[% name %]/$name/g" ${template}/View.mxml |
-	sed -e "s/\[% package %]/$package/g" > genius-tmp
-	mv genius-tmp ${output}/${name}.mxml
-	echo created ${output}/${name}.mxml
-	
-	sed -e "s/\[% name %]/$name/g" ${template}/ViewBase.as |
-	sed -e "s/\[% package %]/$package/g" > genius-tmp
-	mv genius-tmp ${output}/${name}Base.as
-	echo created ${output}/${name}Base.as
-
-elif [ $type = Renderer ]
-then
-	sed -e "s/\[% name %]/$name/g" ${template}/Renderer.mxml |
-	sed -e "s/\[% package %]/$package/g" > genius-tmp
-	mv genius-tmp ${output}/${name}.mxml
-	echo created ${output}/${name}.mxml
-
-	sed -e "s/\[% name %]/$name/g" ${template}/RendererBase.as |
-	sed -e "s/\[% package %]/$package/g" > genius-tmp
-	mv genius-tmp ${output}/${name}Base.as
-	echo created ${output}/${name}Base.as
-	
-elif [ $type = Model ]
-then
-	sed -e "s/\[% name %]/$name/g" ${template}/Model.as |
-	sed -e "s/\[% package %]/$package/g" > genius-tmp
-	mv genius-tmp ${output}/${name}.as
-	
-	echo created ${output}/${name}.as
-
-elif [ $type = Filter ]
-then
-	sed -e "s/\[% name %]/$name/g" ${template}/Filter.as |
-	sed -e "s/\[% package %]/$package/g" > genius-tmp
-	mv genius-tmp ${output}/${name}.as
-	
-	echo created ${output}/${name}.as
-	
-elif [ $type = Thread ]
-then
-	sed -e "s/\[% name %]/$name/g" ${template}/Thread.as |
-	sed -e "s/\[% package %]/$package/g" > genius-tmp
-	mv genius-tmp ${output}/${name}.as
-	echo created ${output}/${name}.as
-	
-elif [ $type = URLLoaderServiceThread ]
-then
-	sed -e "s/\[% name %]/$name/g" ${template}/URLLoaderServiceThread.as |
-	sed -e "s/\[% package %]/$package/g" > genius-tmp
-	mv genius-tmp ${output}/${name}.as
-	echo created ${output}/${name}.as
-	
-elif [ $type = FileUploadServiceThread ]
-then
-	sed -e "s/\[% name %]/$name/g" ${template}/FileUploadServiceThread.as |
-	sed -e "s/\[% package %]/$package/g" > genius-tmp
-	mv genius-tmp ${output}/${name}.as
-	echo created ${output}/${name}.as
-
-elif [ $type = FileDownloadServiceThread ]
-then
-	sed -e "s/\[% name %]/$name/g" ${template}/FileDownloadServiceThread.as |
-	sed -e "s/\[% package %]/$package/g" > genius-tmp
-	mv genius-tmp ${output}/${name}.as
-	echo created ${output}/${name}.as
-fi
-
-
-echo done.
 
 exit

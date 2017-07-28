@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<flex-config xmlns="http://www.adobe.com/2006/flex-config">
+	<default-frame-rate>24</default-frame-rate>
+	<default-background-color>0xffffff</default-background-color>
+	<compiler>
+		<namespaces>
+			<namespace>
+				<uri>http://seagirl.jp/genius</uri>
+				<manifest>../src/manifest.xml</manifest>
+			</namespace>
+		</namespaces>
+		<source-path>
+			<path-element>../src</path-element>
+		</source-path>
+		<library-path append="true">
+			<path-element>../lib</path-element>
+		</library-path>
+	</compiler>
+</flex-config>

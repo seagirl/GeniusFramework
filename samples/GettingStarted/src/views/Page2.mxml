@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas
+	xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:genius="http://seagirl.jp/genius">
+	<mx:VBox y="20" verticalGap="15">
+		<mx:VBox>
+			<mx:Text styleName="h2" text="2. プロジェクトを作ろう" />
+			<mx:Text styleName="p" text="genius コマンドを使って、プロジェクトのスケルトンを作成します。" />
+			
+			<mx:VBox styleName="pre" width="100%">
+				<mx:Text>
+					<mx:text>
+						<![CDATA[% ./genius HelloGenius
+
+Buildfile: /Users/yoshizu/Sites/libspark/as3/GeniusFramework/branches/2.0/bin/build.xml
+
+clean:
+
+genius:
+     [echo] Name:    HelloGenius
+     [echo] Package: application
+     [echo] Output:  /Users/yoshizu/Desktop/./
+   [delete] Deleting: /Users/yoshizu/Sites/libspark/as3/GeniusFramework/branches/2.0/bin/genius.tmp
+     [copy] Copying 31 files to /Users/yoshizu/Desktop/HelloGenius
+     [copy] Copied 14 empty directories to 3 empty directories under /Users/yoshizu/Desktop/HelloGenius
+     [move] Moving 1 file to /Users/yoshizu/Desktop/HelloGenius/src
+     [move] Moving 1 file to /Users/yoshizu/Desktop/HelloGenius/src
+     [move] Moving 1 file to /Users/yoshizu/Desktop/HelloGenius/src
+     [move] Moving 1 file to /Users/yoshizu/Desktop/HelloGenius/src
+     [move] Moving 4 files to /Users/yoshizu/Desktop/HelloGenius/src/application
+
+BUILD SUCCESSFUL
+Total time: 0 seconds]]>
+					</mx:text>
+				</mx:Text>
+			</mx:VBox>
+			
+		</mx:VBox>
+		
+		<genius:Link href="Page1" text="next >" />
+	</mx:VBox>
+</mx:Canvas>

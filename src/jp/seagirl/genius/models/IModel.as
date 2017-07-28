@@ -32,6 +32,7 @@ package jp.seagirl.genius.models
 	 */
 	public interface IModel
 	{
-
+		function get name():String;
+		function set name(value:String):void;
 	}
 }

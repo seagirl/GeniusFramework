@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<flexLibProperties includeAllClasses="false" version="1">
+  <includeClasses>
+    <classEntry path="com.flashdynamix.utils.SWFProfiler"/>
+    <classEntry path="jp.seagirl.genius.views.AbstractDelegate"/>
+    <classEntry path="jp.seagirl.genius.threads.ChangeStateThread"/>
+    <classEntry path="jp.seagirl.genius.effects.GeniusEffect"/>
+    <classEntry path="jp.seagirl.genius.threads.GeniusThread"/>
+    <classEntry path="jp.seagirl.genius.managers.CursorManager"/>
+    <classEntry path="jp.seagirl.genius.controllers.ViewController"/>
+    <classEntry path="jp.seagirl.collections.LabelFunction"/>
+    <classEntry path="jp.seagirl.genius.events.GeniusEvent"/>
+    <classEntry path="jp.seagirl.containers.GeniusViewStack"/>
+    <classEntry path="jp.seagirl.genius.core.Config"/>
+    <classEntry path="jp.seagirl.genius.models.Model"/>
+    <classEntry path="jp.seagirl.genius.effects.GeniusSerial"/>
+    <classEntry path="jp.seagirl.genius.effects.GeniusCompositeEffect"/>
+    <classEntry path="jp.seagirl.skins.SimpleButtonSkin"/>
+    <classEntry path="jp.seagirl.genius.effects.IGeniusEffect"/>
+    <classEntry path="jp.seagirl.validators.ValidatorManager"/>
+    <classEntry path="jp.seagirl.filesystem.FileIO"/>
+    <classEntry path="jp.seagirl.genius.views.ItemRendererDelegate"/>
+    <classEntry path="jp.seagirl.genius.models.IDataFilter"/>
+    <classEntry path="jp.seagirl.controls.NotifierBase"/>
+    <classEntry path="jp.seagirl.genius.core.Context"/>
+    <classEntry path="jp.seagirl.controls.GeniusRadioButton"/>
+    <classEntry path="jp.seagirl.controls.Link"/>
+    <classEntry path="jp.seagirl.genius.models.IModel"/>
+    <classEntry path="jp.seagirl.controls.Notifier"/>
+    <classEntry path="jp.seagirl.collections.SortCompareFunction"/>
+    <classEntry path="jp.seagirl.genius.views.ApplicationDelegate"/>
+    <classEntry path="jp.seagirl.controls.GeniusImage"/>
+    <classEntry path="jp.seagirl.genius.threads.FileReferenceServiceThread"/>
+    <classEntry path="jp.seagirl.genius.effects.GeniusParallel"/>
+    <classEntry path="jp.seagirl.genius.threads.URLLoaderServiceThread"/>
+    <classEntry path="jp.seagirl.genius.threads.SleepThread"/>
+    <classEntry path="jp.seagirl.containers.GeniusCanvas"/>
+    <classEntry path="org.libspark.ui.SWFWheel"/>
+  </includeClasses>
+  <includeResources/>
+  <namespaceManifests>
+    <namespaceManifestEntry manifest="manifest.xml" namespace="http://seagirl.jp/genius"/>
+  </namespaceManifests>
+</flexLibProperties>

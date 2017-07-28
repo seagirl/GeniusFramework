@@ -25,9 +25,14 @@
 
 package jp.seagirl.genius.threads
 {
+	import flash.errors.IOError;
 	import flash.net.URLRequest;
 	import flash.net.URLVariables;
 	
+	import mx.controls.Alert;
+	import mx.utils.ObjectUtil;
+	
+	import org.libspark.thread.Thread;
 	import org.libspark.thread.threads.net.URLLoaderThread;
 
 	/**
@@ -87,6 +92,16 @@ package jp.seagirl.genius.threads
 			}
 			
 			start();
+		}
+		
+		override protected function run():void
+		{
+
+		}
+		
+		protected function handleError(error:Error, thread:Thread):void
+		{
+			alert(error.message)
 		}
 		
 	}

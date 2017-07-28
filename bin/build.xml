@@ -1,0 +1,66 @@
+<project basedir="." default="help" name="GeniusGenerator">
+	<property file="build.properties" />
+	
+	<!-- Properties -->
+	<property name="output" value="${basedir}"/>
+	<property name="app_root" value="${output}/${name}"/>
+	
+	<!-- Public Targets -->
+	
+	<target name="help">
+		<echo>ex) ant genius
+--------------------------------------------------
+name: The name of the application. (optional)
+package: The package of the application. (optional)</echo>
+	</target>
+	
+	<target name="clean">
+		<delete dir="${app_root}" />
+	</target>
+	
+	<target name="genius" depends="clean">
+		<echo>Name:    ${name}</echo>
+		<echo>Package: ${package}</echo>
+		<echo>Output:  ${output}</echo>
+		
+		<echo message="${package}" file="${basedir}/genius.tmp" />
+		<replace file="${basedir}/genius.tmp" token="." value="/" />
+		<loadfile property="package_path" srcFile="${basedir}/genius.tmp" />
+		<delete file="${basedir}/genius.tmp" />
+		
+		<copy todir="${app_root}">
+			<fileset dir="${basedir}/../app-template"/>
+		</copy>
+		
+		<move file="${app_root}/src/MyApp.mxml" tofile="${app_root}/src/${name}.mxml" />
+		<move file="${app_root}/src/MyAppDelegate.as" tofile="${app_root}/src/${name}Delegate.as" />
+        <move file="${app_root}/src/MyAppConfig.as" tofile="${app_root}/src/${name}Config.as" />
+		<move file="${app_root}/src/MyApp.css" tofile="${app_root}/src/${name}.css" />
+		<move file="${app_root}/src/MyApp-config.xml" tofile="${app_root}/src/${name}-config.xml" />
+		
+		<move todir="${app_root}/src/${package_path}">
+			<fileset dir="${app_root}/src/genius"/>
+		</move>
+		
+		<replace dir="${app_root}">
+			<include name="script/*.properties"/>
+			<include name="bin-debug/*.html"/>
+			<include name="bin-release/*.html"/>
+			<include name="src/**/*.as"/>
+			<include name="src/**/*.mxml"/>
+			<include name="src/**/*.css"/>
+			<include name="src/**/*.xml"/>
+			<include name="src/**/*.json"/>
+            <include name=".*"/>
+			
+			<replacefilter token="[% sdk %]" value="${FLEX_HOME}"/>
+			<replacefilter token="[% name %]" value="${name}"/>
+			<replacefilter token="[% package %]" value="${package}"/>
+		</replace>
+		
+		<chmod file="${app_root}/script/generate" perm="755"/>
+		<chmod file="${app_root}/script/debug" perm="755"/>
+		<chmod file="${app_root}/script/release" perm="755"/>
+	</target>	
+	
+</project>

@@ -1,63 +1,79 @@
 package [% package %]
 {
-	import flash.errors.IOError;
+	import flash.events.DataEvent;
+	import flash.events.ErrorEvent;
 	import flash.events.Event;
+	import flash.events.IOErrorEvent;
+	import flash.events.SecurityErrorEvent;
 	import flash.net.FileFilter;
 	import flash.net.FileReference;
 	import flash.net.URLRequestMethod;
 	
-	import jp.seagirl.genius.threads.FileUploadServiceThread;
 	import jp.seagirl.genius.models.Model;
-	
-	import org.libspark.thread.threads.net.FileUploadThread;
+	import jp.seagirl.genius.threads.FileReferenceServiceThread;
 
 	public class [% name %] extends FileUploadServiceThread
 	{
 		private var model:Model;
-		private var file:FileReference;
 
-		override protected function run():void
-		{	
-			file = new FileReference();
-						
+		override public function start():void
+		{			
 			request.url = '';
 			request.data = variables;
 			request.method = URLRequestMethod.POST;
 			
-			event(file, Event.SELECT, select);
-			
-			file.browse([new FileFilter("Images", "*.jpg;")]);
+			files.addEventListener(Event.SELECT, selectHandler);
+			files.browse([new FileFilter("Image", "*.jpg;*.jpeg;*.JPG;*.JPEG;*.gif;*.GIF;*.png;*.PNG;")]);
 		}
 		
-		private function select(e:Event):void
+		private function selectHandler(event:Event):void
 		{
+			files.removeEventListener(Event.SELECT, arguments.callee);
+			
+			files.addEventListener(IOErrorEvent.IO_ERROR, errorHandler);
+			files.addEventListener(SecurityErrorEvent.SECURITY_ERROR, errorHandler);
+			
+			for (var i:int = 0; i < files.fileList.length; i++)
+			{
+				var file:FileReference = files.fileList[i];
+				file.addEventListener(DataEvent.UPLOAD_COMPLETE_DATA, completeHandler);
+				file.upload(request);
+			}
+			
 			model.isLoading = true;
-
-			fileUploadThread = new FileUploadThread(request, file);
-			fileUploadThread.waitCompleteData = true;
-			fileUploadThread.doBrowse = false;
-			fileUploadThread.start();
-			fileUploadThread.join();
-			
-			error(IOError, handleError);
-			error(SecurityError, handleError);
-			
-			next(complete);
 		}
 		
-		private function complete():void
+		private function complete(event:DataEvent):void
 		{
-			var result:XML = XML(fileUploadThread.data);
+			var file:FileReference = event.currentTarget as FileReference;
+			file.removeEventListener(DataEvent.UPLOAD_COMPLETE_DATA, arguments.callee);
 			
-			if (result != '')
+			var result:XML = XML(event.data);
+			
+			if (result.@status == 1)
+			{
+				trace('uploaded "', file.name, '" at ', new Date());
+
 				model.lastResult = result;
+				model.notify('アップロードしました。');
+			}
+			else if (result.@status == context.config.errorCodes.server)
+			{
+				model.lastResult = result;
+				alert(result.@data);	
+			}
+			else
+			{
+				alert("データ形式が正しくありません。");
+			}
 			
 			model.isLoading = false;
 		}
 		
-		private function handleError():void
+		private function errorHandler(event:ErrorEvent):void
 		{
-			model.lastResult = <result><status>-100</status></result>;
+			alert(event.text);
+			model.isLoading = false;
 		}
 		
 	}

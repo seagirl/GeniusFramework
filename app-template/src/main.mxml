@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Application
-	xmlns="[% package %].core.*"
-	xmlns:mx="http://www.adobe.com/2006/mxml"
-	layout="absolute"
-	pageTitle="">
-	<mx:Style source="main.css"/>
-</Application>

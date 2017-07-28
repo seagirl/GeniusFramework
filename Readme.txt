@@ -1,23 +1,23 @@
-Genius Framework 1.6.0 for Flex
+Genius Framework 2.0.0 for Flex
 ----------------------------------------
 
 * Genius Frameworkとは
 
 - Flex用のフレームワーク
-- ビュー層には The Flex Code-Behind Pattern(*1) を採用 (MXML と AS を分離する)
-- コントローラ層には Thread ライブラリ(*2)を採用
+- MXML と AS の分離をして記述するためのアーキテクチャ
 - プロジェクトのスケルトンを作成するコマンド（シェルスクリプト）が付属
-- モデル、ビュー、スレッドのスケルトンを生成するコマンド（シェルスクリプト）が付属
+- モデル、ビュー、コントローラ、スレッドのスケルトンを生成するコマンド（シェルスクリプト）が付属
+- サービス層には Thread を採用
 - BrowserManager と ViewStack を使った状態管理の仕組み（デフォルトはページ単位）
-- Macの変速ホイールスクロールをサポート（JS はファイル不要）
-- 独自ビューコンポーネント (Link, SimpleButton, AdvancedCanvas, AdvancedRadioButton など)
+- Macのホイールスクロールをサポート（SWFWheel 採用）
+- 独自ビューコンポーネント (Link, AdvancedCanvas, AdvancedRadioButton など)
 - 自由な拡張が可能
 
- *1 The Flex Code-Behind Pattern
- http://blog.vivisectingmedia.com/2008/04/the-flex-code-behind-pattern/
-
- *2 Thread ライブラリ
+ * Thread ライブラリ
  http://www.libspark.org/wiki/Thread
+ 
+  * SWFWheel ライブラリ
+ http://www.libspark.org/wiki/SWFWheel
 
 
 * 使い方

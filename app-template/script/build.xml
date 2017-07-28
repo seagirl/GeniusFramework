@@ -1,0 +1,261 @@
+<project basedir="." default="help" name="GeniusGenerator">
+	<property file="build.properties" />
+	<taskdef classpath="${FLEX_HOME}/ant/lib/flexTasks.jar" resource="flexTasks.tasks" />
+	
+	<!-- Conditions -->
+	<condition property="package" value="application">
+		<contains string="${name}" substring="Model" />
+	</condition>
+	
+	
+	<condition property="type" value="Model">
+		<contains string="${name}" substring="Model" />
+	</condition>
+	
+	<condition property="type" value="Filter">
+		<contains string="${name}" substring="Filter" />
+	</condition>
+	
+	<condition property="type" value="Controller">
+		<contains string="${name}" substring="Controller" />
+	</condition>
+	
+	<condition property="type" value="Thread">
+		<contains string="${name}" substring="Thread" />
+	</condition>
+	
+	<condition property="type" value="Renderer">
+		<contains string="${name}" substring="Renderer" />
+	</condition>
+	
+	
+	<!-- Public Targets -->
+	
+	<target name="help">
+		<echo>ex) ant generate -Dname=Page1
+--------------------------------------------------
+name: The name of the class. (required)
+type: The type of the class. (optional)
+      This must be "Model" or "View" or "Controller" or "Thread".</echo>
+	</target>
+	
+	<target name="build">
+		<mxmlc
+			actionscript-file-encoding="UTF-8"
+			file="${MAIN_APP}"
+			output="${APP_ROOT}/bin-debug/${APP_NAME}.swf"
+			debug="true"
+			incremental="true"
+			keep-generated-actionscript="false"
+			>
+				<load-config filename="${FLEX_HOME}/frameworks/flex-config.xml" />
+		</mxmlc>
+		<copy todir="${basedir}/../bin-debug/assets">
+			<fileset dir="${basedir}/../src/assets"/>
+		</copy>
+	</target>
+	
+	<target name="release">
+		 <mxmlc
+			actionscript-file-encoding="UTF-8"
+			file="${MAIN_APP}"
+			output="${APP_ROOT}/bin-release/${APP_NAME}.swf"
+			debug="false"
+			incremental="true"
+			keep-generated-actionscript="false"
+			>
+				<load-config filename="${FLEX_HOME}/frameworks/flex-config.xml" />
+		</mxmlc>
+		<copy todir="${basedir}/../bin-release/assets">
+			<fileset dir="${basedir}/../src/assets"/>
+		</copy>
+	</target>
+	
+	<target name="generate" depends="_prepare, _init, _exec" />
+	
+	
+	<!-- Private Targets -->
+	
+	<target name="_prepare">
+		<fail unless="name" message="name must be specified." />
+		
+		<echo message="${package}" file="${basedir}/geniusgenerator.tmp" />
+		<replace file="${basedir}/geniusgenerator.tmp" token="." value="/" />
+		<loadfile property="package_path" srcFile="${basedir}/geniusgenerator.tmp" />
+		<delete file="${basedir}/geniusgenerator.tmp" />
+	</target>
+	
+	<target name="_init" depends="_check_type">
+		<property name="is${type}" value="true" />
+		
+		<property name="model_package" value="${package}.models"/>
+		<property name="view_package" value="${package}.views"/>
+		<property name="controller_package" value="${package}.controllers"/>
+		<property name="thread_package" value="${package}.threads"/>
+		
+		<echo>Name:    ${name}</echo>
+		<echo>Type:    ${type}</echo>
+		<echo>Package: ${package}</echo>
+		<echo>Output:  ${output}</echo>
+	</target>
+	
+	<target name="_check_type" unless="type">
+		<property name="type" value="Default" />
+	</target>
+	
+	<target
+		name="_exec"
+		depends=
+		"
+			_exec_default,
+			_exec_model,
+			_exec_filter,
+			_exec_controller,
+			_exec_view_controller,
+			_exec_renderer_delegate,
+			_exec_view,
+			_exec_renderer,
+			_exec_thread,
+			_exec_url_loader_service_thread,
+			_exec_file_download_service_thread,
+			_exec_file_upload_service_thread
+		"
+	>		
+	</target>
+	
+	<!-- Default -->
+	<target name="_exec_default" if="isDefault">
+		<property name="src1" value="templates/ViewController.as"/>
+		<property name="dst1" value="../src/${package_path}/controllers/${name}Controller.as"/>
+		
+		<copy file="${src1}" tofile="${dst1}" />
+		<replace file="${dst1}" token="[% name %]" value="${name}"/>
+		<replace file="${dst1}" token="[% controller_package %]" value="${controller_package}"/>
+		<replace file="${dst1}" token="[% view_package %]" value="${view_package}"/>
+		
+		<property name="src2" value="templates/View.mxml"/>
+		<property name="dst2" value="../src/${package_path}/views/${name}.mxml"/>
+		
+		<copy file="${src2}" tofile="${dst2}" />
+		<replace file="${dst2}" token="[% name %]" value="${name}"/>
+		<replace file="${dst2}" token="[% controller_package %]" value="${controller_package}"/>
+		<replace file="${dst2}" token="[% view_package %]" value="${view_package}"/>
+	</target>
+	
+	<!-- Model -->
+	<target name="_exec_model" if="isModel">
+		<property name="src1" value="templates/Model.as"/>
+		<property name="dst1" value="../src/${package_path}/models/${name}.as"/>
+		
+		<copy file="${src1}" tofile="${dst1}" />
+		<replace file="${dst1}" token="[% name %]" value="${name}"/>
+		<replace file="${dst1}" token="[% package %]" value="${model_package}"/>
+	</target>
+	
+	<!-- Filter -->
+	<target name="_exec_filter" if="isFilter">
+		<property name="src1" value="templates/Filter.as"/>
+		<property name="dst1" value="../src/${package_path}/models/${name}.as"/>
+		
+		<copy file="${src1}" tofile="${dst1}" />
+		<replace file="${dst1}" token="[% name %]" value="${name}"/>
+		<replace file="${dst1}" token="[% package %]" value="${model_package}"/>
+	</target>
+	
+	<!-- Controller -->
+	<target name="_exec_controller" if="isController">
+		<property name="src1" value="templates/ViewController.as"/>
+		<property name="dst1" value="../src/${package_path}/controllers/${name}.as"/>
+		
+		<copy file="${src1}" tofile="${dst1}" />
+		<replace file="${dst1}" token="[% name %]" value="${name}"/>
+		<replace file="${dst1}" token="[% controller_package %]" value="${controller_package}"/>
+		<replace file="${dst1}" token="[% view_package %]" value="${view_package}"/>
+	</target>
+	
+	<!-- ViewController -->
+	<target name="_exec_view_controller" if="isViewController">
+		<property name="src1" value="templates/ViewController.as"/>
+		<property name="dst1" value="../src/${package_path}/controllers/${name}.as"/>
+		
+		<copy file="${src1}" tofile="${dst1}" />
+		<replace file="${dst1}" token="[% name %]" value="${name}"/>
+		<replace file="${dst1}" token="[% controller_package %]" value="${controller_package}"/>
+		<replace file="${dst1}" token="[% view_package %]" value="${view_package}"/>
+	</target>
+	
+	<!-- RendererDelegate -->
+	<target name="_exec_renderer_delegate" if="isRendererDelegate">
+		<property name="src1" value="templates/RendererDelegate.as"/>
+		<property name="dst1" value="../src/${package_path}/controllers/${name}.as"/>
+		
+		<copy file="${src1}" tofile="${dst1}" />
+		<replace file="${dst1}" token="[% name %]" value="${name}"/>
+		<replace file="${dst1}" token="[% controller_package %]" value="${controller_package}"/>
+		<replace file="${dst1}" token="[% view_package %]" value="${view_package}"/>
+	</target>
+	
+	<!-- View -->
+	<target name="_exec_view" if="isView">
+		<property name="src1" value="templates/View.mxml"/>
+		<property name="dst1" value="../src/${package_path}/views/${name}.mxml"/>
+		
+		<copy file="${src1}" tofile="${dst1}" />
+		<replace file="${dst1}" token="[% name %]" value="${name}"/>
+		<replace file="${dst1}" token="[% controller_package %]" value="${controller_package}"/>
+		<replace file="${dst1}" token="[% view_package %]" value="${view_package}"/>
+	</target>
+	
+	<!-- Renderer -->
+	<target name="_exec_renderer" if="isRenderer">
+		<property name="src1" value="templates/Renderer.mxml"/>
+		<property name="dst1" value="../src/${package_path}/views/${name}.mxml"/>
+		
+		<copy file="${src1}" tofile="${dst1}" />
+		<replace file="${dst1}" token="[% name %]" value="${name}"/>
+		<replace file="${dst1}" token="[% controller_package %]" value="${controller_package}"/>
+		<replace file="${dst1}" token="[% view_package %]" value="${view_package}"/>
+	</target>
+	
+	<!-- Thread --> 
+	<target name="_exec_thread" if="isThread">
+		<property name="src1" value="templates/Thread.as"/>
+		<property name="dst1" value="../src/${package_path}/threads/${name}.as"/>
+		
+		<copy file="${src1}" tofile="${dst1}" />
+		<replace file="${dst1}" token="[% name %]" value="${name}"/>
+		<replace file="${dst1}" token="[% package %]" value="${thread_package}"/>
+	</target>
+	
+	<!-- UrlLoaderServiceThread -->
+	<target name="_exec_url_loader_service_thread" if="isURLLoaderServiceThread">
+		<property name="src1" value="templates/URLLoaderServiceThread.as"/>
+		<property name="dst1" value="../src/${package_path}/threads/${name}.as"/>
+		
+		<copy file="${src1}" tofile="${dst1}" />
+		<replace file="${dst1}" token="[% name %]" value="${name}"/>
+		<replace file="${dst1}" token="[% package %]" value="${thread_package}"/>
+	</target>
+	
+	<!-- FileDownloadServiceThread -->
+	<target name="_exec_file_download_service_thread" if="isFileDownloadServiceThread">
+		<property name="src1" value="templates/FileDownloadServiceThread.as"/>
+		<property name="dst1" value="../src/${package_path}/threads/${name}.as"/>
+		
+		<copy file="${src1}" tofile="${dst1}" />
+		<replace file="${dst1}" token="[% name %]" value="${name}"/>
+		<replace file="${dst1}" token="[% package %]" value="${thread_package}"/>
+	</target>
+	
+	<!-- FileUploadServiceThread -->
+	<target name="_exec_file_upload_service_thread" if="isFileUploadServiceThread">
+		<property name="src1" value="templates/FileUploadServiceThread.as"/>
+		<property name="dst1" value="../src/${package_path}/threads/${name}.as"/>
+		
+		<copy file="${src1}" tofile="${dst1}" />
+		<replace file="${dst1}" token="[% name %]" value="${name}"/>
+		<replace file="${dst1}" token="[% package %]" value="${thread_package}"/>
+	</target>
+	
+	
+</project>

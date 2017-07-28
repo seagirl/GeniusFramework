@@ -1,13 +1,9 @@
 <?xml version="1.0"?>
 <componentPackage>
-	<component id="AdvancedCanvas" class="jp.seagirl.containers.AdvancedCanvas"/>
-	<component id="AdvancedRadioButton" class="jp.seagirl.controls.AdvancedRadioButton"/>
-	<component id="Image" class="jp.seagirl.controls.Image"/>
+	<component id="GeniusCanvas" class="jp.seagirl.containers.GeniusCanvas"/>
+	<component id="GeniusViewStack" class="jp.seagirl.containers.GeniusViewStack"/>
+	<component id="GeniusRadioButton" class="jp.seagirl.controls.GeniusRadioButton"/>
+	<component id="GeniusImage" class="jp.seagirl.controls.GeniusImage"/>
 	<component id="Link" class="jp.seagirl.controls.Link"/>
-	<component id="SimpleButton" class="jp.seagirl.controls.SimpleButton"/>
 	<component id="Notifier" class="jp.seagirl.controls.Notifier"/>
-	<component id="Application" class="jp.seagirl.genius.core.Application"/>
-	<component id="WindowedApplication" class="jp.seagirl.genius.core.WindowedApplication"/>
-	<component id="ViewBase" class="jp.seagirl.genius.views.ViewBase"/>
-	<component id="ItemRenderer" class="jp.seagirl.genius.views.ItemRenderer"/>
 </componentPackage>

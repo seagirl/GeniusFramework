@@ -25,14 +25,29 @@
 
 package jp.seagirl.genius.threads
 {
+	import jp.seagirl.genius.controllers.ViewController;
+	import jp.seagirl.genius.core.Config;
+	import jp.seagirl.genius.core.Context;
+	import jp.seagirl.genius.models.IModel;
+	import jp.seagirl.genius.views.ApplicationDelegate;
+	
+	import mx.controls.Alert;
+	import mx.utils.ObjectUtil;
+	
 	import org.libspark.thread.Thread;
 
-	/**
-	 * Genius Framework のための Thread クラスの拡張です。 
-	 * @author yoshizu 
-	 */	
 	public class GeniusThread extends Thread
 	{
+		/**
+		 * コンストラクタです.
+		 */	
+		public function GeniusThread()
+		{
+			super();
+			
+			context = ApplicationDelegate.sharedApplicationDelegate().context;
+		}
+		
 		//--------------------------------------------------------------------------
 		//
 		//  Variables
@@ -44,14 +59,39 @@ package jp.seagirl.genius.threads
 		 */		
 		protected var data:Object;
 		
+		/**
+		 * コンテキストオブジェクトです.
+		 */	
+		protected var context:Context;
+		
 		//--------------------------------------------------------------------------
 		//
 		//  Methods
 		//
 		//--------------------------------------------------------------------------
 		
+		protected function getConfig():Config
+		{
+			return context.config;
+		}
+		
+		protected function getModel(modelName:String):IModel
+		{
+			return context.getModel(modelName);
+		}
+		
+		protected function getController(controllerName:String):ViewController
+		{
+			return context.getController(controllerName);
+		}
+		
+		protected function alert(text:*, title:String = 'エラー'):void
+		{
+			Alert.show(ObjectUtil.toString(text), title);
+		}
+		
 		/**
-		 * 汎用的なデータを追加するためのメソッドです。
+		 * 汎用的なデータを追加するためのメソッドです.
 		 * @param data
 		 * @return  
 		 */		

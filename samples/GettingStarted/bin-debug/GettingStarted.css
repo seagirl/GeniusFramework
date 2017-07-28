@@ -1,0 +1,27 @@
+/* CSS file */
+.h1
+{
+	fontSize: 20px;
+}
+
+.h2
+{
+	fontSize: 14px;
+}
+
+.p
+{
+	fontSize: 11px;
+}
+
+.pre
+{
+	paddingTop: 4px;
+	paddingRight: 4px;
+	paddingBottom: 4px;
+	paddingLeft: 4px;
+	backgroundColor: #000000;
+	color: #FFFFFF;
+	fontSize: 11px;
+	fontFamily: "ＭＳ ゴシック", Monaco;
+}

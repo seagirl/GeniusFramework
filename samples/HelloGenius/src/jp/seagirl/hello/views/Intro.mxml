@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<IntroBase
-	xmlns="jp.seagirl.hello.views.*"
-	xmlns:mx="http://www.adobe.com/2006/mxml"
-	xmlns:genius="http://seagirl.jp/genius">
-	<mx:Text text="Hello, Genius Framework!" x="20" y="20"/>
-	<genius:Link id="link" text="Go to test" x="20" y="60"/>
-</IntroBase>

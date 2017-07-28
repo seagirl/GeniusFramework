@@ -25,16 +25,22 @@
 
 package jp.seagirl.genius.models
 {
+	import flash.events.EventDispatcher;
+	import flash.utils.getQualifiedClassName;
+	
+	import jp.seagirl.genius.events.GeniusEvent;
 	import jp.seagirl.genius.managers.CursorManager;
 	
 	import mx.utils.ObjectUtil;
+	
+	[Event(name="notified", type="jp.seagirl.genius.events.GeniusEvent")]
 	
 	/**
 	 * Modelは汎用的なモデルの実装クラスです。
 	 * 
 	 * @author yoshizu 
 	 */	
-	public class Model implements IModel
+	public class Model extends EventDispatcher implements IModel
 	{
 		//--------------------------------------------------------------------------
 		//
@@ -47,6 +53,10 @@ package jp.seagirl.genius.models
 		 */		
 		public function Model()
 		{
+			var flagments:Array = getQualifiedClassName(this).split("::");
+			name = flagments[flagments.length - 1];
+			
+			initialize();
 		}
 		
 		//--------------------------------------------------------------------------
@@ -58,13 +68,29 @@ package jp.seagirl.genius.models
 		/**
 		 * デフォルトのフィルタ条件です。 
 		 */		
-		protected var defaultFilterCondition:Object;
+		protected var defaultFilterCondition:Object = {};
 		
 		//--------------------------------------------------------------------------
 		//
 		//  Properties
 		//
 		//--------------------------------------------------------------------------
+		
+		//----------------------------------
+		//  name
+		//----------------------------------
+		
+		private var _name:String;
+		
+		public function get name():String
+		{
+			return _name;
+		}
+		
+		public function set name(value:String):void
+		{
+			_name = value;
+		}
 		
 		//----------------------------------
 		//  loaded
@@ -116,6 +142,16 @@ package jp.seagirl.genius.models
 		}
 		
 		//----------------------------------
+		//  notifyView
+		//----------------------------------
+		
+		[Bindable]
+		/**
+		 * View に通信結果を通知するためのフラグ
+		 */		
+		public var notifyView:Boolean = false;
+		
+		//----------------------------------
 		//  lastModified
 		//----------------------------------
 		
@@ -128,11 +164,27 @@ package jp.seagirl.genius.models
 		//  lastResult
 		//----------------------------------
 		
+		/**
+		 * @private 
+		 */
+		private var _lastResult:XML;
+		
 		[Bindable]
 		/**
-		 * サービスとの通信結果です。
-		 */		
-		public var lastResult:XML;
+		 *  サービスとの通信結果です。
+		 */
+		public function get lastResult():XML
+		{
+			return _lastResult;
+		}
+		
+		/**
+		 * @private 
+		 */	
+		public function set lastResult(value:XML):void
+		{
+			_lastResult = value;
+		}
 		
 		//----------------------------------
 		//  currentId
@@ -179,8 +231,6 @@ package jp.seagirl.genius.models
 		 */
 		public function get data():XMLList
 		{
-			if (loaded == false && isLoading == false)
-				initializeData();
 			return _data;
 		}
 		
@@ -258,11 +308,7 @@ package jp.seagirl.genius.models
 		//
 		//--------------------------------------------------------------------------
 		
-		/**
-		 * データの初期化処理を記述します。
-		 * このメソッドは初めてdataが呼ばれた時に呼び出されます。
-		 */		
-		protected function initializeData():void
+		protected function initialize():void
 		{
 			
 		}
@@ -292,7 +338,7 @@ package jp.seagirl.genius.models
 			}
 			
 			if (ret == null)
-				throw new Error("Can't find a data.");
+				throw new Error("Couldn't find a data.");
 				
 			return ret;
 		}
@@ -368,6 +414,15 @@ package jp.seagirl.genius.models
 		{
 			_filterCondition = ObjectUtil.copy(defaultFilterCondition);
 		}
-
+		
+		/**
+		 * メッセージを送出します。
+		 */		
+		public function notify(message:String):void
+		{
+			var event:GeniusEvent = new GeniusEvent(GeniusEvent.NOTIFIED);
+			event.data = message;
+			dispatchEvent(event);
+		}
 	}
 }

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<[% name %]Base
-	xmlns="[% package %].*"
+<mx:Canvas
 	xmlns:mx="http://www.adobe.com/2006/mxml"
-	xmlns:genius="http://seagirl.jp/genius">
-</[% name %]Base>
+	xmlns:genius="http://seagirl.jp/genius"
+	xmlns:local="[% controller_package %].*"
+>
+	<local:[% name %]Delegate />
+</mx:Canvas>
